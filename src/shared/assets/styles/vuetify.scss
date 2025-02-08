@@ -1,0 +1,15 @@
+.v-application {
+  background: transparent !important;;
+}
+
+.v-btn {
+  letter-spacing: 0 !important;
+
+  &--variant-outlined {
+    border: 1px solid #bfbfc3 !important;
+  }
+
+  &--density-comfortable {
+    height: 32px !important;
+  }
+}

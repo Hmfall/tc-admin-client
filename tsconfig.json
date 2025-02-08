@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ES6",
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "types": [
+      "vite/client"
+    ],
+    "allowJs": true,
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": true,
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "./src/app/imports/auto-imports.d.ts",
+    "./src/**/*.ts",
+    "./src/**/*.vue",
+    ".eslintrc.js"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
