@@ -22,7 +22,7 @@
   />
 </template>
 
-<script setup lang="ts" , generic="T extends Model">
+<script setup lang="ts" generic="T extends Model">
 import type { Ref } from 'vue';
 import type { ClassConstructor } from 'class-transformer';
 import type { Model } from '@/shared/lib/storeFactory';

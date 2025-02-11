@@ -12,6 +12,16 @@ export abstract class BaseModel {
     return this.constructor as ClassConstructor<this>;
   }
 
+  public get primaryKey(): keyof this {
+    const primaryKey = Reflect.getMetadata('model:primary-key', this.constructor);
+
+    if (!this.$config.singleton && !primaryKey) {
+      console.warn(`Missing @PrimaryKey decorator: ${this.classConstructor.name.toString()}`);
+    }
+
+    return primaryKey?.['model:primary-key'];
+  }
+
   public toJSON(options?: ClassTransformOptions): Record<string, unknown> {
     return instanceToPlain(this, options);
   }

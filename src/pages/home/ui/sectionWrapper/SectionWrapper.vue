@@ -52,7 +52,7 @@
   </template>
 </template>
 
-<script setup lang="ts" , generic="T extends Model, A extends BaseAPI<T>">
+<script setup lang="ts" generic="T extends Model, A extends BaseAPI<T>">
 import type { TypedRouteSection } from '@/pages/home/types';
 import type { BaseAPI, Model } from '@/shared/lib/storeFactory';
 import TemplateFormBuilder from '@/widgets/templateBuilder/ui/TemplateFormBuilder.vue';

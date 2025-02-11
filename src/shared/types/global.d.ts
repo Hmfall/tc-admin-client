@@ -1,4 +1,4 @@
-import type { MaybeRef , DefineComponent } from 'vue';
+import type { DefineComponent, MaybeRef } from 'vue';
 
 declare global {
   interface ImportMeta {
@@ -9,7 +9,7 @@ declare global {
 
   export type Id = string | number;
 
-  export type FunctionExpression = (...args: any[]) => any;
+  export type FunctionExpression<T = any> = (...args: any[]) => T
 
   export type ArrayElement<T> = T extends readonly (infer E)[] ? E : never;
 
@@ -18,8 +18,6 @@ declare global {
   export type MaybeRefObject<T> = {
     [K in keyof T]: MaybeRef<T[K]>;
   };
-
-  export type WritablePart<T> = Pick<T, WritableKeysOf<T>>;
 
   export type ClassConstructor<T = unknown> = {
     new (...args: any[]): T;

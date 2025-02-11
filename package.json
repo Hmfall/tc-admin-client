@@ -1,5 +1,5 @@
 {
-  "name": "TK",
+  "name": "tc-admin-client",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -8,15 +8,12 @@
     "lint": "eslint \"src/**/*.{ts,vue}\"",
     "lint:fix": "eslint \"src/**/*.{ts,vue}\" --fix",
     "prettier": "npx prettier --write \"**/*.{js,ts,vue,cjs,mts,json,scss}\"",
-    "dev:server": "npx json-server db.json",
+    "dev:server": "node ./json-server/index.js",
     "prepare": "husky"
   },
   "lint-staged": {
     "*.{js,ts,vue,cjs,mts}": [
       "prettier --write --ignore-unknown"
-    ],
-    "*.{ts,vue}": [
-      "npm run lint:fix"
     ]
   },
   "devDependencies": {

@@ -4,7 +4,10 @@
       v-if="props.foreignKey"
       :src="value?.[props.foreignKey] as string"
       :width="$attrs['width'] as string"
-      :class="{ 'mb-4': value?.[props.foreignKey], 'h-0': !value?.[props.foreignKey] }"
+      :class="{
+        'mb-4': value?.[props.foreignKey],
+        'h-0': !value?.[props.foreignKey],
+      }"
     />
 
     <VFileInput
@@ -43,7 +46,15 @@ const value = ref(props.item.clone()) as Ref<T>;
 const emit = defineEmits<{
   (e: 'update:modelValue', value: File | File[]): void;
   (e: 'updateField', value: UpdateFormFieldValue<T>): void;
+  (e: 'on-create-promise', promise: FunctionExpression<Promise<void>>): void;
 }>();
+
+const getPromise = () =>
+  new Promise<void>((resolve) =>
+    setTimeout(() => {
+      resolve();
+    }, 1000),
+  );
 
 const updateModelValue = (file: File | File[]) => {
   if (props.foreignKey) {
@@ -54,6 +65,7 @@ const updateModelValue = (file: File | File[]) => {
   }
 
   emit('update:modelValue', file);
+  emit('on-create-promise', getPromise);
 };
 
 const createObjectURL = (value: T, file: unknown, key: keyof T) => {

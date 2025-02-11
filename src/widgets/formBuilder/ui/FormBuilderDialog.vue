@@ -2,25 +2,24 @@
   <BaseDialog
     confirm-button="Сохранить"
     :model-value="modelValue"
-    @on-confirm="onConfirm"
+    :actions="false"
     @after-leave="emit('onClose')"
     @update:model-value="(value: boolean) => emit('update:modelValue', value)"
   >
     <FormBuilder
-      ref="formBuilder"
+      ref="formBuilderRef"
       :item="props.item"
       :fields="fields"
       :mode="mode"
       :model-constructor="modelConstructor"
-      @on-sumbit="$emit('onSumbit', $event)"
-      @on-create="$emit('onCreate', $event)"
-      @on-update="$emit('onUpdate', $event)"
+      @on-create="onCreate"
+      @on-update="onUpdate"
+      @on-close="emit('update:modelValue', false)"
     />
   </BaseDialog>
 </template>
 
-<script setup lang="ts" , generic="T extends BaseModel">
-import { ref } from 'vue';
+<script setup lang="ts" generic="T extends BaseModel">
 import type { ClassConstructor } from 'class-transformer';
 import type { BaseModel } from '@/shared/lib/storeFactory';
 import BaseDialog from '@/widgets/baseDialog/ui/BaseDialog.vue';
@@ -38,16 +37,18 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:modelValue', modelValue: boolean): void;
-  (e: 'onSumbit', item: T): void;
   (e: 'onCreate', item: T): void;
   (e: 'onUpdate', item: T): void;
   (e: 'onClose'): void;
 }>();
 
-/* eslint-disable-next-line no-undef */
-const formBuilder = ref<ComponentInstance<typeof FormBuilder> | null>(null);
+const onCreate = (item: T) => {
+  emit('onCreate', item);
+  emit('update:modelValue', false);
+};
 
-const onConfirm = () => {
-  formBuilder.value?.onSubmit();
+const onUpdate = (item: T) => {
+  emit('onUpdate', item);
+  emit('update:modelValue', false);
 };
 </script>

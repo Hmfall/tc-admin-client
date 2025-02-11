@@ -24,7 +24,7 @@
   </component>
 </template>
 
-<script setup lang="ts" , generic="T extends BaseModel">
+<script setup lang="ts" generic="T extends BaseModel">
 import type { BaseModel } from '@/shared/lib/storeFactory';
 import type { CommonTemplateBuilder, TemplateSlotAttrs } from '@/widgets/templateBuilder/types';
 import { templateMappedSlot } from '@/widgets/templateBuilder/utils';

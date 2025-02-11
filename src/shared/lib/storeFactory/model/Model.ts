@@ -38,16 +38,6 @@ export abstract class Model extends BaseModel {
     await this.$repository.deleteById(this[this.primaryKey] as Id);
   }
 
-  public get primaryKey(): keyof this {
-    const primaryKey = Reflect.getMetadata('model:primary-key', this.constructor);
-
-    if (!this.$config.singleton && !primaryKey) {
-      console.warn(`Missing @PrimaryKey decorator: ${this.classConstructor.name.toString()}`);
-    }
-
-    return primaryKey?.['model:primary-key'];
-  }
-
   private get formData(): FormData {
     return getOwnPropertyNames(this).reduce((fd, key) => {
       const value = this[key];

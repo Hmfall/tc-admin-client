@@ -25,31 +25,21 @@
           <slot />
         </div>
 
-        <div
+        <ActionButtons
           v-if="actions"
-          class="d-flex justify-end ga-4 mt-6"
-        >
-          <v-btn
-            v-if="typeof confirmButton === 'string'"
-            variant="flat"
-            color="primary"
-            :text="confirmButton"
-            :disabled="disabled"
-            @click="onConfirm"
-          />
-
-          <v-btn
-            v-if="typeof cancelButton === 'string'"
-            :text="cancelButton"
-            @click="onCancel"
-          />
-        </div>
+          :confirm-button="confirmButton"
+          :cancel-button="cancelButton"
+          @on-confirm="onConfirm"
+          @on-cancel="onCancel"
+        />
       </v-card-text>
     </v-card>
   </v-dialog>
 </template>
 
 <script setup lang="ts">
+import ActionButtons from '@/shared/ui/actionButtons/ActionButtons.vue';
+
 const props = withDefaults(
   defineProps<{
     modelValue: boolean;
@@ -63,8 +53,8 @@ const props = withDefaults(
     persistent?: boolean;
   }>(),
   {
-    confirmButton: 'Oк',
-    cancelButton: 'Отмена',
+    confirmButton: undefined,
+    cancelButton: undefined,
     closeIcon: true,
     persistent: true,
     dialogWidth: '1200px',
