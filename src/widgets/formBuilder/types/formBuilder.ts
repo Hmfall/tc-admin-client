@@ -4,7 +4,7 @@ import type { Input } from '@/widgets/formBuilder/domain';
 
 export interface CommonFormBuilderField<T> {
   key: keyof T;
-  render: () => Component | VNode | string;
+  render: FunctionExpression<Component | VNode | string>;
 }
 
 export type FileInputField<T> = /* @vue-ignore */ InstanceType<typeof VFileInput>['$props'] & {

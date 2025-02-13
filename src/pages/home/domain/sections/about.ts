@@ -3,9 +3,10 @@ import type { About } from '@/entities/about/model/About';
 import { Input } from '@/widgets/formBuilder/domain';
 import type { FormBuilderFields } from '@/widgets/formBuilder/types/formBuilder';
 import FileInputComponent from '@/widgets/formBuilder/ui/components/FileInputComponent.vue';
-import { CardTemplateSlot } from '@/widgets/templateBuilder/domain';
+import { CardTemplateSlot } from '@/widgets/templateBuilder/domain/templates';
 import type { CommonTemplateBuilder } from '@/widgets/templateBuilder/types';
-import CardTemplate from '@/widgets/templateBuilder/ui/components/CardTemplate.vue';
+import CardTemplate from '@/widgets/templateBuilder/ui/templates/card/CardTemplate.vue';
+import CardTemplateSkeleton from '@/widgets/templateBuilder/ui/templates/card/CardTemplateSkeleton.vue';
 
 export const aboutFormBuilder: FormBuilderFields<About> = [
   [
@@ -53,7 +54,8 @@ export const aboutFormBuilder: FormBuilderFields<About> = [
 ];
 
 export const aboutTemplateBuilder: CommonTemplateBuilder<About> = {
-  component: () => CardTemplate,
+  render: () => CardTemplate,
+  skeletonRender: () => CardTemplateSkeleton,
   slots: [
     {
       key: 'name',

@@ -13,13 +13,19 @@
     </div>
 
     <div class="d-flex flex-column ga-10">
-      <TemplateBuilder
-        v-for="(item, i) in store.items"
-        :key="(item[item.primaryKey] as PropertyKey) ?? i"
-        :item="item"
-        :builder="templateBuilder"
-        @on-edit-item="onEditBtn"
-      />
+      <SkeletonProvider
+        length="3"
+        :loading="store.isLoading"
+        :render="templateBuilder.skeletonRender"
+      >
+        <TemplateBuilder
+          v-for="(item, i) in store.items"
+          :key="(item[item.primaryKey] as PropertyKey) ?? i"
+          :item="item"
+          :builder="templateBuilder"
+          @on-edit-item="onEditBtn"
+        />
+      </SkeletonProvider>
     </div>
 
     <div class="d-flex justify-end">
@@ -52,6 +58,7 @@ import type { ClassConstructor } from 'class-transformer';
 import type { BaseAPI, Model } from '@/shared/lib/storeFactory';
 import type { ModelStore } from '@/shared/lib/storeFactory/types';
 import { useFetch } from '@/shared/lib/useFetch/useFetch';
+import SkeletonProvider from '@/shared/ui/skeletonProvider/SkeletonProvider.vue';
 import type { FormEditMode, UpdateFormFieldPromise } from '@/widgets/formBuilder/types/common';
 import type { FormBuilderFields } from '@/widgets/formBuilder/types/formBuilder';
 import FormBuilderDialog from '@/widgets/formBuilder/ui/FormBuilderDialog.vue';

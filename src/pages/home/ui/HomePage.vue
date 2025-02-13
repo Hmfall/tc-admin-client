@@ -1,25 +1,31 @@
 <template>
   <v-container fluid>
     <NavigationWrapper
-      v-model="currentSection"
+      v-model:section="section"
+      v-model:isDrawerExpanded="isDrawerExpanded"
       :sections="routeSections"
     >
-      <SectionWrapper :section="currentSection" />
+      <SectionWrapper
+        :section="section"
+        @on-menu="isDrawerExpanded = true"
+      />
     </NavigationWrapper>
   </v-container>
 </template>
 
 <script setup lang="ts" generic="T extends Model, A extends BaseAPI<T>">
 import type { Ref } from 'vue';
+import { useDisplay } from 'vuetify';
 import { routeSections } from '@/pages/home/domain/routeSections';
-import type { TypedRouteSection } from '@/pages/home/types';
+import type { RouteSection } from '@/pages/home/types';
 import NavigationWrapper from '@/pages/home/ui/navigationWrapper/NavigationWrapper.vue';
 import SectionWrapper from '@/pages/home/ui/sectionWrapper/SectionWrapper.vue';
 import type { BaseAPI, Model } from '@/shared/lib/storeFactory';
 
-const router = useRouter();
+const isDrawerExpanded = ref(useDisplay().lgAndUp.value ?? false);
 
-const currentSection = ref(
-  routeSections.find((item) => item.path === router.currentRoute.value.path) ?? null,
-) as Ref<TypedRouteSection<T, A> | null>;
+const section = ref(
+  routeSections.find((section) => section.path === useRouter().currentRoute.value.path) ??
+    routeSections[0],
+) as Ref<RouteSection<T, A>>;
 </script>

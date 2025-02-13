@@ -4,7 +4,7 @@ import type { ModelStore } from '@/shared/lib/storeFactory/types';
 import type { FormBuilderFields } from '@/widgets/formBuilder/types/formBuilder';
 import type { CommonTemplateBuilder } from '@/widgets/templateBuilder/types';
 
-export interface RouteSection {
+export interface CommonRouteSection {
   title: string;
   path: string;
   model: ClassConstructor;
@@ -14,7 +14,7 @@ export interface RouteSection {
   singleton?: boolean;
 }
 
-export interface TypedRouteSection<T extends Model, A extends BaseAPI<T>> extends RouteSection {
+export interface RouteSection<T extends Model, A extends BaseAPI<T>> extends CommonRouteSection {
   model: ClassConstructor<T>;
   store: ModelStore<T, A>;
   formBuilder: FormBuilderFields<T>;

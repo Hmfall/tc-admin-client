@@ -1,60 +1,78 @@
 <template>
-  <v-navigation-drawer color="background">
-    <div
-      class="text-center py-4"
-      @click="updateModelValue(null)"
-    >
-      <router-link to="/">
+  <v-navigation-drawer
+    :model-value="isDrawerExpanded"
+    color="background"
+    :mobile="$vuetify.display.mdAndDown"
+    @update:model-value="$emit('update:isDrawerExpanded', $event)"
+  >
+    <div class="h-100 d-flex flex-column">
+      <div class="text-center my-4">
         <span class="text-h6">Разделы</span>
-      </router-link>
-    </div>
+      </div>
 
-    <v-tabs
-      :model-value="tab"
-      color="primary"
-      direction="vertical"
-      :mandatory="false"
-      @update:model-value="updateModelValue"
-    >
-      <router-link
-        v-for="item in sections"
-        :key="item.title"
-        class="d-none d-md-flex font-weight-medium"
-        :to="item.path"
-      >
-        <v-tab
-          :key="item.path"
-          class="w-100"
-          :text="item.title"
-          :value="item.path"
-        />
-      </router-link>
-    </v-tabs>
+      <div class="d-flex flex-1-1 flex-column justify-space-between">
+        <v-tabs
+          :model-value="tab"
+          class="flex-1-1"
+          color="primary"
+          direction="vertical"
+          @update:model-value="updateModelValue"
+        >
+          <router-link
+            v-for="item in sections"
+            :key="item.title"
+            :to="item.path"
+          >
+            <v-tab
+              :key="item.path"
+              class="w-100"
+              :text="item.title"
+              :value="item.path"
+            />
+          </router-link>
+        </v-tabs>
+      </div>
+
+      <div class="d-flex flex-column align-center ga-5 mt-4 mb-6">
+        <div class="text-center">
+          <router-link
+            to="/"
+            class="text-decoration-underline"
+          >
+            Управлением аккаунтами
+          </router-link>
+        </div>
+
+        <div>
+          <v-btn>Выйти</v-btn>
+        </div>
+      </div>
+    </div>
   </v-navigation-drawer>
+
   <slot />
 </template>
 
 <script setup lang="ts">
-import type { RouteSection } from '@/pages/home/types';
+import type { CommonRouteSection } from '@/pages/home/types';
 
 const props = defineProps<{
-  modelValue: RouteSection | null;
-  sections: RouteSection[];
+  section: CommonRouteSection;
+  sections: CommonRouteSection[];
+  isDrawerExpanded: boolean;
 }>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', sectionPath: RouteSection | null): void;
+  (e: 'update:section', section: CommonRouteSection): void;
+  (e: 'update:isDrawerExpanded', value: boolean): void;
 }>();
 
-const tab = ref<string | null>(props.modelValue?.path ?? null);
+const tab = ref(props.section.path);
 
 const updateModelValue = (value?: unknown) => {
   if (typeof value === 'string') {
     tab.value = value;
-    emit('update:modelValue', props.sections.find((item) => item.path === value) ?? null);
-  } else {
-    tab.value = null;
-    emit('update:modelValue', null);
+    emit('update:section', props.sections.find((item) => item.path === value)!);
   }
 };
 </script>

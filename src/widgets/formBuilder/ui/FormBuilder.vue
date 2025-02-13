@@ -1,6 +1,7 @@
 <template>
   <VForm
     ref="form"
+    v-model="isFormValid"
     @submit.prevent="onSubmit"
   >
     <FormBuilderWrapper :fields="fields">
@@ -24,7 +25,7 @@
 
     <ActionButtons
       v-else
-      @on-confirm="emit('submit')"
+      :disabled="!isFormValid"
       @on-cancel="emit('close')"
     />
   </VForm>
@@ -51,8 +52,7 @@ const emit = defineEmits<{
   (e: 'update:item', value: T): void;
   (e: 'create', item: T, promises: UpdateFormFieldPromise<T>[]): void;
   (e: 'update', item: T, promises: UpdateFormFieldPromise<T>[]): void;
-  (e: 'reset'): void;
-  (e: 'submit'): void;
+  (e: 'update', item: T, promises: UpdateFormFieldPromise<T>[]): void;
   (e: 'close'): void;
 }>();
 
@@ -60,6 +60,8 @@ const initial = () =>
   props.item?.clone() ?? (props?.modelConstructor && new props.modelConstructor());
 
 const form = ref<VForm | null>(null);
+
+const isFormValid = ref(props.mode === 'update' ?? false);
 
 const value = ref(initial()) as Ref<T>;
 
@@ -72,11 +74,15 @@ const onSubmit = () => {
     return;
   }
 
-  form.value.validate().then(() => {
-    if (props.mode === 'create') {
-      emit('create', value.value, promises.value);
-    } else if (props.mode === 'update') {
-      emit('update', value.value, promises.value);
+  form.value.validate().then(({ valid }) => {
+    if (valid) {
+      if (props.mode === 'create') {
+        emit('create', value.value, promises.value);
+      } else if (props.mode === 'update') {
+        emit('update', value.value, promises.value);
+      }
+
+      emit('close');
     }
   });
 };

@@ -1,46 +1,45 @@
 <template>
-  <template v-if="section">
-    <v-card>
-      <v-card-title class="text-center">Редактирование раздела "{{ section.title }}"</v-card-title>
+  <v-card>
+    <v-card-title class="d-flex align-center">
+      <v-btn
+        v-if="$vuetify.display.mdAndDown"
+        variant="text"
+        icon="$mdiMenu"
+        @click="emit('onMenu')"
+      />
 
-      <v-card-item class="px-6">
-        <TemplateFormBuilder
-          :store="section.store"
-          :model-constructor="section.model"
-          :form-builder="section.formBuilder"
-          :template-builder="section.templateBuilder"
-        />
-      </v-card-item>
-    </v-card>
-  </template>
-
-  <template v-else>
-    <div class="h-100 d-flex align-center justify-center">
-      <div class="text-center">
-        Панель редактирования
-        <br />
-        раздела
+      <div class="w-100 text-center">
+        <span>Редактирование раздела "{{ section.title }}"</span>
       </div>
-    </div>
-  </template>
+    </v-card-title>
+
+    <v-card-text>
+      <TemplateFormBuilder
+        :store="section.store"
+        :model-constructor="section.model"
+        :form-builder="section.formBuilder"
+        :template-builder="section.templateBuilder"
+      />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script setup lang="ts" generic="T extends Model, A extends BaseAPI<T>">
-import type { TypedRouteSection } from '@/pages/home/types';
+import type { RouteSection } from '@/pages/home/types';
 import type { BaseAPI, Model } from '@/shared/lib/storeFactory';
 import TemplateFormBuilder from '@/widgets/templateBuilder/ui/TemplateFormBuilder.vue';
 
 const props = defineProps<{
-  section: TypedRouteSection<T, A> | null;
+  section: RouteSection<T, A>;
+}>();
+
+const emit = defineEmits<{
+  (e: 'onMenu'): void;
 }>();
 
 watch(
-  () => props.section?.path,
-  () => {
-    if (props.section) {
-      props.section.store.fetch();
-    }
-  },
+  () => props.section.path,
+  () => props.section.store.fetch(),
   {
     immediate: true,
   },

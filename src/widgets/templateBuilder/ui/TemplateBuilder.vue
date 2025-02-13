@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="props.builder.component()"
+    :is="props.builder.render()"
     v-if="Object.keys(slots).length"
     @on-edit="emit('onEditItem', props.item)"
   >

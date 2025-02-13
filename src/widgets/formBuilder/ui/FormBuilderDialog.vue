@@ -13,7 +13,6 @@
       :model-constructor="modelConstructor"
       @create="(...args) => emit('create', ...args)"
       @update="(...args) => emit('update', ...args)"
-      @submit="emit('update:modelValue', false)"
       @close="emit('update:modelValue', false)"
     />
   </BaseDialog>

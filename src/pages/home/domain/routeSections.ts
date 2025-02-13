@@ -16,9 +16,9 @@ import * as events from '@/pages/home/domain/sections/events';
 import * as gallery from '@/pages/home/domain/sections/gallery';
 import * as partners from '@/pages/home/domain/sections/partners';
 import * as socials from '@/pages/home/domain/sections/socials';
-import type { RouteSection } from '@/pages/home/types';
+import type { CommonRouteSection } from '@/pages/home/types';
 
-export const routeSections: RouteSection[] = [
+export const routeSections: CommonRouteSection[] = [
   {
     title: 'Об объединении',
     path: '/about',

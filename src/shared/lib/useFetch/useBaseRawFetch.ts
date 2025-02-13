@@ -1,4 +1,3 @@
-import { unref } from 'vue';
 import type { UseRawFetchParams } from '@/shared/lib/useFetch/types';
 
 export const useBaseRawFetch = <T, P extends any[] = unknown[]>(

@@ -14,7 +14,7 @@ export default createVuetify({
     messages: { ru },
   },
   display: {
-    mobileBreakpoint: 'sm',
+    mobileBreakpoint: 'md',
     thresholds: {
       xs: 0,
       sm: 576,

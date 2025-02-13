@@ -10,15 +10,16 @@ export const routes: RouteRecordRaw[] = [
     name: 'home',
     path: '/',
     component: async () => await import('@/pages/home/ui/HomePage.vue'),
+    redirect: { name: 'about' },
     children: [
-      {
-        path: 'events',
-        name: 'events',
-        component: async () => await import('@/pages/home/ui/sectionWrapper/SectionWrapper.vue'),
-      },
       {
         path: 'about',
         name: 'about',
+        component: async () => await import('@/pages/home/ui/sectionWrapper/SectionWrapper.vue'),
+      },
+      {
+        path: 'events',
+        name: 'events',
         component: async () => await import('@/pages/home/ui/sectionWrapper/SectionWrapper.vue'),
       },
       {

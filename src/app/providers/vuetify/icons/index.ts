@@ -1,4 +1,10 @@
-import { mdiFolderOpen, mdiSquareEditOutline, mdiWindowClose } from '@mdi/js';
+import {
+  mdiDeleteOutline,
+  mdiFolderOpen,
+  mdiMenu,
+  mdiSquareEditOutline,
+  mdiWindowClose,
+} from '@mdi/js';
 import { aliases } from 'vuetify/iconsets/mdi-svg';
 
 export default {
@@ -6,4 +12,6 @@ export default {
   mdiSquareEditOutline,
   mdiWindowClose,
   mdiFolderOpen,
+  mdiMenu,
+  mdiDeleteOutline,
 };
