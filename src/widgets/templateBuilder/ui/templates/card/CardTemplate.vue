@@ -1,6 +1,6 @@
 <template>
   <v-card :min-height="200">
-    <div class="d-flex ga-6 pa-1">
+    <div class="d-flex ga-6">
       <div class="d-flex flex-column ga-2">
         <v-sheet
           v-if="$slots.previewImage"
@@ -58,13 +58,24 @@
 
       <slot />
 
-      <v-btn
-        icon="$mdiSquareEditOutline"
-        variant="text"
-        density="default"
-        color="secondary"
-        @click="emit('onEdit')"
-      />
+      <div>
+        <v-btn
+          class="mb-1"
+          icon="$mdiSquareEditOutline"
+          variant="text"
+          density="default"
+          color="secondary"
+          @click="emit('onEdit')"
+        />
+
+        <v-btn
+          icon="$mdiDeleteOutline"
+          variant="text"
+          density="default"
+          color="secondary"
+          @click="emit('onDelete')"
+        />
+      </div>
     </div>
   </v-card>
 </template>
@@ -72,6 +83,7 @@
 <script setup lang="ts">
 const emit = defineEmits<{
   (e: 'onEdit'): void;
+  (e: 'onDelete'): void;
 }>();
 </script>
 
