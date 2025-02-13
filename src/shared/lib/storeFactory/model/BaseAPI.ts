@@ -59,11 +59,11 @@ export abstract class BaseAPI<T = unknown> {
     return toModel(this.modelConstuctor, await this.$repository.getAll<T>());
   }
 
-  public async fetchById(id: Id): Promise<T> {
+  public async fetchById(id: ID): Promise<T> {
     return toModel(this.modelConstuctor, await this.$repository.getById<T>(id));
   }
 
-  public async deleteById(id: Id): Promise<void> {
+  public async deleteById(id: ID): Promise<void> {
     return await this.$repository.deleteById(id);
   }
 }

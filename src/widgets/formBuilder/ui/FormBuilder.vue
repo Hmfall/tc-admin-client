@@ -9,9 +9,9 @@
           :is="field.render()"
           v-model="value[field.key]"
           :item="value"
+          :field-key="field.key"
           v-bind="field.props"
-          @update-field="(v: UpdateFormFieldValue<T>) => (value[v.key] = v.value)"
-          @on-create-promise="onCreatePromise"
+          @create-promise="onCreatePromise"
         />
       </template>
     </FormBuilderWrapper>
@@ -19,13 +19,13 @@
     <slot
       v-if="$slots.actions"
       name="actions"
-      v-bind="{ onReset: resetValue }"
+      v-bind="{ reset: resetValue }"
     />
 
     <ActionButtons
       v-else
-      confirm-button="Сохранить"
-      @on-cancel="emit('onClose')"
+      @on-confirm="emit('submit')"
+      @on-cancel="emit('close')"
     />
   </VForm>
 </template>
@@ -36,7 +36,7 @@ import type { ClassConstructor } from 'class-transformer';
 import { VForm } from 'vuetify/components';
 import type { BaseModel } from '@/shared/lib/storeFactory';
 import ActionButtons from '@/shared/ui/actionButtons/ActionButtons.vue';
-import type { FormEditMode, UpdateFormFieldValue } from '@/widgets/formBuilder/types/common';
+import type { FormEditMode, UpdateFormFieldPromise } from '@/widgets/formBuilder/types/common';
 import type { FormBuilderFields } from '@/widgets/formBuilder/types/formBuilder';
 import FormBuilderWrapper from '@/widgets/formBuilder/ui/FormBuilderWrapper.vue';
 
@@ -49,10 +49,11 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:item', value: T): void;
-  (e: 'onCreate', item: T): void;
-  (e: 'onUpdate', item: T): void;
-  (e: 'onReset'): void;
-  (e: 'onClose'): void;
+  (e: 'create', item: T, promises: UpdateFormFieldPromise<T>[]): void;
+  (e: 'update', item: T, promises: UpdateFormFieldPromise<T>[]): void;
+  (e: 'reset'): void;
+  (e: 'submit'): void;
+  (e: 'close'): void;
 }>();
 
 const initial = () =>
@@ -61,9 +62,10 @@ const initial = () =>
 const form = ref<VForm | null>(null);
 
 const value = ref(initial()) as Ref<T>;
+
 const snapshot = ref(initial()) as Ref<T>;
 
-const promises = ref<FunctionExpression<Promise<void>>[]>([]);
+const promises = ref<UpdateFormFieldPromise<T>[]>([]);
 
 const onSubmit = () => {
   if (!form.value) {
@@ -72,28 +74,19 @@ const onSubmit = () => {
 
   form.value.validate().then(() => {
     if (props.mode === 'create') {
-      emit('onCreate', value.value);
+      emit('create', value.value, promises.value);
     } else if (props.mode === 'update') {
-      emit('onUpdate', value.value);
+      emit('update', value.value, promises.value);
     }
-
-    Promise.all(promises.value.map((promise) => promise()))
-      .then(() => {
-        console.log('resolved');
-      })
-      .catch(() => {
-        console.error('Произошла ошибка загрузки файла! Повторите попытку.');
-      })
-      .finally(() => {
-        promises.value = [];
-      });
   });
 };
 
 const resetValue = () => value.value.merge(snapshot.value);
 
-const onCreatePromise = (promise: FunctionExpression<Promise<void>>) => {
-  promises.value.push(promise);
+const onCreatePromise = (promise?: UpdateFormFieldPromise<T>) => {
+  if (promise) {
+    promises.value.push(promise);
+  }
 };
 
 watch(

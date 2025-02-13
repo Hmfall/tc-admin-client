@@ -1,4 +1,6 @@
-import { Blob, Entity, ExcludeJSON, Model, PrimaryKey } from '@/shared/lib/storeFactory';
+import { Type } from 'class-transformer';
+import { ObjectUrl } from '@/entities/objectURL/model/ObjectUrl';
+import { Entity, Model, PrimaryKey } from '@/shared/lib/storeFactory';
 
 @Entity({ path: 'events' })
 export class Event extends Model {
@@ -11,15 +13,9 @@ export class Event extends Model {
 
   details: string;
 
-  @Blob()
-  logoImgFile: File;
+  @Type(() => ObjectUrl)
+  background: ObjectUrl;
 
-  @ExcludeJSON()
-  logoImg: string;
-
-  @Blob()
-  backgroundImgFile: File;
-
-  @ExcludeJSON()
-  backgroundImg: string;
+  @Type(() => ObjectUrl)
+  logo: ObjectUrl;
 }

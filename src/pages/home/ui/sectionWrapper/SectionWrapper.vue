@@ -4,39 +4,12 @@
       <v-card-title class="text-center">Редактирование раздела "{{ section.title }}"</v-card-title>
 
       <v-card-item class="px-6">
-        <div class="d-flex flex-column ga-8 mt-8">
-          <div
-            v-if="!props.section?.singleton"
-            class="d-flex ga-4 justify-end"
-          >
-            <v-btn>Удалить все</v-btn>
-
-            <v-btn
-              variant="flat"
-              color="primary"
-              @click="isModal = true"
-            >
-              Добавить
-            </v-btn>
-          </div>
-
-          <TemplateFormBuilder
-            v-model:is-modal="isModal"
-            :items="section.store?.items"
-            :template-builder="section.templateBuilder"
-            :form-builder="section.formBuilder"
-            :model-constructor="section.model"
-          />
-
-          <div class="d-flex ga-4 justify-end">
-            <v-btn
-              variant="flat"
-              color="primary"
-            >
-              Сохранить
-            </v-btn>
-          </div>
-        </div>
+        <TemplateFormBuilder
+          :store="section.store"
+          :model-constructor="section.model"
+          :form-builder="section.formBuilder"
+          :template-builder="section.templateBuilder"
+        />
       </v-card-item>
     </v-card>
   </template>
@@ -60,8 +33,6 @@ import TemplateFormBuilder from '@/widgets/templateBuilder/ui/TemplateFormBuilde
 const props = defineProps<{
   section: TypedRouteSection<T, A> | null;
 }>();
-
-const isModal = ref(false);
 
 watch(
   () => props.section?.path,

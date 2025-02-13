@@ -15,11 +15,15 @@ export abstract class BaseModel {
   public get primaryKey(): keyof this {
     const primaryKey = Reflect.getMetadata('model:primary-key', this.constructor);
 
-    if (!this.$config.singleton && !primaryKey) {
+    if (!this.$config?.singleton && !primaryKey) {
       console.warn(`Missing @PrimaryKey decorator: ${this.classConstructor.name.toString()}`);
     }
 
     return primaryKey?.['model:primary-key'];
+  }
+
+  public get getID(): ID {
+    return this[this.primaryKey] as ID;
   }
 
   public toJSON(options?: ClassTransformOptions): Record<string, unknown> {
@@ -33,9 +37,10 @@ export abstract class BaseModel {
     });
   }
 
-  public clone(): this {
+  public clone(options?: ClassTransformOptions): this {
     return this.fromJSON(this.toJSON({ ignoreDecorators: true }) as FromJSONPlain<this>, {
       ignoreDecorators: true,
+      ...options,
     });
   }
 

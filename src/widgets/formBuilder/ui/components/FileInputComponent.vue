@@ -1,16 +1,22 @@
 <template>
   <div>
     <v-img
-      v-if="props.foreignKey"
-      :src="value?.[props.foreignKey] as string"
+      v-if="isObjectURL(modelValue)"
+      :src="baseObjectURL?.objectURL ?? baseObjectURL?.url"
       :width="$attrs['width'] as string"
-      :class="{
-        'mb-4': value?.[props.foreignKey],
-        'h-0': !value?.[props.foreignKey],
-      }"
+      :class="baseObjectURL ? 'mb-4' : 'h-0'"
     />
 
     <VFileInput
+      v-if="isObjectURL(modelValue)"
+      v-bind="$attrs"
+      :model-value="modelValue.file"
+      hide-details
+      @update:model-value="updateModelValue"
+    />
+
+    <VFileInput
+      v-else
       v-bind="$attrs"
       :model-value="modelValue"
       hide-details
@@ -20,10 +26,14 @@
 </template>
 
 <script setup lang="ts" generic="T extends BaseModel">
-import type { Ref } from 'vue';
 import { VFileInput } from 'vuetify/components';
+import { ObjectUrlAPI } from '@/entities/objectURL/api/ObjectUrlAPI';
+import { ObjectUrl } from '@/entities/objectURL/model/ObjectUrl';
 import type { BaseModel } from '@/shared/lib/storeFactory';
-import type { UpdateFormFieldValue } from '@/widgets/formBuilder/types/common';
+import type {
+  UpdateFormFieldPromise,
+  UpdateFormFieldValue,
+} from '@/widgets/formBuilder/types/common';
 import type { FileInputField } from '@/widgets/formBuilder/types/formBuilder';
 
 defineOptions({
@@ -33,53 +43,55 @@ defineOptions({
 const props = defineProps<
   /* eslint-disable-next-line vue/no-reserved-props,vue/no-reserved-keys */
   FileInputField<T> & {
-    modelValue: null;
-    foreignKey?: string;
+    modelValue: ObjectUrl | File;
     item: T;
+    fieldKey: keyof T;
   }
 >();
 
-const snapshot = props.item.clone();
-
-const value = ref(props.item.clone()) as Ref<T>;
-
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: File | File[]): void;
-  (e: 'updateField', value: UpdateFormFieldValue<T>): void;
-  (e: 'on-create-promise', promise: FunctionExpression<Promise<void>>): void;
+  (e: 'update:modelValue', value: File | ObjectUrl): void;
+  (e: 'create-promise', promise: UpdateFormFieldPromise<T>): void;
 }>();
 
-const getPromise = () =>
-  new Promise<void>((resolve) =>
-    setTimeout(() => {
-      resolve();
-    }, 1000),
-  );
+const objectUrlAPI = new ObjectUrlAPI();
 
-const updateModelValue = (file: File | File[]) => {
-  if (props.foreignKey) {
-    emit('updateField', {
-      key: props.foreignKey,
-      value: createObjectURL(value.value, file, props.foreignKey),
-    });
-  }
-
-  emit('update:modelValue', file);
-  emit('on-create-promise', getPromise);
+const isObjectURL = (value?: ObjectUrl | File): value is ObjectUrl => {
+  return value instanceof ObjectUrl;
 };
 
-const createObjectURL = (value: T, file: unknown, key: keyof T) => {
-  if (String(value[key])?.startsWith('blob:')) {
-    URL.revokeObjectURL(String(value[key]));
+const baseObjectURL = computed(() => {
+  const value = props.item[props.fieldKey] as ObjectUrl | File;
+
+  if (isObjectURL(value)) {
+    return value;
   }
 
-  if (file) {
-    const objectURL = URL.createObjectURL(file as Blob) as T[keyof T];
-    value[key] = objectURL;
-    return objectURL;
+  return null;
+});
+
+const getObjectUrlAPIFn = async (obj: ObjectUrl): Promise<UpdateFormFieldValue<T>> => {
+  return objectUrlAPI.createObjectUrl(obj.file).then((value) => {
+    value.objectURL = obj.objectURL;
+    return { key: props.fieldKey, value };
+  });
+};
+
+const updateModelValue = (file?: File | File[]) => {
+  if (Array.isArray(file)) {
+    return;
+  }
+
+  if (baseObjectURL.value) {
+    const objectURL = baseObjectURL.value.clone();
+    objectURL.file = file;
+    objectURL.updateObjectURL(file);
+    emit('update:modelValue', objectURL);
+    emit('create-promise', () => getObjectUrlAPIFn(objectURL));
   } else {
-    value[key] = snapshot[key];
-    return snapshot[key];
+    if (file instanceof File) {
+      emit('update:modelValue', file);
+    }
   }
 };
 </script>

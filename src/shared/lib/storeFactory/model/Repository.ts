@@ -6,7 +6,7 @@ export class Repository extends BaseAxiosAPI {
     return (await this.axios.get<T[]>(`${this.path}`, { params })).data;
   }
 
-  async getById<T>(id: Id) {
+  async getById<T>(id: ID) {
     return (await this.axios.get<T>(`${this.path}/${id}`)).data;
   }
 
@@ -14,7 +14,7 @@ export class Repository extends BaseAxiosAPI {
     return (await this.axios.post(`${this.path}`, body)).data;
   }
 
-  async updateById(id: Id, body: Record<string, any>) {
+  async updateById(id: ID, body: Record<string, any>) {
     return (await this.axios.put(`${this.path}/${id}`, body)).data;
   }
 
@@ -22,7 +22,7 @@ export class Repository extends BaseAxiosAPI {
     return (await this.axios.put(`${this.path}`, body)).data;
   }
 
-  async deleteById(id: Id) {
+  async deleteById(id: ID) {
     return (await this.axios.delete(`${this.path}/${id}`)).data;
   }
 

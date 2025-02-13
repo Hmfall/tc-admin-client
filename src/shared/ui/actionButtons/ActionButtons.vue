@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(
+withDefaults(
   defineProps<{
     confirmButton?: string | boolean;
     cancelButton?: string | boolean;
@@ -38,13 +38,11 @@ const props = withDefaults(
     position?: 'start' | 'center' | 'end';
   }>(),
   {
-    confirmButton: 'Oк',
+    confirmButton: 'Сохранить',
     cancelButton: 'Отмена',
     position: 'end',
   },
 );
-
-console.log(props)
 
 const emit = defineEmits<{
   (e: 'onConfirm'): void;

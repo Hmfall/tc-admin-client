@@ -3,18 +3,18 @@
     confirm-button="Сохранить"
     :model-value="modelValue"
     :actions="false"
-    @after-leave="emit('onClose')"
-    @update:model-value="(value: boolean) => emit('update:modelValue', value)"
+    @after-leave="emit('close')"
+    @update:model-value="$emit('update:modelValue', $event)"
   >
     <FormBuilder
-      ref="formBuilderRef"
       :item="props.item"
       :fields="fields"
       :mode="mode"
       :model-constructor="modelConstructor"
-      @on-create="onCreate"
-      @on-update="onUpdate"
-      @on-close="emit('update:modelValue', false)"
+      @create="(...args) => emit('create', ...args)"
+      @update="(...args) => emit('update', ...args)"
+      @submit="emit('update:modelValue', false)"
+      @close="emit('update:modelValue', false)"
     />
   </BaseDialog>
 </template>
@@ -23,7 +23,7 @@
 import type { ClassConstructor } from 'class-transformer';
 import type { BaseModel } from '@/shared/lib/storeFactory';
 import BaseDialog from '@/widgets/baseDialog/ui/BaseDialog.vue';
-import type { FormEditMode } from '@/widgets/formBuilder/types/common';
+import type { FormEditMode, UpdateFormFieldPromise } from '@/widgets/formBuilder/types/common';
 import type { FormBuilderFields } from '@/widgets/formBuilder/types/formBuilder';
 import FormBuilder from '@/widgets/formBuilder/ui/FormBuilder.vue';
 
@@ -37,18 +37,8 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:modelValue', modelValue: boolean): void;
-  (e: 'onCreate', item: T): void;
-  (e: 'onUpdate', item: T): void;
-  (e: 'onClose'): void;
+  (e: 'create', item: T, promises: UpdateFormFieldPromise<T>[]): void;
+  (e: 'update', item: T, promises: UpdateFormFieldPromise<T>[]): void;
+  (e: 'close'): void;
 }>();
-
-const onCreate = (item: T) => {
-  emit('onCreate', item);
-  emit('update:modelValue', false);
-};
-
-const onUpdate = (item: T) => {
-  emit('onUpdate', item);
-  emit('update:modelValue', false);
-};
 </script>

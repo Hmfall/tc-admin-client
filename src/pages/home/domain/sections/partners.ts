@@ -13,11 +13,10 @@ export const partnersFormBuilder: FormBuilderFields<Partner> = [
       span: 3,
       items: [
         {
-          key: 'logoImgFile',
+          key: 'logo',
           type: Input.fileInput,
           render: () => FileInputComponent,
           props: {
-            foreignKey: 'logoImg',
             label: 'Логотип',
           },
         },
@@ -88,7 +87,7 @@ export const partnersTemplateBuilder: CommonTemplateBuilder<Partner> = {
       render: () => VImg,
       attrs: {
         src: {
-          bindKey: 'logoImg',
+          bindKey: 'logo',
         },
       },
     },

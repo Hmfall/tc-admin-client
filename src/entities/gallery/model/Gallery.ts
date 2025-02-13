@@ -1,4 +1,6 @@
-import { Blob, Entity, ExcludeJSON, Model, PrimaryKey } from '@/shared/lib/storeFactory';
+import { Type } from 'class-transformer';
+import { ObjectUrl } from '@/entities/objectURL/model/ObjectUrl';
+import { Entity, Model, PrimaryKey } from '@/shared/lib/storeFactory';
 
 @Entity({ path: 'gallery' })
 export class Gallery extends Model {
@@ -11,9 +13,6 @@ export class Gallery extends Model {
 
   link: string;
 
-  @Blob()
-  logoImgFile: File;
-
-  @ExcludeJSON()
-  logoImg: string;
+  @Type(() => ObjectUrl)
+  logo: ObjectUrl;
 }

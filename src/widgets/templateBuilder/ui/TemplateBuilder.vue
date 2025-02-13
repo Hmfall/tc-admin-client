@@ -25,6 +25,7 @@
 </template>
 
 <script setup lang="ts" generic="T extends BaseModel">
+import { ObjectUrl } from '@/entities/objectURL/model/ObjectUrl';
 import type { BaseModel } from '@/shared/lib/storeFactory';
 import type { CommonTemplateBuilder, TemplateSlotAttrs } from '@/widgets/templateBuilder/types';
 import { templateMappedSlot } from '@/widgets/templateBuilder/utils';
@@ -43,7 +44,11 @@ const slots = computed(() => templateMappedSlot(props.builder));
 const bindProps = (slotProp?: TemplateSlotAttrs<T>) =>
   Object.entries(slotProp ?? {}).reduce<Record<string, any>>((acc, [slot, key]) => {
     if (typeof key === 'object' && key.bindKey) {
-      acc[slot] = props.item?.[key.bindKey] ?? key;
+      const value = props.item?.[key.bindKey];
+
+      if (value) {
+        acc[slot] = (value instanceof ObjectUrl ? value.objectURL ?? value.url : value) ?? key;
+      }
     } else {
       acc[slot] = key;
     }

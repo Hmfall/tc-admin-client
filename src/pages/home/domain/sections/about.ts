@@ -13,11 +13,10 @@ export const aboutFormBuilder: FormBuilderFields<About> = [
       span: 3,
       items: [
         {
-          key: 'logoImgFile',
+          key: 'logo',
           type: Input.fileInput,
           render: () => FileInputComponent,
           props: {
-            foreignKey: 'logoImg',
             label: 'Логотип',
           },
         },
@@ -69,7 +68,7 @@ export const aboutTemplateBuilder: CommonTemplateBuilder<About> = {
       render: () => VImg,
       attrs: {
         src: {
-          bindKey: 'logoImg',
+          bindKey: 'logo',
         },
       },
     },

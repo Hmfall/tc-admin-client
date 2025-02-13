@@ -13,11 +13,10 @@ export const galleryFormBuilder: FormBuilderFields<Gallery> = [
       span: 3,
       items: [
         {
-          key: 'logoImgFile',
+          key: 'logo',
           type: Input.fileInput,
           render: () => FileInputComponent,
           props: {
-            foreignKey: 'logoImg',
             label: 'Фоновое изображение',
           },
         },
@@ -88,7 +87,7 @@ export const galleryTemplateBuilder: CommonTemplateBuilder<Gallery> = {
       render: () => VImg,
       attrs: {
         src: {
-          bindKey: 'logoImg',
+          bindKey: 'logo',
         },
       },
     },

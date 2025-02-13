@@ -38,8 +38,12 @@ export const storeFactory = <T extends Model, A extends BaseAPI<T>>(
       setError(error: unknown) {
         this.error = error;
       },
+      getByIDs(IDs: ID[]) {
+        // return this.unwrapItems.filter((item) => IDs.includes(item.))
+      },
     },
     getters: {
       items: (state) => state.unwrapItems as T[],
+      draftItems: (state) => state.unwrapDraftItems as T[],
     },
   })();

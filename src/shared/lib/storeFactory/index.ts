@@ -7,7 +7,5 @@ export { storeFactory } from '@/shared/lib/storeFactory/store/storeFactory';
 export { PrimaryKey } from '@/shared/lib/storeFactory/decorators/PrimaryKey';
 export { Entity } from '@/shared/lib/storeFactory/decorators/Entity';
 export { API } from '@/shared/lib/storeFactory/decorators/API';
-export { Blob } from '@/shared/lib/storeFactory/decorators/Blob';
-export { ExcludeJSON } from '@/shared/lib/storeFactory/decorators/ExcludeJSON';
 
 export { toModel } from '@/shared/lib/storeFactory/utils/toModel';

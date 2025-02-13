@@ -1,4 +1,6 @@
-import { Blob, Entity, ExcludeJSON, Model } from '@/shared/lib/storeFactory';
+import { Type } from 'class-transformer';
+import { ObjectUrl } from '@/entities/objectURL/model/ObjectUrl';
+import { Entity, Model } from '@/shared/lib/storeFactory';
 
 @Entity({ path: 'about', singleton: true })
 export class About extends Model {
@@ -6,12 +8,8 @@ export class About extends Model {
 
   description: string;
 
-  @Blob()
-  logoImgFile: File;
-
-  @ExcludeJSON()
-  logoImg: string;
+  @Type(() => ObjectUrl)
+  logo: ObjectUrl;
 }
 
 export const about = new About();
-

@@ -13,20 +13,18 @@ export const eventsFormBuilder: FormBuilderFields<Event> = [
       span: 3,
       items: [
         {
-          key: 'logoImgFile',
+          key: 'logo',
           type: Input.fileInput,
           render: () => FileInputComponent,
           props: {
-            foreignKey: 'logoImg',
             label: 'Логотип',
           },
         },
         {
-          key: 'backgroundImgFile',
+          key: 'background',
           type: Input.fileInput,
           render: () => FileInputComponent,
           props: {
-            foreignKey: 'backgroundImg',
             label: 'Фоновое изображение',
           },
         },
@@ -92,7 +90,7 @@ export const eventsTemplateBuilder: CommonTemplateBuilder<Event> = {
       render: () => VImg,
       attrs: {
         src: {
-          bindKey: 'logoImg',
+          bindKey: 'logo',
         },
       },
     },
@@ -101,7 +99,7 @@ export const eventsTemplateBuilder: CommonTemplateBuilder<Event> = {
       render: () => VImg,
       attrs: {
         src: {
-          bindKey: 'backgroundImg',
+          bindKey: 'background',
         },
       },
     },

@@ -13,11 +13,10 @@ export const contactsFormBuilder: FormBuilderFields<Contact> = [
       span: 3,
       items: [
         {
-          key: 'logoImgFile',
+          key: 'logo',
           type: Input.fileInput,
           render: () => FileInputComponent,
           props: {
-            foreignKey: 'logoImg',
             label: 'Логотип',
           },
         },
@@ -89,7 +88,7 @@ export const eventsTemplateBuilder: CommonTemplateBuilder<Contact> = {
       render: () => VImg,
       attrs: {
         src: {
-          bindKey: 'logoImg',
+          bindKey: 'logo',
         },
       },
     },

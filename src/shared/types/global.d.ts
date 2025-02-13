@@ -7,7 +7,7 @@ declare global {
 
   export type Nullable<T> = T | null;
 
-  export type Id = string | number;
+  export type ID = string | number;
 
   export type FunctionExpression<T = any> = (...args: any[]) => T
 

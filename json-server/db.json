@@ -1,53 +1,69 @@
 {
   "about": {
     "name": "About",
-    "logoImg": "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
+    "logo": {
+      "id": 14,
+      "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+    },
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
   },
   "events": [
     {
       "id": 1,
-      "logoImg": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png",
-      "backgroundImg": "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
+      "logo": {
+        "id": 13,
+        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+      },
+      "background": {
+        "id": 14,
+        "url": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      },
       "name": "Event 1",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     },
     {
       "id": 2,
-      "logoImg": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png",
-      "backgroundImg": "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
+      "logo": {
+        "id": 12,
+        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+      },
+      "background": {
+        "id": 15,
+        "url": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      },
       "name": "Event 2",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    },
-    {
-      "id": 3,
-      "logoImg": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png",
-      "backgroundImg": "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-      "name": "Event 3",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     }
   ],
   "gallery": [
     {
       "id": 1,
-      "logoImg": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png",
+      "logo": {
+        "id": 11,
+        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+      },
       "name": "Ablum 1",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
     },
     {
       "id": 2,
-      "logoImg": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png",
+      "logo": {
+        "id": 10,
+        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+      },
       "name": "Ablum 2",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
     },
     {
       "id": 2,
-      "logoImg": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png",
+      "logo": {
+        "id": 9,
+        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+      },
       "name": "Ablum 3",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
@@ -56,21 +72,30 @@
   "partners": [
     {
       "id": 1,
-      "logoImg": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png",
+      "logo": {
+        "id": 8,
+        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+      },
       "name": "Partner 1",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
     },
     {
       "id": 2,
-      "logoImg": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png",
+      "logo": {
+        "id": 7,
+        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+      },
       "name": "Partner 2",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
     },
     {
       "id": 3,
-      "logoImg": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png",
+      "logo": {
+        "id": 6,
+        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+      },
       "name": "Partner 3",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
@@ -79,21 +104,30 @@
   "socials": [
     {
       "id": 1,
-      "logoImg": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png",
+      "logo": {
+        "id": 5,
+        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+      },
       "name": "Social 1",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
     },
     {
       "id": 2,
-      "logoImg": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png",
+      "logo": {
+        "id": 4,
+        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+      },
       "name": "Social 2",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
     },
     {
       "id": 3,
-      "logoImg": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png",
+      "logo": {
+        "id": 3,
+        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+      },
       "name": "Social 3",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
@@ -102,22 +136,21 @@
   "contacts": [
     {
       "id": 1,
-      "logoImg": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png",
       "name": "Contact 1",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
+      "logo": {
+        "id": 1,
+        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+      }
     },
     {
       "id": 2,
-      "logoImg": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png",
+      "logo": {
+        "id": 2,
+        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+      },
       "name": "Contact 2",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
-    },
-    {
-      "id": 3,
-      "logoImg": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png",
-      "name": "Contact 3",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
     }
