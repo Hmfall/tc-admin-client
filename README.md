@@ -1,18 +1,17 @@
-### Установка зависимостей
+## Project Setup
 
 ```sh
 npm install
 ```
 
-### Запуск dev server
+### Compile and Hot-Reload for Development
 
 ```sh
 npm run dev
 ```
 
-### Скрипты
+### Compile and Minify for Production
 
-- `npm run dev` Запуск **dev server**
-- `npm run build` Сборка проекта
-- `npm run lint` Запуск **ESLint**
-- `npm run prettier` Форматировать код
+```sh
+npm run build
+```
