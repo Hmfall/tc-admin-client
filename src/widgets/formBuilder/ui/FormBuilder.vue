@@ -1,6 +1,6 @@
 <template>
   <VForm
-    ref="formRef"
+    ref="form"
     v-model="isFormValid"
     @submit.prevent="onSubmit"
   >
@@ -57,13 +57,12 @@ const emit = defineEmits<{
   (e: 'update:item', value: T): void;
   (e: 'create', item: T, promises: UpdateFormFieldPromise<T>[]): void;
   (e: 'update', item: T, promises: UpdateFormFieldPromise<T>[]): void;
-  (e: 'update', item: T, promises: UpdateFormFieldPromise<T>[]): void;
   (e: 'close'): void;
 }>();
 
 const initial = () => props.item?.clone() ?? (props?.model && new props.model());
 
-const formRef = ref<VForm | null>(null);
+const form = ref<VForm | null>(null);
 
 const isFormValid = ref(props.mode === 'update' ?? false);
 
@@ -74,11 +73,11 @@ const snapshot = ref(initial()) as Ref<T>;
 const promises = ref<UpdateFormFieldPromise<T>[]>([]);
 
 const onSubmit = () => {
-  if (!formRef.value) {
+  if (!form.value) {
     return;
   }
 
-  formRef.value.validate().then(({ valid }) => {
+  form.value.validate().then(({ valid }) => {
     if (valid) {
       if (props.mode === 'create') {
         emit('create', value.value, promises.value);
