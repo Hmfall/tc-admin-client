@@ -34,7 +34,7 @@
       >
         <TemplateBuilder
           v-for="(item, i) in store.items"
-          :key="(item[item.primaryKey] as PropertyKey) ?? i"
+          :key="item.ID ?? i"
           :item="item"
           :slots="templateSlots"
           @update="onUpdateButton(item)"
