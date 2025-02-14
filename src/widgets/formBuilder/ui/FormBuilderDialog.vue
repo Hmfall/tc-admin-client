@@ -3,14 +3,16 @@
     confirm-button="Сохранить"
     :model-value="modelValue"
     :actions="false"
+    :dialogWidth="dialogWidth"
     @after-leave="emit('close')"
     @update:model-value="$emit('update:modelValue', $event)"
   >
     <FormBuilder
       :item="props.item"
-      :fields="fields"
+      :fields="formFields"
       :mode="mode"
-      :model-constructor="modelConstructor"
+      :model="model"
+      :loading="loading"
       @create="(...args) => emit('create', ...args)"
       @update="(...args) => emit('update', ...args)"
       @close="emit('update:modelValue', false)"
@@ -22,16 +24,21 @@
 import type { ClassConstructor } from 'class-transformer';
 import type { BaseModel } from '@/shared/lib/storeFactory';
 import BaseDialog from '@/widgets/baseDialog/ui/BaseDialog.vue';
-import type { FormEditMode, UpdateFormFieldPromise } from '@/widgets/formBuilder/types/common';
-import type { FormBuilderFields } from '@/widgets/formBuilder/types/formBuilder';
+import type {
+  FormBuilderFields,
+  FormEditMode,
+  UpdateFormFieldPromise,
+} from '@/widgets/formBuilder/types';
 import FormBuilder from '@/widgets/formBuilder/ui/FormBuilder.vue';
 
 const props = defineProps<{
-  modelValue: boolean;
+  modelValue?: boolean;
   item: T | null;
-  modelConstructor?: ClassConstructor<T>;
-  fields?: FormBuilderFields<T>;
+  model?: ClassConstructor<T>;
+  formFields?: FormBuilderFields<T>;
   mode?: FormEditMode;
+  loading?: boolean;
+  dialogWidth?: string | number;
 }>();
 
 const emit = defineEmits<{

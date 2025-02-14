@@ -1,5 +1,6 @@
 import {
   mdiDeleteOutline,
+  mdiDotsVertical,
   mdiFolderOpen,
   mdiMenu,
   mdiSquareEditOutline,
@@ -14,4 +15,5 @@ export default {
   mdiFolderOpen,
   mdiMenu,
   mdiDeleteOutline,
+  mdiDotsVertical,
 };

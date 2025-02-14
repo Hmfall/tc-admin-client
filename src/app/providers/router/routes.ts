@@ -1,47 +1,57 @@
 import type { RouteRecordRaw } from 'vue-router';
+import MainLayout from '@/app/layouts/MainLayout.vue';
 
 export const routes: RouteRecordRaw[] = [
+  {
+    path: '/',
+    redirect: { name: 'about' },
+    meta: {
+      layout: MainLayout,
+    },
+    children: [
+      {
+        path: 'about',
+        name: 'about',
+        component: async () => await import('@/pages/section/ui/SectionPage.vue'),
+      },
+      {
+        path: 'events',
+        name: 'events',
+        component: async () => await import('@/pages/section/ui/SectionPage.vue'),
+      },
+      {
+        path: 'gallery',
+        name: 'gallery',
+        component: async () => await import('@/pages/section/ui/SectionPage.vue'),
+      },
+      {
+        path: 'partners',
+        name: 'partners',
+        component: async () => await import('@/pages/section/ui/SectionPage.vue'),
+      },
+      {
+        path: 'social',
+        name: 'social',
+        component: async () => await import('@/pages/section/ui/SectionPage.vue'),
+      },
+      {
+        path: 'contacts',
+        name: 'contacts',
+        component: async () => await import('@/pages/section/ui/SectionPage.vue'),
+      },
+    ],
+  },
   {
     name: 'auth',
     path: '/auth',
     component: async () => await import('@/pages/auth/ui/AuthPage.vue'),
   },
   {
-    name: 'home',
-    path: '/',
-    component: async () => await import('@/pages/home/ui/HomePage.vue'),
-    redirect: { name: 'about' },
-    children: [
-      {
-        path: 'about',
-        name: 'about',
-        component: async () => await import('@/pages/home/ui/sectionWrapper/SectionWrapper.vue'),
-      },
-      {
-        path: 'events',
-        name: 'events',
-        component: async () => await import('@/pages/home/ui/sectionWrapper/SectionWrapper.vue'),
-      },
-      {
-        path: 'gallery',
-        name: 'gallery',
-        component: async () => await import('@/pages/home/ui/sectionWrapper/SectionWrapper.vue'),
-      },
-      {
-        path: 'partners',
-        name: 'partners',
-        component: async () => await import('@/pages/home/ui/sectionWrapper/SectionWrapper.vue'),
-      },
-      {
-        path: 'social',
-        name: 'social',
-        component: async () => await import('@/pages/home/ui/sectionWrapper/SectionWrapper.vue'),
-      },
-      {
-        path: 'contacts',
-        name: 'contacts',
-        component: async () => await import('@/pages/home/ui/sectionWrapper/SectionWrapper.vue'),
-      },
-    ],
+    name: 'accounts',
+    path: '/accounts',
+    meta: {
+      layout: MainLayout,
+    },
+    component: async () => await import('@/pages/accounts/ui/AccountsPage.vue'),
   },
 ];

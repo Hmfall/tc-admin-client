@@ -31,10 +31,10 @@ import { ObjectUrlAPI } from '@/entities/objectURL/api/ObjectUrlAPI';
 import { ObjectUrl } from '@/entities/objectURL/model/ObjectUrl';
 import type { BaseModel } from '@/shared/lib/storeFactory';
 import type {
+  FileInputField,
   UpdateFormFieldPromise,
   UpdateFormFieldValue,
-} from '@/widgets/formBuilder/types/common';
-import type { FileInputField } from '@/widgets/formBuilder/types/formBuilder';
+} from '@/widgets/formBuilder/types';
 
 defineOptions({
   inheritAttrs: false,
@@ -50,7 +50,7 @@ const props = defineProps<
 >();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: File | ObjectUrl): void;
+  (e: 'update:modelValue', modelValue: File | ObjectUrl): void;
   (e: 'create-promise', promise: UpdateFormFieldPromise<T>): void;
 }>();
 
