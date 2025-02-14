@@ -20,6 +20,10 @@ export type FromJSONPlain<This> = Partial<
     | 'toJSON'
     | 'clone'
     | 'merge'
+    | 'ID'
+    | 'primaryKey'
+    | 'classConstructor'
+    | '$config'
     | '$repository'
   >
 >;
