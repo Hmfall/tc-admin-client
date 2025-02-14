@@ -47,7 +47,7 @@ const bindProps = (slotProp?: TemplateSlotAttrs<T>) =>
       const value = props.item?.[key.bindKey];
 
       if (value) {
-        acc[slot] = (value instanceof ObjectUrl ? value.objectURL ?? value.url : value) ?? key;
+        acc[slot] = (value instanceof ObjectUrl ? value.objectUrl ?? value.url : value) ?? key;
       }
     } else {
       acc[slot] = key;

@@ -83,13 +83,13 @@ const updatedItem = ref<T | null>(new props.modelConstructor()) as Ref<T | null>
 const draft = ref(new Map()) as Ref<Map<T, UpdateFormFieldPromise<T>[]>>;
 
 const onAddBtn = () => {
-  isModal.value = true;
   mode.value = 'create';
+  isModal.value = true;
 };
 
 const onEditBtn = (item: T) => {
-  isModal.value = true;
   mode.value = 'update';
+  isModal.value = true;
   updatedItem.value = item;
 };
 
@@ -104,8 +104,8 @@ const onUpdateItem = async (item: T, promises: UpdateFormFieldPromise<T>[]) => {
   }
 };
 
-const onSave = () => {
-  useFetch(
+const onSave = async () => {
+  await useFetch(
     () =>
       Promise.all(
         Array.from(draft.value.entries()).flatMap(([item, promises]) =>
@@ -115,13 +115,13 @@ const onSave = () => {
             }),
           ),
         ),
-      ).then(() => {
-        Array.from(draft.value.keys()).forEach((item) => {
-          console.log(item.toJSON());
-        });
-      }),
+      ),
     { isLoading },
   );
+
+  Array.from(draft.value.keys()).forEach((item) => {
+    console.log(item.toJSON());
+  });
 };
 
 const onClose = () => {

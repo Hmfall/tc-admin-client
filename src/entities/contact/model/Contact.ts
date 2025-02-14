@@ -5,7 +5,7 @@ import { Entity, Model, PrimaryKey } from '@/shared/lib/storeFactory';
 @Entity({ path: 'contacts' })
 export class Contact extends Model {
   @PrimaryKey()
-  id: number;
+  id: ID;
 
   name: string;
 
@@ -14,5 +14,5 @@ export class Contact extends Model {
   link: string;
 
   @Type(() => ObjectUrl)
-  logo: ObjectUrl;
+  logo = new ObjectUrl();
 }

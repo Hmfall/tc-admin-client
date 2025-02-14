@@ -5,11 +5,9 @@ declare global {
     readonly env: ImportMetaEnv;
   }
 
-  export type Nullable<T> = T | null;
+  export type ID = number;
 
-  export type ID = string | number;
-
-  export type FunctionExpression<T = any> = (...args: any[]) => T
+  export type FunctionExpression<T = any> = (...args: any[]) => T;
 
   export type ArrayElement<T> = T extends readonly (infer E)[] ? E : never;
 
@@ -33,13 +31,6 @@ declare global {
         : any
       : any;
 }
-
-type WritableKeysOf<T> = {
-  [P in keyof T]: IfEquals<{ [Q in P]: T[P] }, { -readonly [Q in P]: T[P] }, P, never>;
-}[keyof T];
-
-type IfEquals<X, Y, A, B> =
-  (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2 ? A : B;
 
 /* eslint-disable */
 declare module '*.png';

@@ -65,6 +65,8 @@ const isFormValid = ref(props.mode === 'update' ?? false);
 
 const value = ref(initial()) as Ref<T>;
 
+watch(value, () => console.log(value.value), { deep: true, immediate: true });
+
 const snapshot = ref(initial()) as Ref<T>;
 
 const promises = ref<UpdateFormFieldPromise<T>[]>([]);
@@ -98,6 +100,7 @@ const onCreatePromise = (promise?: UpdateFormFieldPromise<T>) => {
 watch(
   () => props.item,
   (item) => {
+    console.log(item);
     value.value.merge(item);
     snapshot.value.merge(item);
   },

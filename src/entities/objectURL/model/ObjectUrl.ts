@@ -8,18 +8,18 @@ export class ObjectUrl extends Model {
   url: string;
 
   @Exclude()
-  objectURL?: string;
+  objectUrl?: string;
 
   @Exclude()
   file?: File;
 
   public updateObjectURL(file?: File) {
     if (file) {
-      this.objectURL = URL.createObjectURL(file as Blob);
+      this.objectUrl = URL.createObjectURL(file as Blob);
     } else {
-      if (this.objectURL) {
-        URL.revokeObjectURL(this.objectURL);
-        this.objectURL = this.url;
+      if (this.objectUrl) {
+        URL.revokeObjectURL(this.objectUrl);
+        this.objectUrl = this.url;
       }
     }
   }

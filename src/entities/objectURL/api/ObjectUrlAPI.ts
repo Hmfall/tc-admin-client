@@ -2,7 +2,7 @@ import { ObjectUrl } from '@/entities/objectURL/model/ObjectUrl';
 import { API, BaseAPI, toModel } from '@/shared/lib/storeFactory';
 
 @API(ObjectUrl)
-export class ObjectUrlAPI extends BaseAPI<ObjectUrl> {
+class ObjectUrlAPI extends BaseAPI<ObjectUrl> {
   async createObjectUrl(file?: File) {
     return toModel(
       ObjectUrl,
@@ -17,3 +17,5 @@ export class ObjectUrlAPI extends BaseAPI<ObjectUrl> {
     );
   }
 }
+
+export const objectUrlAPI = new ObjectUrlAPI();

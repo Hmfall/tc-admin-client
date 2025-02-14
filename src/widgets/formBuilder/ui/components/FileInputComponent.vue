@@ -2,9 +2,9 @@
   <div>
     <v-img
       v-if="isObjectURL(modelValue)"
-      :src="baseObjectURL?.objectURL ?? baseObjectURL?.url"
+      :src="objectUrl?.objectUrl ?? objectUrl?.url"
       :width="$attrs['width'] as string"
-      :class="baseObjectURL ? 'mb-4' : 'h-0'"
+      :class="objectUrl?.objectUrl ?? objectUrl?.url ? 'mb-4' : 'h-0'"
     />
 
     <VFileInput
@@ -27,7 +27,7 @@
 
 <script setup lang="ts" generic="T extends BaseModel">
 import { VFileInput } from 'vuetify/components';
-import { ObjectUrlAPI } from '@/entities/objectURL/api/ObjectUrlAPI';
+import { objectUrlAPI } from '@/entities/objectURL/api/ObjectUrlAPI';
 import { ObjectUrl } from '@/entities/objectURL/model/ObjectUrl';
 import type { BaseModel } from '@/shared/lib/storeFactory';
 import type {
@@ -54,13 +54,11 @@ const emit = defineEmits<{
   (e: 'create-promise', promise: UpdateFormFieldPromise<T>): void;
 }>();
 
-const objectUrlAPI = new ObjectUrlAPI();
-
 const isObjectURL = (value?: ObjectUrl | File): value is ObjectUrl => {
   return value instanceof ObjectUrl;
 };
 
-const baseObjectURL = computed(() => {
+const objectUrl = computed(() => {
   const value = props.item[props.fieldKey] as ObjectUrl | File;
 
   if (isObjectURL(value)) {
@@ -70,9 +68,9 @@ const baseObjectURL = computed(() => {
   return null;
 });
 
-const getObjectUrlAPIFn = async (obj: ObjectUrl): Promise<UpdateFormFieldValue<T>> => {
+const getObjectUrlAPIFn = (obj: ObjectUrl) => (): Promise<UpdateFormFieldValue<T>> => {
   return objectUrlAPI.createObjectUrl(obj.file).then((value) => {
-    value.objectURL = obj.objectURL;
+    value.objectUrl = obj.objectUrl;
     return { key: props.fieldKey, value };
   });
 };
@@ -82,12 +80,12 @@ const updateModelValue = (file?: File | File[]) => {
     return;
   }
 
-  if (baseObjectURL.value) {
-    const objectURL = baseObjectURL.value.clone();
-    objectURL.file = file;
-    objectURL.updateObjectURL(file);
-    emit('update:modelValue', objectURL);
-    emit('create-promise', () => getObjectUrlAPIFn(objectURL));
+  if (objectUrl.value) {
+    const obj = objectUrl.value.clone();
+    obj.file = file;
+    obj.updateObjectURL(file);
+    emit('update:modelValue', obj);
+    emit('create-promise', getObjectUrlAPIFn(obj));
   } else {
     if (file instanceof File) {
       emit('update:modelValue', file);

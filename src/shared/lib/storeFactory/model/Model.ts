@@ -17,7 +17,7 @@ export abstract class Model extends BaseModel {
   }
 
   public async update(): Promise<this> {
-    const response = await this.$repository.updateById(this[this.primaryKey] as ID, this.toJSON());
+    const response = await this.$repository.updateById(this.ID, this.toJSON());
     return plainToInstance(this.classConstructor, response);
   }
 
@@ -27,6 +27,6 @@ export abstract class Model extends BaseModel {
   }
 
   public async delete(): Promise<void> {
-    await this.$repository.deleteById(this[this.primaryKey] as ID);
+    await this.$repository.deleteById(this.ID);
   }
 }

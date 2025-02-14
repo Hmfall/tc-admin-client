@@ -9,7 +9,7 @@ export class About extends Model {
   description: string;
 
   @Type(() => ObjectUrl)
-  logo: ObjectUrl;
+  logo = new ObjectUrl();
 }
 
 export const about = new About();

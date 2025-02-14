@@ -5,7 +5,7 @@ import { Entity, Model, PrimaryKey } from '@/shared/lib/storeFactory';
 @Entity({ path: 'events' })
 export class Event extends Model {
   @PrimaryKey()
-  id: number;
+  id: ID;
 
   name: string;
 
@@ -14,8 +14,8 @@ export class Event extends Model {
   details: string;
 
   @Type(() => ObjectUrl)
-  background: ObjectUrl;
+  background = new ObjectUrl();
 
   @Type(() => ObjectUrl)
-  logo: ObjectUrl;
+  logo = new ObjectUrl();
 }

@@ -22,7 +22,7 @@ export abstract class BaseModel {
     return primaryKey?.['model:primary-key'];
   }
 
-  public get getID(): ID {
+  public get ID(): ID {
     return this[this.primaryKey] as ID;
   }
 
@@ -49,7 +49,7 @@ export abstract class BaseModel {
       if (source instanceof Model) {
         Object.assign(this, source.clone());
       } else if (typeof source === 'object') {
-        Object.assign(this, this.fromJSON(source));
+        Object.assign(this, source);
       }
     }
   }
