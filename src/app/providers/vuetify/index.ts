@@ -70,6 +70,9 @@ export default createVuetify({
       variant: 'outlined',
       density: 'compact',
     },
+    VList: {
+      density: 'compact',
+    },
   },
   icons: {
     aliases,

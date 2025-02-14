@@ -1,53 +1,84 @@
 <template>
-  <div class="d-flex flex-column ga-8 mt-8">
-    <div class="d-flex ga-4 justify-end">
-      <v-btn>Удалить все</v-btn>
+  <div class="d-flex-column ga-8">
+    <div
+      v-if="!hideActions"
+      class="d-flex justify-end ga-4"
+    >
+      <slot
+        v-if="$slots.actions"
+        name="actions"
+        v-bind="{
+          deleteAll: onDeleteAll,
+          openDialog: localDialog.open,
+        }"
+      />
 
-      <v-btn
-        variant="flat"
-        color="primary"
-        @click="onAddBtn"
-      >
-        Добавить
-      </v-btn>
+      <template v-else>
+        <v-btn @click="onDeleteAll">Удалить все</v-btn>
+
+        <v-btn
+          variant="flat"
+          color="primary"
+          @click="localDialog.open"
+        >
+          Добавить
+        </v-btn>
+      </template>
     </div>
 
-    <div class="d-flex flex-column ga-10">
-      <SkeletonProvider
-        length="3"
+    <div :class="props.class">
+      <SkeletonLoader
+        :length="store.config?.singleton ? 1 : 3"
         :loading="store.isLoading"
-        :render="templateBuilder.skeletonRender"
+        :render="templateSlots.skeletonRender"
       >
         <TemplateBuilder
           v-for="(item, i) in store.items"
           :key="(item[item.primaryKey] as PropertyKey) ?? i"
           :item="item"
-          :builder="templateBuilder"
-          @on-edit-item="onEditBtn"
+          :slots="templateSlots"
+          @update="onUpdateButton(item)"
+          @delete="onDeleteItem(item)"
         />
-      </SkeletonProvider>
+      </SkeletonLoader>
     </div>
 
-    <div class="d-flex justify-end">
+    <div
+      v-if="!immediateSubmit"
+      class="d-flex justify-end"
+    >
+      <slot
+        v-if="$slots.submit"
+        name="submit"
+        v-bind="{
+          save: onSaveButton,
+          isLoading: isLoadingDraft,
+        }"
+      />
+
       <v-btn
+        v-else
         variant="flat"
         color="primary"
-        :loading="isLoading"
-        @click="onSave"
+        :loading="isLoadingDraft"
+        @click="onSaveButton"
       >
         Сохранить
       </v-btn>
     </div>
 
     <FormBuilderDialog
-      v-model="isModal"
-      :item="updatedItem"
-      :fields="formBuilder"
+      v-model="isLocalDialog"
+      :item="updatingItem"
+      :model="model"
+      :form-fields="formFields"
       :mode="mode"
-      :model-constructor="modelConstructor"
+      :loading="isLoadingImmediateSubmit"
+      :dialog-width="dialogWidth"
       @create="onCreateItem"
       @update="onUpdateItem"
       @close="onClose"
+      @update:model-value="$emit('update:dialog', $event)"
     />
   </div>
 </template>
@@ -58,54 +89,116 @@ import type { ClassConstructor } from 'class-transformer';
 import type { BaseAPI, Model } from '@/shared/lib/storeFactory';
 import type { ModelStore } from '@/shared/lib/storeFactory/types';
 import { useFetch } from '@/shared/lib/useFetch/useFetch';
-import SkeletonProvider from '@/shared/ui/skeletonProvider/SkeletonProvider.vue';
-import type { FormEditMode, UpdateFormFieldPromise } from '@/widgets/formBuilder/types/common';
-import type { FormBuilderFields } from '@/widgets/formBuilder/types/formBuilder';
+import SkeletonLoader from '@/shared/ui/skeletonLoader/SkeletonLoader.vue';
+import type {
+  FormBuilderFields,
+  FormEditMode,
+  SubmitOperation,
+  UpdateFormFieldPromise,
+} from '@/widgets/formBuilder/types';
 import FormBuilderDialog from '@/widgets/formBuilder/ui/FormBuilderDialog.vue';
-import type { CommonTemplateBuilder } from '@/widgets/templateBuilder/types';
+import type { TemplateBuilderSlots } from '@/widgets/templateBuilder/types';
 import TemplateBuilder from '@/widgets/templateBuilder/ui/TemplateBuilder.vue';
 
-const props = defineProps<{
-  store: ModelStore<T, A>;
-  modelConstructor: ClassConstructor<T>;
-  formBuilder: FormBuilderFields<T>;
-  templateBuilder: CommonTemplateBuilder<T>;
+const props = withDefaults(
+  defineProps<{
+    dialog?: boolean;
+    model: ClassConstructor<T>;
+    store: ModelStore<T, A>;
+    templateSlots: TemplateBuilderSlots<T>;
+    formFields?: FormBuilderFields<T>;
+    immediateSubmit?: boolean;
+    refetchStore?: boolean;
+    hideActions?: boolean;
+    dialogWidth?: string | number;
+    class?: string;
+  }>(),
+  {
+    dialog: false,
+    refetchStore: true,
+  },
+);
+
+const emit = defineEmits<{
+  (e: 'update:dialog', value: boolean): void;
 }>();
-
-const isModal = ref(false);
-
-const isLoading = ref(false);
 
 const mode = ref<FormEditMode>();
 
-const updatedItem = ref<T | null>(new props.modelConstructor()) as Ref<T | null>;
+const isLocalDialog = ref(props.dialog);
+
+const isLoadingDraft = ref(false);
+
+const isLoadingImmediateSubmit = ref(false);
+
+const updatingItem = ref(null) as Ref<T | null>;
 
 const draft = ref(new Map()) as Ref<Map<T, UpdateFormFieldPromise<T>[]>>;
 
-const onAddBtn = () => {
-  mode.value = 'create';
-  isModal.value = true;
-};
+/* TODO: Обработка promises для immediateSubmit */
+const useImmediateSubmit = async (
+  operation: SubmitOperation,
+  item: T,
+  promises?: UpdateFormFieldPromise<T>[],
+) => {
+  const execute: Record<SubmitOperation, () => Promise<T> | Promise<void>> = {
+    create: () => item.create(),
+    update: () => item.update(),
+    delete: () => item.delete(),
+  };
 
-const onEditBtn = (item: T) => {
-  mode.value = 'update';
-  isModal.value = true;
-  updatedItem.value = item;
-};
+  await useFetch<T | void>(() => execute[operation](), {
+    isLoading: isLoadingImmediateSubmit,
+  });
 
-const onCreateItem = (item: T) => {};
+  localDialog.close();
+  emit('update:dialog', false);
 
-const onUpdateItem = async (item: T, promises: UpdateFormFieldPromise<T>[]) => {
-  console.log(item, item.toJSON());
-
-  if (updatedItem.value) {
-    updatedItem.value.merge(item);
-    draft.value.set(updatedItem.value, promises);
+  if (props.refetchStore) {
+    props.store.fetch();
   }
 };
 
-const onSave = async () => {
-  await useFetch(
+const onCreateItem = async (item: T) => {
+  if (props.immediateSubmit) {
+    useImmediateSubmit('create', item);
+    return;
+  }
+
+  localDialog.close();
+};
+
+const onUpdateItem = async (item: T, promises: UpdateFormFieldPromise<T>[]) => {
+  if (props.immediateSubmit) {
+    useImmediateSubmit('update', item);
+    return;
+  }
+
+  if (updatingItem.value) {
+    updatingItem.value.merge(item);
+    draft.value.set(updatingItem.value, promises);
+  }
+
+  localDialog.close();
+};
+
+/* TODO: Обработка delete операции draft-варианта формы */
+const onDeleteItem = (item: T) => {
+  if (props.immediateSubmit) {
+    useImmediateSubmit('delete', item);
+  }
+};
+
+const onDeleteAll = () => {};
+
+const onUpdateButton = (item: T) => {
+  updatingItem.value = item;
+  mode.value = 'update';
+  localDialog.open();
+};
+
+const onSaveButton = () => {
+  useFetch(
     () =>
       Promise.all(
         Array.from(draft.value.entries()).flatMap(([item, promises]) =>
@@ -115,16 +208,30 @@ const onSave = async () => {
             }),
           ),
         ),
-      ),
-    { isLoading },
+      ).then(() => {
+        Array.from(draft.value.keys()).forEach(() => {});
+      }),
+    { isLoading: isLoadingImmediateSubmit },
   );
-
-  Array.from(draft.value.keys()).forEach((item) => {
-    console.log(item.toJSON());
-  });
 };
 
 const onClose = () => {
-  updatedItem.value = null;
+  updatingItem.value = null;
 };
+
+const localDialog = {
+  open: () => (isLocalDialog.value = true),
+  close: () => (isLocalDialog.value = false),
+};
+
+watch(
+  () => props.dialog,
+  (value) => {
+    isLocalDialog.value = value;
+    mode.value = updatingItem.value ? 'update' : 'create';
+  },
+  {
+    immediate: true,
+  },
+);
 </script>

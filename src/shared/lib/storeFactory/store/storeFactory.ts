@@ -1,5 +1,6 @@
 import type { UnwrapRef } from 'vue';
 import type { ClassConstructor } from 'class-transformer';
+import pinia from '@/app/providers/store';
 import type { FetchState } from '@/shared/lib/storeFactory/consts';
 import { fetchState } from '@/shared/lib/storeFactory/consts';
 import type { BaseAPI } from '@/shared/lib/storeFactory/model/BaseAPI';
@@ -41,5 +42,6 @@ export const storeFactory = <T extends Model, A extends BaseAPI<T>>(
     },
     getters: {
       items: (state) => state.unwrapItems as T[],
+      config: () => config,
     },
-  })();
+  })(pinia);

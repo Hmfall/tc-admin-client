@@ -3,13 +3,13 @@
     ref="loginFormRef"
     @submit.prevent="onSubmit"
   >
-    <div class="d-flex align-center flex-column">
+    <div class="d-flex-column align-center">
       <div class="mb-6 text-center">
         <span class="text-h5">Авторизация</span>
       </div>
       <v-sheet
         width="500"
-        class="d-flex flex-column justify-center ga-2 mb-2"
+        class="d-flex-column justify-center ga-2 mb-2"
       >
         <v-text-field
           v-model="loginData.username"

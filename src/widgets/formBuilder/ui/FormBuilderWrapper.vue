@@ -49,7 +49,7 @@ import type {
   FormBuilderColOptions,
   FormBuilderField,
   FormBuilderFields,
-} from '@/widgets/formBuilder/types/formBuilder';
+} from '@/widgets/formBuilder/types';
 
 const props = defineProps<{
   fields?: FormBuilderFields<T>;

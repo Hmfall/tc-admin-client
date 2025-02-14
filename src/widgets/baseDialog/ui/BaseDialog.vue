@@ -42,7 +42,7 @@ import ActionButtons from '@/shared/ui/actionButtons/ActionButtons.vue';
 
 const props = withDefaults(
   defineProps<{
-    modelValue: boolean;
+    modelValue?: boolean;
     actions?: boolean;
     dialogWidth?: string | number;
     confirmButton?: string | boolean;
@@ -53,6 +53,7 @@ const props = withDefaults(
     persistent?: boolean;
   }>(),
   {
+    modelValue: false,
     confirmButton: undefined,
     cancelButton: undefined,
     closeIcon: true,
@@ -63,7 +64,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void;
+  (e: 'update:modelValue', modelValue: boolean): void;
   (e: 'onConfirm'): void;
   (e: 'onCancel'): void;
   (e: 'afterLeave'): void;

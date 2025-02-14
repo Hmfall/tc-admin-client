@@ -8,4 +8,4 @@ export const app = createApp(App);
 
 app.use(router).use(pinia).use(vuetify);
 
-router.isReady().then(() => app.mount('#app'));
+app.mount('#app');

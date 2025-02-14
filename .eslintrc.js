@@ -26,7 +26,6 @@ module.exports = {
     '@typescript-eslint/ban-types': 'warn',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-namespace': 'off',
-    'no-undef': 'off',
     'import/order': [
       'error',
       {

@@ -1,6 +1,6 @@
 <template>
   <VForm
-    ref="form"
+    ref="formRef"
     v-model="isFormValid"
     @submit.prevent="onSubmit"
   >
@@ -25,6 +25,7 @@
 
     <ActionButtons
       v-else
+      :loading="loading"
       :disabled="!isFormValid"
       @on-cancel="emit('close')"
     />
@@ -37,15 +38,19 @@ import type { ClassConstructor } from 'class-transformer';
 import { VForm } from 'vuetify/components';
 import type { BaseModel } from '@/shared/lib/storeFactory';
 import ActionButtons from '@/shared/ui/actionButtons/ActionButtons.vue';
-import type { FormEditMode, UpdateFormFieldPromise } from '@/widgets/formBuilder/types/common';
-import type { FormBuilderFields } from '@/widgets/formBuilder/types/formBuilder';
+import type {
+  FormBuilderFields,
+  FormEditMode,
+  UpdateFormFieldPromise,
+} from '@/widgets/formBuilder/types';
 import FormBuilderWrapper from '@/widgets/formBuilder/ui/FormBuilderWrapper.vue';
 
 const props = defineProps<{
   fields?: FormBuilderFields<T>;
   item: T | null;
-  modelConstructor?: ClassConstructor<T>;
+  model?: ClassConstructor<T>;
   mode?: FormEditMode;
+  loading?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -56,10 +61,9 @@ const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
-const initial = () =>
-  props.item?.clone() ?? (props?.modelConstructor && new props.modelConstructor());
+const initial = () => props.item?.clone() ?? (props?.model && new props.model());
 
-const form = ref<VForm | null>(null);
+const formRef = ref<VForm | null>(null);
 
 const isFormValid = ref(props.mode === 'update' ?? false);
 
@@ -72,19 +76,17 @@ const snapshot = ref(initial()) as Ref<T>;
 const promises = ref<UpdateFormFieldPromise<T>[]>([]);
 
 const onSubmit = () => {
-  if (!form.value) {
+  if (!formRef.value) {
     return;
   }
 
-  form.value.validate().then(({ valid }) => {
+  formRef.value.validate().then(({ valid }) => {
     if (valid) {
       if (props.mode === 'create') {
         emit('create', value.value, promises.value);
       } else if (props.mode === 'update') {
         emit('update', value.value, promises.value);
       }
-
-      emit('close');
     }
   });
 };
