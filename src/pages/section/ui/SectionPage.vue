@@ -3,7 +3,7 @@
     <template #header>Редактирование раздела "{{ section.title }}"</template>
 
     <TemplateFormBuilder
-      class="d-flex-column ga-10"
+      class="d-flex flex-column ga-10"
       :model="section.model"
       :store="section.store"
       :template-slots="section.templateSlots"

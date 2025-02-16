@@ -3,7 +3,8 @@ import type { Event } from '@/entities/event/model/Event';
 import { CardTemplateSlot } from '@/pages/section/types';
 import CardTemplate from '@/pages/section/ui/components/CardTemplate.vue';
 import CardTemplateSkeleton from '@/pages/section/ui/components/CardTemplateSkeleton.vue';
-import { FormBuilderFields, Input } from '@/widgets/formBuilder/types';
+import type { FormBuilderFields } from '@/widgets/formBuilder/types';
+import { Input } from '@/widgets/formBuilder/types';
 import FileInputComponent from '@/widgets/formBuilder/ui/components/FileInputComponent.vue';
 import type { TemplateBuilderSlots } from '@/widgets/templateBuilder/types';
 

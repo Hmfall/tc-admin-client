@@ -1,4 +1,4 @@
-import type { AxiosRequestConfig } from 'axios';
+import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { BaseAxiosAPI } from '@/shared/lib/storeFactory/model/BaseAxiosAPI';
 
 export class Repository extends BaseAxiosAPI {
@@ -26,23 +26,23 @@ export class Repository extends BaseAxiosAPI {
     return (await this.axios.delete(`${this.path}/${id}`)).data;
   }
 
-  async get<T>(url: string, config?: AxiosRequestConfig<T>) {
-    return (await this.axios.get<T>(`${this.path}${url}`, config)).data;
+  async get<T, D = unknown>(url: string, config?: AxiosRequestConfig<D>) {
+    return (await this.axios.get<T, AxiosResponse<T>>(`${this.path}${url}`, config)).data;
   }
 
-  async post<T>(url: string, body?: T, config?: AxiosRequestConfig<T>) {
-    return (await this.axios.post<T>(`${this.path}${url}`, body, config)).data;
+  async post<T, D = unknown>(url: string, body?: D, config?: AxiosRequestConfig<D>) {
+    return (await this.axios.post<T, AxiosResponse<T>>(`${this.path}${url}`, body, config)).data;
   }
 
-  async put<T>(url: string, body?: T, config?: AxiosRequestConfig<T>) {
-    return (await this.axios.put<T>(`${this.path}${url}`, body, config)).data;
+  async put<T, D = unknown>(url: string, body?: D, config?: AxiosRequestConfig<D>) {
+    return (await this.axios.put<T, AxiosResponse<T>>(`${this.path}${url}`, body, config)).data;
   }
 
-  async patch<T>(url: string, body?: T, config?: AxiosRequestConfig<T>) {
-    return (await this.axios.patch<T>(`${this.path}${url}`, body, config)).data;
+  async patch<T, D = unknown>(url: string, body?: D, config?: AxiosRequestConfig<D>) {
+    return (await this.axios.patch<T, AxiosResponse<T>>(`${this.path}${url}`, body, config)).data;
   }
 
-  async delete<T>(url: string, config?: AxiosRequestConfig<T>) {
-    return (await this.axios.delete<T>(`${this.path}${url}`, config)).data;
+  async delete<T, D = unknown>(url: string, config?: AxiosRequestConfig<D>) {
+    return (await this.axios.delete<T, AxiosResponse<T>>(`${this.path}${url}`, config)).data;
   }
 }

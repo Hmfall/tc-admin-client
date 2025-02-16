@@ -1,9 +1,9 @@
 <template>
   <v-container class="d-flex justify-center align-center">
-    <LoginCard />
+    <LoginForm />
   </v-container>
 </template>
 
 <script setup lang="ts">
-import LoginCard from '@/features/auth/ui/LoginForm.vue';
+import LoginForm from '@/features/auth/ui/LoginForm.vue';
 </script>

@@ -7,32 +7,31 @@
     :dialog-width="640"
     :close-icon="false"
     :persistent="false"
+    :text="confirm.content"
     :confirm-button="confirm.confirmText"
     :cancel-button="confirm.cancelText"
     @on-confirm="confirm.resolve"
     @on-cancel="confirm.reject"
-  >
-    {{ confirm.content }}
-  </BaseDialog>
+  />
 </template>
 
 <script setup lang="ts">
-import BaseDialog from '@/widgets/baseDialog/ui/BaseDialog.vue';
-import type { ConfirmArgs, ConfirmInstance } from '@/widgets/confirmDialog/types';
+import BaseDialog from '@/shared/ui/baseDialog/BaseDialog.vue';
+import type { ConfirmInstance, ConfirmOptions } from '@/widgets/confirmDialog/types';
 
 const confirm = ref<ConfirmInstance>({ modelValue: false });
 
-const provideConfirm = (confirmArgs: ConfirmArgs): Promise<void> => {
+const pushConfirm = (options: ConfirmOptions): Promise<void> => {
   return new Promise((resolve, reject) => {
     confirm.value = {
       id: Symbol(),
       modelValue: true,
       resolve,
       reject,
-      ...confirmArgs,
+      ...options,
     };
   });
 };
 
-provide('confirm', provideConfirm);
+provide('confirm', pushConfirm);
 </script>

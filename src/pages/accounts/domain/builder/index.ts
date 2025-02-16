@@ -2,7 +2,8 @@ import { VSkeletonLoader, VTextField } from 'vuetify/components';
 import type { User } from '@/entities/user/model/User';
 import { UserTemplateSlot } from '@/pages/accounts/types';
 import UserTemplate from '@/pages/accounts/ui/components/UserTemplate.vue';
-import { FormBuilderFields, Input } from '@/widgets/formBuilder/types';
+import type { FormBuilderFields } from '@/widgets/formBuilder/types';
+import { Input } from '@/widgets/formBuilder/types';
 import type { TemplateBuilderSlots } from '@/widgets/templateBuilder/types';
 
 export const userFormFields: FormBuilderFields<User> = [

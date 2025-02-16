@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex-column ga-8">
+  <div class="d-flex flex-column ga-8">
     <div
       v-if="!hideActions"
       class="d-flex justify-end ga-4"

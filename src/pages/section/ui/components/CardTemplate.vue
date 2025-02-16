@@ -1,7 +1,7 @@
 <template>
   <v-card :min-height="200">
     <div class="d-flex ga-6">
-      <div class="d-flex-column ga-2">
+      <div class="d-flex flex-column ga-2">
         <v-sheet
           v-if="$slots.previewImage"
           width="200"
@@ -26,7 +26,7 @@
         </v-avatar>
       </div>
 
-      <div class="d-flex-column flex-1-1-100">
+      <div class="d-flex flex-column flex-1-1-100">
         <div
           v-if="$slots.title"
           class="text-h6 mb-2"

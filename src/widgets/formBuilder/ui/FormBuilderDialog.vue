@@ -3,7 +3,7 @@
     confirm-button="Сохранить"
     :model-value="modelValue"
     :actions="false"
-    :dialogWidth="dialogWidth"
+    :dialog-width="dialogWidth"
     @after-leave="emit('close')"
     @update:model-value="$emit('update:modelValue', $event)"
   >
@@ -23,7 +23,7 @@
 <script setup lang="ts" generic="T extends BaseModel">
 import type { ClassConstructor } from 'class-transformer';
 import type { BaseModel } from '@/shared/lib/storeFactory';
-import BaseDialog from '@/widgets/baseDialog/ui/BaseDialog.vue';
+import BaseDialog from '@/shared/ui/baseDialog/BaseDialog.vue';
 import type {
   FormBuilderFields,
   FormEditMode,

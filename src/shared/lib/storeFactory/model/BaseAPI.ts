@@ -32,20 +32,20 @@ export abstract class BaseAPI<T = unknown> {
       (url === '/' || url === '' ? '' : `/${url}`).replace('//', '/');
 
     return {
-      get<T>(url: string, config?: AxiosRequestConfig<T>): Promise<T> {
-        return repository.get<T>(parseUrl(url), config);
+      get<T, D = unknown>(url: string, config?: AxiosRequestConfig<D>) {
+        return repository.get<T, D>(parseUrl(url), config);
       },
-      post<T>(url: string, body?: T, config?: AxiosRequestConfig<T>) {
-        return repository.post<T>(parseUrl(url), body, config);
+      post<T, D = unknown>(url: string, body?: D, config?: AxiosRequestConfig<D>) {
+        return repository.post<T, D>(parseUrl(url), body, config);
       },
-      put<T>(url: string, body?: T, config?: AxiosRequestConfig<T>) {
-        return repository.put<T>(parseUrl(url), body, config);
+      put<T, D = unknown>(url: string, body?: D, config?: AxiosRequestConfig<D>) {
+        return repository.put<T, D>(parseUrl(url), body, config);
       },
-      patch<T>(url: string, body?: T, config?: AxiosRequestConfig<T>) {
-        return repository.patch<T>(parseUrl(url), body, config);
+      patch<T, D = unknown>(url: string, body?: D, config?: AxiosRequestConfig<D>) {
+        return repository.patch<T, D>(parseUrl(url), body, config);
       },
-      delete<T>(url: string, config?: AxiosRequestConfig<T>) {
-        return repository.delete<T>(parseUrl(url), config);
+      delete<T, D = unknown>(url: string, config?: AxiosRequestConfig<D>) {
+        return repository.delete<T, D>(parseUrl(url), config);
       },
       path: repository.path,
     };

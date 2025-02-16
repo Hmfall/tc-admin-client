@@ -1,35 +1,40 @@
 <template>
   <VForm
-    ref="loginFormRef"
-    @submit.prevent="onSubmit"
+    ref="formRef"
+    :validate-on="validateOn"
+    @submit.prevent="onSubmitForm"
   >
-    <div class="d-flex-column align-center">
+    <div class="d-flex flex-column align-center">
       <div class="mb-6 text-center">
         <span class="text-h5">Авторизация</span>
       </div>
+
       <v-sheet
-        width="500"
-        class="d-flex-column justify-center ga-2 mb-2"
+        width="400"
+        class="d-flex flex-column ga-2 mb-2"
       >
         <v-text-field
-          v-model="loginData.username"
+          v-model="authPayload.email"
           label="Email"
           placeholder="Введите email"
-          :rules="[validationRules.required]"
+          :rules="[requiredRule]"
         />
+
         <v-text-field
-          v-model="loginData.password"
+          v-model="authPayload.password"
           label="Пароль"
           placeholder="Введите пароль"
-          :rules="[validationRules.required]"
+          :rules="[requiredRule]"
         />
       </v-sheet>
+
       <div class="d-flex justify-center mb-6">
         <v-btn
-          width="160"
           type="submit"
+          width="180"
           variant="flat"
           color="primary"
+          :loading="isLoading"
         >
           Войти
         </v-btn>
@@ -43,17 +48,28 @@
 
 <script setup lang="ts">
 import { VForm } from 'vuetify/components';
-import LoginData from '@/features/auth/model/LoginData';
-import { validationRules } from '@/shared/utils/validationRules';
+import { useAuthStore } from '@/features/auth/store/useAuthStore';
+import type { AuthPayload } from '@/features/auth/types';
+import { useForm } from '@/shared/lib/useForm/useForm';
+import { useLoading } from '@/shared/lib/useLoading/useLoading';
+import { requiredRule } from '@/shared/utils/validationRules';
+import { useMessage } from '@/widgets/messageAlert/model/useMessage';
 
-const loginFormRef = ref<VForm | null>(null);
-const loginData = reactive(new LoginData());
+const router = useRouter();
 
-const onSubmit = async () => {
-  if (!loginFormRef.value) {
-    return;
-  }
+const authStore = useAuthStore();
 
-  loginFormRef.value.validate().then(({ valid }) => {});
-};
+const { formRef, onSubmit, validateOn } = useForm();
+
+const { isLoading, withLoading } = useLoading();
+
+const { showErrorMessage } = useMessage();
+
+const authPayload = reactive<AuthPayload>({});
+
+const onSubmitForm = onSubmit(async () => {
+  await withLoading(authStore.authorize(authPayload))
+    .then(() => router.replace('/'))
+    .catch(() => showErrorMessage('Неверный email или пароль.'));
+});
 </script>

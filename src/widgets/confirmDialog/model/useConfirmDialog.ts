@@ -1,17 +1,17 @@
-import type { ConfirmArgs, ProvideConfirm } from '@/widgets/confirmDialog/types';
+import type { ConfirmOptions, PushConfirm } from '@/widgets/confirmDialog/types';
 
 export const useConfirmDialog = () => {
-  const provideConfirm = inject<ProvideConfirm>('confirm', () => {
+  const pushConfirm = inject<PushConfirm>('confirm', () => {
     throw new Error('Confirm is not injected!');
   });
 
   return (
-    content?: ConfirmArgs['content'],
-    confirmText?: ConfirmArgs['confirmText'],
-    cancelText?: ConfirmArgs['cancelText'],
+    content?: ConfirmOptions['content'],
+    confirmText?: ConfirmOptions['confirmText'],
+    cancelText?: ConfirmOptions['cancelText'],
   ) =>
     new Promise<{ isConfirmed: boolean }>((resolve) =>
-      provideConfirm({ content, confirmText, cancelText })
+      pushConfirm({ content, confirmText, cancelText })
         .then(() => resolve({ isConfirmed: true }))
         .catch((e) => e),
     );

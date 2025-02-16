@@ -5,7 +5,7 @@
     :mobile="$vuetify.display.mdAndDown"
     @update:model-value="$emit('update:modelValue', $event)"
   >
-    <div class="h-100 d-flex-column">
+    <div class="h-100 d-flex flex-column">
       <div class="text-center my-4">
         <span class="text-h6">Разделы</span>
       </div>
@@ -33,7 +33,7 @@
         </v-tabs>
       </div>
 
-      <div class="d-flex-column align-center ga-5 mt-4 mb-6">
+      <div class="d-flex flex-column align-center ga-5 mt-4 mb-6">
         <div class="text-center">
           <router-link
             :to="{ name: 'accounts' }"
@@ -45,7 +45,7 @@
         </div>
 
         <div>
-          <v-btn>Выйти</v-btn>
+          <v-btn @click="authStore.logout">Выйти</v-btn>
         </div>
       </div>
     </div>
@@ -53,6 +53,7 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '@/features/auth/store/useAuthStore';
 import { routeSections } from '@/pages/section/domain/builder';
 
 defineProps<{
@@ -64,6 +65,8 @@ defineEmits<{
 }>();
 
 const router = useRouter();
+
+const authStore = useAuthStore();
 
 const tab = ref(router.currentRoute.value.name);
 

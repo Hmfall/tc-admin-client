@@ -21,9 +21,13 @@
       </div>
 
       <v-card-text :class="closeIcon ? 'pt-2' : 'pa-6'">
-        <div>
+        <div v-if="$slots.default">
           <slot />
         </div>
+
+        <template v-else>
+          {{ text }}
+        </template>
 
         <ActionButtons
           v-if="actions"
@@ -51,6 +55,7 @@ const props = withDefaults(
     persistentOnConfirm?: boolean;
     disabled?: boolean;
     persistent?: boolean;
+    text?: string;
   }>(),
   {
     modelValue: false,

@@ -3,7 +3,8 @@
     {
       "id": 1,
       "login": "User 1",
-      "email": "user1@gmail.com"
+      "email": "user1@gmail.com",
+      "password": "12345"
     },
     {
       "id": 2,
