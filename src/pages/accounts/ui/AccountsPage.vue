@@ -26,7 +26,7 @@
 
       <TemplateFormBuilder
         v-model:dialog="isDialog"
-        class="d-flex-column ga-3"
+        class="d-flex flex-column ga-3"
         dialog-width="800"
         immediate-submit
         is-loading-on-delete

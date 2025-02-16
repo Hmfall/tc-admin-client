@@ -1,4 +1,6 @@
 import {
+  mdiAlertCircleOutline,
+  mdiCheckCircleOutline,
   mdiDeleteOutline,
   mdiDotsVertical,
   mdiFolderOpen,
@@ -16,4 +18,6 @@ export default {
   mdiMenu,
   mdiDeleteOutline,
   mdiDotsVertical,
+  mdiAlertCircleOutline,
+  mdiCheckCircleOutline,
 };

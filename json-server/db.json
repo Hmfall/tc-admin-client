@@ -4,12 +4,20 @@
       "id": 1,
       "login": "User 1",
       "email": "user1@gmail.com",
+      "password": "12345",
       "isAdmin": true
     },
     {
       "id": 2,
       "login": "User 2",
-      "email": "user2@gmail.com"
+      "email": "user2@gmail.com",
+      "password": "12345"
+    },
+    {
+      "id": 3,
+      "login": "User 3",
+      "email": "user3@gmail.com",
+      "password": "12345"
     }
   ],
   "about": {

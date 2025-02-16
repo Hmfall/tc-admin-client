@@ -7,9 +7,9 @@ export const useBaseRawFetch = <T, P extends any[] = unknown[]>(
 
   const execute = async (...args: P) => {
     try {
-      unref(setError)(null);
+      setError && unref(setError)(null);
 
-      unref(setIsLoading)(true);
+      setIsLoading && unref(setIsLoading)(true);
 
       const response = await handler(...args);
 
@@ -17,10 +17,10 @@ export const useBaseRawFetch = <T, P extends any[] = unknown[]>(
 
       return response;
     } catch (error) {
-      unref(setError)(error);
+      setError && unref(setError)(error);
       return Promise.reject(error);
     } finally {
-      unref(setIsLoading)(false);
+      setIsLoading && unref(setIsLoading)(false);
     }
   };
 

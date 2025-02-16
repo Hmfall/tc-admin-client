@@ -1,5 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 import MainLayout from '@/app/layouts/MainLayout.vue';
+import { authMiddleware } from '@/features/auth/domain/middleware/authMiddleware';
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -7,6 +8,7 @@ export const routes: RouteRecordRaw[] = [
     redirect: { name: 'about' },
     meta: {
       layout: MainLayout,
+      middleware: [authMiddleware],
     },
     children: [
       {
@@ -51,6 +53,7 @@ export const routes: RouteRecordRaw[] = [
     path: '/accounts',
     meta: {
       layout: MainLayout,
+      middleware: [authMiddleware],
     },
     component: async () => await import('@/pages/accounts/ui/AccountsPage.vue'),
   },

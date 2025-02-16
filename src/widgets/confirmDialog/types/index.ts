@@ -1,14 +1,14 @@
-export interface ConfirmArgs {
+export interface ConfirmOptions {
   content?: string;
   confirmText?: string;
   cancelText?: string;
 }
 
-export interface ConfirmInstance extends ConfirmArgs {
+export interface ConfirmInstance extends ConfirmOptions {
   id?: symbol;
   modelValue: boolean;
   resolve?: () => void;
   reject?: () => void;
 }
 
-export type ProvideConfirm = (args: ConfirmArgs) => Promise<void>;
+export type PushConfirm = (options: ConfirmOptions) => Promise<void>;
