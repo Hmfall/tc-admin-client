@@ -3,17 +3,13 @@
     {
       "id": 1,
       "login": "User 1",
-      "email": "user1@gmail.com"
+      "email": "user1@gmail.com",
+      "isAdmin": true
     },
     {
       "id": 2,
       "login": "User 2",
       "email": "user2@gmail.com"
-    },
-    {
-      "id": 3,
-      "login": "User 3",
-      "email": "user3@gmail.com"
     }
   ],
   "about": {

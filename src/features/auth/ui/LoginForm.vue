@@ -43,7 +43,7 @@
 
 <script setup lang="ts">
 import { VForm } from 'vuetify/components';
-import LoginData from '@/features/auth/model/LoginData';
+import { LoginData } from '@/features/auth/model/LoginData';
 import { validationRules } from '@/shared/utils/validationRules';
 
 const loginFormRef = ref<VForm | null>(null);

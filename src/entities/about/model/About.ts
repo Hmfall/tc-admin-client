@@ -11,5 +11,3 @@ export class About extends Model {
   @Type(() => ObjectUrl)
   logo = new ObjectUrl();
 }
-
-export const about = new About();

@@ -1,6 +1,7 @@
 import { Exclude } from 'class-transformer';
-import { Model, PrimaryKey } from '@/shared/lib/storeFactory';
+import { Entity, Model, PrimaryKey } from '@/shared/lib/storeFactory';
 
+@Entity({ path: 'media' })
 export class ObjectUrl extends Model {
   @PrimaryKey()
   id: ID;

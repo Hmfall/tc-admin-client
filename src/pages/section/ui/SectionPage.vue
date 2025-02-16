@@ -13,18 +13,17 @@
 </template>
 
 <script setup lang="ts" generic="T extends Model, A extends BaseAPI<T>">
-import { routeSections } from '@/pages/section/domain/builder';
+import { mappedRouteSections, routeSections } from '@/pages/section/domain/builder';
 import type { RouteSection } from '@/pages/section/types';
 import type { BaseAPI, Model } from '@/shared/lib/storeFactory';
 import PageLayout from '@/shared/ui/layouts/PageLayout.vue';
-import TemplateFormBuilder from '@/widgets/templateBuilder/ui/TemplateFormBuilder.vue';
+import TemplateFormBuilder from '@/widgets/templateFormBuilder/ui/TemplateFormBuilder.vue';
 
 const router = useRouter();
 
 const section = computed(
   () =>
-    routeSections.find((section) => router.currentRoute.value.name === section.routeName) ??
-    routeSections[0],
+    mappedRouteSections[(router.currentRoute.value.name as string) ?? routeSections[0].routeName],
 ) as ComputedRef<RouteSection<T, A>>;
 
 watch(section, (value) => value.store.fetch(), {

@@ -3,12 +3,12 @@
     confirm-button="Сохранить"
     :model-value="modelValue"
     :actions="false"
-    :dialogWidth="dialogWidth"
+    :dialog-width="dialogWidth"
     @after-leave="emit('close')"
     @update:model-value="$emit('update:modelValue', $event)"
   >
     <FormBuilder
-      :item="props.item"
+      :value="props.value"
       :fields="formFields"
       :mode="mode"
       :model="model"
@@ -33,7 +33,7 @@ import FormBuilder from '@/widgets/formBuilder/ui/FormBuilder.vue';
 
 const props = defineProps<{
   modelValue?: boolean;
-  item: T | null;
+  value: T | null;
   model?: ClassConstructor<T>;
   formFields?: FormBuilderFields<T>;
   mode?: FormEditMode;
@@ -43,8 +43,8 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:modelValue', modelValue: boolean): void;
-  (e: 'create', item: T, promises: UpdateFormFieldPromise<T>[]): void;
-  (e: 'update', item: T, promises: UpdateFormFieldPromise<T>[]): void;
+  (e: 'create', value: T, promises: UpdateFormFieldPromise<T>[]): void;
+  (e: 'update', value: T, promises: UpdateFormFieldPromise<T>[]): void;
   (e: 'close'): void;
 }>();
 </script>

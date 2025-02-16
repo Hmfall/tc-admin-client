@@ -8,4 +8,6 @@ export class User extends Model {
   login: string;
 
   email: string;
+
+  isAdmin: boolean;
 }

@@ -69,3 +69,11 @@ export const routeSections: CommonRouteSection[] = [
     templateSlots: contacts.eventsTemplateSlots,
   },
 ];
+
+export const mappedRouteSections = routeSections.reduce<Record<string, CommonRouteSection>>(
+  (acc, curr) => {
+    acc[curr.routeName] = { ...curr };
+    return acc;
+  },
+  {},
+);

@@ -1,5 +1,4 @@
 import type { AxiosRequestConfig } from 'axios';
-import type { Model } from '@/shared/lib/storeFactory/model/Model';
 import { Repository } from '@/shared/lib/storeFactory/model/Repository';
 import { toModel } from '@/shared/lib/storeFactory/utils/toModel';
 
@@ -11,7 +10,7 @@ export abstract class BaseAPI<T = unknown> {
     );
 
     if (typeof repositoryMeta === 'function') {
-      return (Reflect.getMetadata('model:constructor', this) as typeof Model).$repository;
+      return Reflect.getMetadata('model:constructor', this).$repository;
     }
 
     return new Repository(repositoryMeta);
@@ -26,7 +25,7 @@ export abstract class BaseAPI<T = unknown> {
   }
 
   public get api() {
-    const repository = (this.constructor as typeof BaseAPI).$repository;
+    const repository = this.$repository;
 
     const parseUrl = (url: string) =>
       (url === '/' || url === '' ? '' : `/${url}`).replace('//', '/');

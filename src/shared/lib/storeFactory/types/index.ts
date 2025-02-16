@@ -1,8 +1,6 @@
+import type { ClassConstructor } from 'class-transformer';
 import type { BaseAPI, Model, storeFactory } from '@/shared/lib/storeFactory';
-
-export interface StoreFactoryConfig {
-  singleton?: boolean;
-}
+import type { Repository } from '@/shared/lib/storeFactory/model/Repository';
 
 export interface ModelConfig {
   path: string;
@@ -28,8 +26,15 @@ export type FromJSONPlain<This> = Partial<
   >
 >;
 
+export interface ModelConstructor<T extends Model> extends ClassConstructor<T> {
+  $config: ModelConfig;
+  $repository: Repository;
+}
+
+export type ThisJSON<T> = Record<Partial<keyof T>, unknown>;
+
 export type ModelStore<T extends Model, A extends BaseAPI<T>> = ReturnType<
   typeof storeFactory<T, A>
 >;
 
-export type InstancePlain<T> = Record<keyof InstanceType<ClassConstructor<T>>, any>;
+export type InstancePlain<T> = Record<Partial<keyof InstanceType<ClassConstructor<T>>>, any>;

@@ -1,40 +1,48 @@
 import type { ClassTransformOptions } from 'class-transformer';
-import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { Exclude, instanceToPlain, plainToInstance } from 'class-transformer';
+import { diff } from 'deep-object-diff';
 import { Model } from '@/shared/lib/storeFactory';
-import type { FromJSONPlain, InstancePlain, ModelConfig } from '@/shared/lib/storeFactory/types';
+import type { FromJSONPlain } from '@/shared/lib/storeFactory/types';
+import { getOwnPropertyNames } from '@/shared/utils/getOwnPropertyNames';
 
 export abstract class BaseModel {
-  public get $config(): ModelConfig {
-    return Reflect.getMetadata('model:config', this.classConstructor);
-  }
+  @Exclude()
+  protected __snapshot: Record<string, unknown> = {};
 
-  public get classConstructor(): ClassConstructor<this> {
+  public get classConstructor() {
     return this.constructor as ClassConstructor<this>;
   }
 
   public get primaryKey(): keyof this {
-    const primaryKey = Reflect.getMetadata('model:primary-key', this.constructor);
-
-    if (!this.$config?.singleton && !primaryKey) {
-      console.warn(`Missing @PrimaryKey decorator: ${this.classConstructor.name.toString()}`);
-    }
-
-    return primaryKey?.['model:primary-key'];
+    return Reflect.getMetadata('model:primary-key', this.classConstructor)?.['model:primary-key'];
   }
 
-  public get ID(): ID {
+  public get ID() {
     return this[this.primaryKey] as ID;
   }
 
-  public toJSON(options?: ClassTransformOptions): Record<string, unknown> {
+  public get hasDiff() {
+    return !!getOwnPropertyNames(diff(this.__snapshot, this.toJSON())).length;
+  }
+
+  public makeSnapshot() {
+    this.__snapshot = this.toJSON();
+    return this;
+  }
+
+  public resetToSnapshot() {
+    this.merge(this.__snapshot);
+    return this;
+  }
+
+  public toJSON(options?: ClassTransformOptions) {
     return instanceToPlain(this, options);
   }
 
-  public fromJSON(plain: FromJSONPlain<this>, options?: ClassTransformOptions): this {
-    return plainToInstance(this.classConstructor, plain, {
-      exposeUnsetFields: false,
-      ...options,
-    });
+  public fromJSON(plain?: FromJSONPlain<this>, options?: ClassTransformOptions) {
+    const instance = plainToInstance(this.classConstructor, plain, { ...options });
+    instance.makeSnapshot();
+    return instance;
   }
 
   public clone(options?: ClassTransformOptions): this {
@@ -44,13 +52,17 @@ export abstract class BaseModel {
     });
   }
 
-  public merge(source: this | InstancePlain<this> | null | undefined) {
+  public merge(source?: typeof this | Record<string, unknown> | null) {
     if (source) {
+      const snapshot = this.__snapshot;
+
       if (source instanceof Model) {
         Object.assign(this, source.clone());
-      } else if (typeof source === 'object') {
+      } else {
         Object.assign(this, source);
       }
+
+      this.__snapshot = snapshot;
     }
   }
 }

@@ -29,6 +29,7 @@
         class="d-flex-column ga-3"
         dialog-width="800"
         immediate-submit
+        is-loading-on-delete
         hide-actions
         :model="User"
         :store="userStore"
@@ -44,7 +45,7 @@ import { User } from '@/entities/user/model/User';
 import { userStore } from '@/entities/user/store/userStore';
 import { userFormFields, userTemplateSlots } from '@/pages/accounts/domain/builder';
 import PageLayout from '@/shared/ui/layouts/PageLayout.vue';
-import TemplateFormBuilder from '@/widgets/templateBuilder/ui/TemplateFormBuilder.vue';
+import TemplateFormBuilder from '@/widgets/templateFormBuilder/ui/TemplateFormBuilder.vue';
 
 userStore.fetch();
 

@@ -9,7 +9,7 @@
         name="actions"
         v-bind="{
           deleteAll: onDeleteAll,
-          openDialog: localDialog.open,
+          openDialog: thisDialog.open,
         }"
       />
 
@@ -19,7 +19,7 @@
         <v-btn
           variant="flat"
           color="primary"
-          @click="localDialog.open"
+          @click="thisDialog.open"
         >
           Добавить
         </v-btn>
@@ -35,7 +35,7 @@
         <TemplateBuilder
           v-for="(item, i) in store.items"
           :key="item.ID ?? i"
-          :item="item"
+          :value="item"
           :slots="templateSlots"
           @update="onUpdateButton(item)"
           @delete="onDeleteItem(item)"
@@ -69,7 +69,7 @@
 
     <FormBuilderDialog
       v-model="isLocalDialog"
-      :item="updatingItem"
+      :value="updatingItem"
       :model="model"
       :form-fields="formFields"
       :mode="mode"
@@ -88,7 +88,7 @@ import type { Ref } from 'vue';
 import type { ClassConstructor } from 'class-transformer';
 import type { BaseAPI, Model } from '@/shared/lib/storeFactory';
 import type { ModelStore } from '@/shared/lib/storeFactory/types';
-import { useFetch } from '@/shared/lib/useFetch/useFetch';
+import { useLoading } from '@/shared/lib/useLoading/useLoading';
 import SkeletonLoader from '@/shared/ui/skeletonLoader/SkeletonLoader.vue';
 import type {
   FormBuilderFields,
@@ -109,12 +109,14 @@ const props = withDefaults(
     formFields?: FormBuilderFields<T>;
     immediateSubmit?: boolean;
     refetchStore?: boolean;
+    isLoadingOnCreate?: boolean;
+    isLoadingOnUpdate?: boolean;
+    isLoadingOnDelete?: boolean;
     hideActions?: boolean;
     dialogWidth?: string | number;
     class?: string;
   }>(),
   {
-    dialog: false,
     refetchStore: true,
   },
 );
@@ -127,36 +129,45 @@ const mode = ref<FormEditMode>();
 
 const isLocalDialog = ref(props.dialog);
 
-const isLoadingDraft = ref(false);
-
-const isLoadingImmediateSubmit = ref(false);
-
 const updatingItem = ref(null) as Ref<T | null>;
 
 const draft = ref(new Map()) as Ref<Map<T, UpdateFormFieldPromise<T>[]>>;
 
+const { isLoading: isLoadingImmediateSubmit, withLoading: withLoadingImmediateSubmit } =
+  useLoading();
+
+const { isLoading: isLoadingDraft, withLoading: withLoadingDraft } = useLoading();
+
 /* TODO: Обработка promises для immediateSubmit */
 const useImmediateSubmit = async (
   operation: SubmitOperation,
-  item: T,
+  value: T,
   promises?: UpdateFormFieldPromise<T>[],
 ) => {
-  const execute: Record<SubmitOperation, () => Promise<T> | Promise<void>> = {
-    create: () => item.create(),
-    update: () => item.update(),
-    delete: () => item.delete(),
-  };
+  if (value.hasDiff) {
+    if (
+      {
+        create: props.isLoadingOnCreate,
+        update: props.isLoadingOnUpdate,
+        delete: props.isLoadingOnDelete,
+      }[operation]
+    ) {
+      props.store.setIsLoading(true);
+    }
 
-  await useFetch<T | void>(() => execute[operation](), {
-    isLoading: isLoadingImmediateSubmit,
-  });
+    await withLoadingImmediateSubmit<T | void>(
+      {
+        create: () => value.create(),
+        update: () => value.update(),
+        delete: () => value.delete(),
+      }[operation](),
+    );
 
-  localDialog.close();
-  emit('update:dialog', false);
-
-  if (props.refetchStore) {
     props.store.fetch();
   }
+
+  thisDialog.close();
+  emit('update:dialog', false);
 };
 
 const onCreateItem = async (item: T) => {
@@ -165,7 +176,7 @@ const onCreateItem = async (item: T) => {
     return;
   }
 
-  localDialog.close();
+  thisDialog.close();
 };
 
 const onUpdateItem = async (item: T, promises: UpdateFormFieldPromise<T>[]) => {
@@ -179,7 +190,7 @@ const onUpdateItem = async (item: T, promises: UpdateFormFieldPromise<T>[]) => {
     draft.value.set(updatingItem.value, promises);
   }
 
-  localDialog.close();
+  thisDialog.close();
 };
 
 /* TODO: Обработка delete операции draft-варианта формы */
@@ -194,24 +205,22 @@ const onDeleteAll = () => {};
 const onUpdateButton = (item: T) => {
   updatingItem.value = item;
   mode.value = 'update';
-  localDialog.open();
+  thisDialog.open();
 };
 
 const onSaveButton = () => {
-  useFetch(
-    () =>
-      Promise.all(
-        Array.from(draft.value.entries()).flatMap(([item, promises]) =>
-          promises.map((promise) =>
-            promise().then((response) => {
-              item[response.key] = response.value;
-            }),
-          ),
+  withLoadingDraft(
+    Promise.all(
+      Array.from(draft.value.entries()).flatMap(([item, promises]) =>
+        promises.map((promise) =>
+          promise().then((response) => {
+            item[response.key] = response.value;
+          }),
         ),
-      ).then(() => {
-        Array.from(draft.value.keys()).forEach(() => {});
-      }),
-    { isLoading: isLoadingImmediateSubmit },
+      ),
+    ).then(() => {
+      Array.from(draft.value.keys()).forEach(() => {});
+    }),
   );
 };
 
@@ -219,7 +228,7 @@ const onClose = () => {
   updatingItem.value = null;
 };
 
-const localDialog = {
+const thisDialog = {
   open: () => (isLocalDialog.value = true),
   close: () => (isLocalDialog.value = false),
 };

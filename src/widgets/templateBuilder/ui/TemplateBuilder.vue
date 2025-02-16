@@ -2,6 +2,7 @@
   <component
     :is="props.slots.render()"
     v-if="Object.keys(mappedSlots).length"
+    v-bind="{ value }"
   >
     <template
       v-for="slot in mappedSlots"
@@ -13,11 +14,11 @@
         v-if="slot.render"
         v-bind="bindProps(slot.attrs)"
       >
-        {{ props.item[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T] }}
+        {{ props.value[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T] }}
       </component>
 
       <template v-else>
-        {{ props.item[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T] }}
+        {{ props.value[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T] }}
       </template>
     </template>
   </component>
@@ -29,7 +30,7 @@ import type { TemplateBuilderSlots, TemplateSlotAttrs } from '@/widgets/template
 import { templateMappedSlot } from '@/widgets/templateBuilder/utils';
 
 const props = defineProps<{
-  item: T;
+  value: T;
   slots: TemplateBuilderSlots<T>;
 }>();
 
@@ -38,7 +39,7 @@ const mappedSlots = computed(() => templateMappedSlot(props.slots));
 const bindProps = (slotProp?: TemplateSlotAttrs<T>) =>
   Object.entries(slotProp ?? {}).reduce<Record<string, any>>((acc, [slot, key]) => {
     if (typeof key === 'object' && key.bindKey) {
-      const value = props.item?.[key.bindKey];
+      const value = props.value?.[key.bindKey];
 
       if (value) {
         acc[slot] = (value instanceof ObjectUrl ? value.objectUrl ?? value.url : value) ?? key;
