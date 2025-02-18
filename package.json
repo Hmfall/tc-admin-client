@@ -49,10 +49,11 @@
     "@vueuse/core": "=11.0.3",
     "axios": "=1.7.2",
     "class-transformer": "=0.5.1",
-    "jwt-decode": "=4.0.0",
     "deep-object-diff": "=1.1.9",
+    "jwt-decode": "=4.0.0",
     "pinia": "=2.1.7",
     "reflect-metadata": "=0.2.2",
+    "uuid": "^11.0.5",
     "vue": "=3.5.13",
     "vue-router": "=4.3.0",
     "vuetify": "=3.7.6"

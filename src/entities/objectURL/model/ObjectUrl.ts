@@ -6,10 +6,10 @@ export class ObjectUrl extends Model {
   @PrimaryKey()
   id: ID;
 
-  url: string;
+  url?: string;
 
   @Exclude()
-  objectUrl?: string;
+  objectUrl?: string | null = null;
 
   @Exclude()
   file?: File;
@@ -20,7 +20,7 @@ export class ObjectUrl extends Model {
     } else {
       if (this.objectUrl) {
         URL.revokeObjectURL(this.objectUrl);
-        this.objectUrl = this.url;
+        this.objectUrl = null;
       }
     }
   }

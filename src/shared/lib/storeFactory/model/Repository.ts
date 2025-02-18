@@ -2,23 +2,31 @@ import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { BaseAxiosAPI } from '@/shared/lib/storeFactory/model/BaseAxiosAPI';
 
 export class Repository extends BaseAxiosAPI {
-  async getAll<T>(params?: Record<string, any>) {
+  async getAll<T>(params?: Record<string, unknown>) {
     return (await this.axios.get<T[]>(`${this.path}`, { params })).data;
+  }
+
+  async getThis<T>(params?: Record<string, unknown>) {
+    return (await this.axios.get<T>(`${this.path}`, { params })).data;
   }
 
   async getById<T>(id: ID) {
     return (await this.axios.get<T>(`${this.path}/${id}`)).data;
   }
 
-  async create(body: Record<string, any>) {
+  async create(body: Record<string, unknown>) {
     return (await this.axios.post(`${this.path}`, body)).data;
   }
 
-  async updateById(id: ID, body: Record<string, any>) {
+  async updateById(id: ID, body: Record<string, unknown>) {
     return (await this.axios.put(`${this.path}/${id}`, body)).data;
   }
 
-  async updateThis(body: Record<string, any>) {
+  async updateThis(body: Record<string, unknown>) {
+    return (await this.axios.put(`${this.path}`, body)).data;
+  }
+
+  async updateAll(body: Record<string, unknown>[]) {
     return (await this.axios.put(`${this.path}`, body)).data;
   }
 

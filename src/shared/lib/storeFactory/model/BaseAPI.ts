@@ -1,26 +1,24 @@
 import type { AxiosRequestConfig } from 'axios';
+import { plainToInstance } from 'class-transformer';
+import type { Model } from '@/shared/lib/storeFactory';
 import { Repository } from '@/shared/lib/storeFactory/model/Repository';
-import { toModel } from '@/shared/lib/storeFactory/utils/toModel';
 
-export abstract class BaseAPI<T = unknown> {
+export abstract class BaseAPI<T extends Model> {
   private static get $repository(): Repository {
-    const repositoryMeta: ClassConstructor | string = Reflect.getMetadata(
-      'model:constructor',
-      this,
-    );
+    const APIRootMeta: typeof Model | string = Reflect.getMetadata('model:api-root', this);
 
-    if (typeof repositoryMeta === 'function') {
-      return Reflect.getMetadata('model:constructor', this).$repository;
+    if (typeof APIRootMeta !== 'string') {
+      return APIRootMeta.$repository;
     }
 
-    return new Repository(repositoryMeta);
+    return new Repository(APIRootMeta);
   }
 
   private get $repository(): Repository {
     return (this.constructor as typeof BaseAPI).$repository;
   }
 
-  private get modelConstuctor() {
+  private getModelConstuctor<T extends Model>(): ClassConstructor<T> {
     return Reflect.getMetadata('model:constructor', this.constructor);
   }
 
@@ -51,15 +49,28 @@ export abstract class BaseAPI<T = unknown> {
   }
 
   public async fetch(): Promise<T[]> {
-    return toModel([this.modelConstuctor], await this.$repository.getAll<T>());
+    return plainToInstance(this.getModelConstuctor<T>(), await this.$repository.getAll()).map(
+      (instance) => instance.makeSnapshot(),
+    );
   }
 
   public async fetchThis(): Promise<T> {
-    return toModel(this.modelConstuctor, await this.$repository.getAll<T>());
+    return plainToInstance(
+      this.getModelConstuctor<T>(),
+      await this.$repository.getThis(),
+    ).makeSnapshot();
   }
 
   public async fetchById(id: ID): Promise<T> {
-    return toModel(this.modelConstuctor, await this.$repository.getById<T>(id));
+    return plainToInstance(
+      this.getModelConstuctor<T>(),
+      await this.$repository.getById(id),
+    ).makeSnapshot();
+  }
+
+  /* TODO: makeSnapshot on update? */
+  public async update(items: T[]): Promise<void> {
+    return await this.$repository.updateAll(items.map((item) => item.toJSON()));
   }
 
   public async deleteById(id: ID): Promise<void> {

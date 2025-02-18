@@ -10,20 +10,21 @@
     ]"
   >
     <v-btn
-      v-if="typeof confirmButton === 'string'"
+      v-if="!cancel && typeof confirmButton === 'string'"
       type="submit"
       variant="flat"
       color="primary"
+      :class="{ 'btn--locked': lockedConfirmButton }"
       :text="confirmButton"
       :disabled="disabled"
       :loading="loading"
-      @click="emit('onConfirm')"
+      @click="!lockedConfirmButton ? emit('confirm') : null"
     />
 
     <v-btn
-      v-if="typeof cancelButton === 'string'"
+      v-if="!confirm && typeof cancelButton === 'string'"
       :text="cancelButton"
-      @click="emit('onCancel')"
+      @click="emit('cancel')"
     />
   </div>
 </template>
@@ -31,21 +32,33 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
+    confirm?: boolean;
+    cancel?: boolean;
     confirmButton?: string | boolean;
     cancelButton?: string | boolean;
+    lockedConfirmButton?: boolean;
     disabled?: boolean;
     loading?: boolean;
     position?: 'start' | 'center' | 'end';
   }>(),
   {
-    confirmButton: 'Сохранить',
+    confirmButton: 'Ок',
     cancelButton: 'Отмена',
     position: 'end',
   },
 );
 
 const emit = defineEmits<{
-  (e: 'onConfirm'): void;
-  (e: 'onCancel'): void;
+  (e: 'confirm'): void;
+  (e: 'cancel'): void;
 }>();
 </script>
+
+<style scoped lang="scss">
+.btn--locked {
+  &:hover {
+    cursor: not-allowed !important;
+    --v-theme-overlay-multiplier: 0;
+  }
+}
+</style>

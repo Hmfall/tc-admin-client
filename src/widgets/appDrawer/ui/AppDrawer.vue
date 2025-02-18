@@ -54,7 +54,7 @@
 
 <script setup lang="ts">
 import { useAuthStore } from '@/features/auth/store/useAuthStore';
-import { routeSections } from '@/pages/section/domain/builder';
+import { mappedRouteSections, routeSections } from '@/pages/section/domain/builder';
 
 defineProps<{
   modelValue: boolean;
@@ -73,7 +73,7 @@ const tab = ref(router.currentRoute.value.name);
 watch(
   () => router.currentRoute.value.name,
   (value) => {
-    if (!routeSections.some((section) => section.routeName === value)) {
+    if (value && !mappedRouteSections?.[value as string]) {
       tab.value = null;
     }
   },

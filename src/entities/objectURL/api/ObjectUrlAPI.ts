@@ -3,6 +3,7 @@ import { API, BaseAPI, toModel } from '@/shared/lib/storeFactory';
 
 @API(ObjectUrl)
 class ObjectUrlAPI extends BaseAPI<ObjectUrl> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async createObjectUrl(file?: File) {
     return toModel(
       ObjectUrl,

@@ -19,6 +19,8 @@ module.exports = {
   },
   plugins: [],
   rules: {
+    semi: ['warn', 'always'],
+    'lines-between-class-members': ['warn', 'always'],
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/no-unused-vars': 'warn',
     '@typescript-eslint/no-explicit-any': 'off',
@@ -62,6 +64,8 @@ module.exports = {
       rules: {
         'vue/attributes-order': 'error',
         'vue/valid-template-root': 'warn',
+        'vue/attribute-hyphenation': 'error',
+        'vue/require-default-prop': 'off',
         'vue/prefer-true-attribute-shorthand': 'error',
         'vue/component-name-in-template-casing': ['error', 'PascalCase'],
         'vue/html-indent': ['warn', 2],

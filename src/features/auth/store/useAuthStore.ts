@@ -15,6 +15,7 @@ export const useAuthStore = defineStore('auth', {
     async authorize(payload: AuthPayload) {
       const { jwt } = await this.$api.authorize(payload);
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const jwtPayload: JWTPayload = jwtDecode(jwt);
 
       this.jwt = jwtDecode(jwt);

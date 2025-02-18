@@ -30,6 +30,10 @@ export abstract class Model extends BaseModel {
     return plainToInstance(this.classConstructor, response);
   }
 
+  public async save(): Promise<this> {
+    return this.ID ? this.update() : this.create();
+  }
+
   public async updateThis(): Promise<this> {
     const response = await this.$repository.updateThis(this.toJSON());
     return plainToInstance(this.classConstructor, response);

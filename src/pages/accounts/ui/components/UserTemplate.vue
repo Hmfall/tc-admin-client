@@ -12,6 +12,7 @@
       <v-menu location="right">
         <template #activator="{ props }">
           <v-btn
+            density="comfortable"
             variant="text"
             icon="$mdiDotsVertical"
             v-bind="props"

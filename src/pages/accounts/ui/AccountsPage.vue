@@ -11,6 +11,7 @@
             <template #activator="{ props }">
               <v-btn
                 variant="text"
+                density="comfortable"
                 icon="$mdiDotsVertical"
                 v-bind="props"
               />
@@ -29,7 +30,7 @@
         class="d-flex flex-column ga-3"
         dialog-width="800"
         immediate-submit
-        is-loading-on-delete
+        loading-on-delete
         hide-actions
         :model="User"
         :store="userStore"

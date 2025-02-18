@@ -4,6 +4,7 @@ import type { Model } from '@/shared/lib/storeFactory/model/Model';
 export interface FetchState<T extends Model, A extends BaseAPI<T>> {
   $api: A;
   unwrapItems: T[];
+  draft: T[];
   isLoading: boolean;
   error: null | unknown;
 }
@@ -11,6 +12,7 @@ export interface FetchState<T extends Model, A extends BaseAPI<T>> {
 export const fetchState = <T extends Model, A extends BaseAPI<T>>(api: A): FetchState<T, A> => ({
   $api: api,
   unwrapItems: [],
+  draft: [],
   isLoading: false,
   error: null,
 });

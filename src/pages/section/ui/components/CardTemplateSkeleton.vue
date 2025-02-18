@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex ga-2">
+  <div class="d-flex flex-column flex-md-row ga-2">
     <v-skeleton-loader
       class="flex-0-0"
       width="200"

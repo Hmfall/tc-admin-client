@@ -34,9 +34,10 @@
       >
         <TemplateBuilder
           v-for="(item, i) in store.items"
-          :key="item.ID ?? i"
+          :key="item.UUID ?? i"
           :value="item"
           :slots="templateSlots"
+          @reset="onResetButton(item)"
           @update="onUpdateButton(item)"
           @delete="onDeleteItem(item)"
         />
@@ -56,15 +57,13 @@
         }"
       />
 
-      <v-btn
-        v-else
-        variant="flat"
-        color="primary"
+      <ActionButtons
+        confirm
+        confirm-button="Сохранить"
+        :locked-confirm-button="!props.store.isDraftEmpty"
         :loading="isLoadingDraft"
-        @click="onSaveButton"
-      >
-        Сохранить
-      </v-btn>
+        @confirm="onSaveButton"
+      />
     </div>
 
     <FormBuilderDialog
@@ -89,7 +88,9 @@ import type { ClassConstructor } from 'class-transformer';
 import type { BaseAPI, Model } from '@/shared/lib/storeFactory';
 import type { ModelStore } from '@/shared/lib/storeFactory/types';
 import { useLoading } from '@/shared/lib/useLoading/useLoading';
+import ActionButtons from '@/shared/ui/actionButtons/ActionButtons.vue';
 import SkeletonLoader from '@/shared/ui/skeletonLoader/SkeletonLoader.vue';
+import { useConfirmDialog } from '@/widgets/confirmDialog/model/useConfirmDialog';
 import type {
   FormBuilderFields,
   FormEditMode,
@@ -109,9 +110,9 @@ const props = withDefaults(
     formFields?: FormBuilderFields<T>;
     immediateSubmit?: boolean;
     refetchStore?: boolean;
-    isLoadingOnCreate?: boolean;
-    isLoadingOnUpdate?: boolean;
-    isLoadingOnDelete?: boolean;
+    loadingOnCreate?: boolean;
+    loadingOnUpdate?: boolean;
+    loadingOnDelete?: boolean;
     hideActions?: boolean;
     dialogWidth?: string | number;
     class?: string;
@@ -124,6 +125,8 @@ const props = withDefaults(
 const emit = defineEmits<{
   (e: 'update:dialog', value: boolean): void;
 }>();
+
+const confirm = useConfirmDialog();
 
 const mode = ref<FormEditMode>();
 
@@ -138,18 +141,21 @@ const { isLoading: isLoadingImmediateSubmit, withLoading: withLoadingImmediateSu
 
 const { isLoading: isLoadingDraft, withLoading: withLoadingDraft } = useLoading();
 
+props.store.initDraftWatch();
+
 /* TODO: Обработка promises для immediateSubmit */
 const useImmediateSubmit = async (
   operation: SubmitOperation,
   value: T,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   promises?: UpdateFormFieldPromise<T>[],
 ) => {
   if (value.hasDiff) {
     if (
       {
-        create: props.isLoadingOnCreate,
-        update: props.isLoadingOnUpdate,
-        delete: props.isLoadingOnDelete,
+        create: props.loadingOnCreate,
+        update: props.loadingOnUpdate,
+        delete: props.loadingOnDelete,
       }[operation]
     ) {
       props.store.setIsLoading(true);
@@ -172,16 +178,18 @@ const useImmediateSubmit = async (
 
 const onCreateItem = async (item: T) => {
   if (props.immediateSubmit) {
-    useImmediateSubmit('create', item);
+    await useImmediateSubmit('create', item);
     return;
   }
+
+  props.store.toDraft(item);
 
   thisDialog.close();
 };
 
 const onUpdateItem = async (item: T, promises: UpdateFormFieldPromise<T>[]) => {
   if (props.immediateSubmit) {
-    useImmediateSubmit('update', item);
+    await useImmediateSubmit('update', item);
     return;
   }
 
@@ -194,13 +202,20 @@ const onUpdateItem = async (item: T, promises: UpdateFormFieldPromise<T>[]) => {
 };
 
 /* TODO: Обработка delete операции draft-варианта формы */
-const onDeleteItem = (item: T) => {
+const onDeleteItem = async (item: T) => {
   if (props.immediateSubmit) {
-    useImmediateSubmit('delete', item);
+    await useImmediateSubmit('delete', item);
+    return;
   }
 };
 
 const onDeleteAll = () => {};
+
+const onResetButton = (item: T) => {
+  confirm('Сбросить изменения?').then(() => {
+    item.resetToSnapshot();
+  });
+};
 
 const onUpdateButton = (item: T) => {
   updatingItem.value = item;
@@ -209,19 +224,22 @@ const onUpdateButton = (item: T) => {
 };
 
 const onSaveButton = () => {
-  withLoadingDraft(
-    Promise.all(
-      Array.from(draft.value.entries()).flatMap(([item, promises]) =>
-        promises.map((promise) =>
-          promise().then((response) => {
-            item[response.key] = response.value;
-          }),
-        ),
-      ),
-    ).then(() => {
-      Array.from(draft.value.keys()).forEach(() => {});
-    }),
-  );
+  console.log(props.store.draft);
+  // withLoadingDraft(
+  //   Promise.all(
+  //     Array.from(draft.value.entries()).flatMap(([item, promises]) =>
+  //       promises.map((promise) =>
+  //         promise().then((response) => {
+  //           item[response.key] = response.value;
+  //           props.store.toDraft(item);
+  //         }),
+  //       ),
+  //     ),
+  //   ).then(() => {
+  //     console.log(props.store.draft);
+  //     // Array.from(draft.value.keys()).forEach(() => {});
+  //   }),
+  // );
 };
 
 const onClose = () => {

@@ -1,4 +1,6 @@
 import type { DefineComponent, MaybeRef } from 'vue';
+// eslint-disable-next-line vue/prefer-import-from-vue
+import type { UnwrapRefSimple as VueUnwrapRefSimple } from '@vue/reactivity';
 
 declare global {
   interface ImportMeta {
@@ -17,6 +19,8 @@ declare global {
     [K in keyof T]: MaybeRef<T[K]>;
   };
 
+  export type UnwrapRefSimple<T> = VueUnwrapRefSimple<T>;
+
   export type ClassConstructor<T = unknown> = {
     new (...args: any[]): T;
   };
@@ -24,7 +28,8 @@ declare global {
   export type ComponentInstance<T> = T extends new (...args: any[]) => infer R
     ? R
     : T extends (...args: any[]) => infer R
-      ? R extends { __ctx?: infer K }
+      ? // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        R extends { __ctx?: infer K }
         ? Exclude<K, void> extends { expose: (...args: infer K) => void }
           ? K[0] & InstanceType<DefineComponent>
           : any

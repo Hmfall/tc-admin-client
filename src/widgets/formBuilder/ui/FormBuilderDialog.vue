@@ -1,6 +1,5 @@
 <template>
   <BaseDialog
-    confirm-button="Сохранить"
     :model-value="modelValue"
     :actions="false"
     :dialog-width="dialogWidth"

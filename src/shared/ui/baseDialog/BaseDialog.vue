@@ -20,7 +20,7 @@
         />
       </div>
 
-      <v-card-text :class="closeIcon ? 'pt-2' : 'pa-6'">
+      <v-card-text :class="closeIcon ? 'pt-2' : compact ? 'pa-5' : 'pa-6'">
         <div v-if="$slots.default">
           <slot />
         </div>
@@ -33,8 +33,8 @@
           v-if="actions"
           :confirm-button="confirmButton"
           :cancel-button="cancelButton"
-          @on-confirm="onConfirm"
-          @on-cancel="onCancel"
+          @confirm="onConfirm"
+          @cancel="onCancel"
         />
       </v-card-text>
     </v-card>
@@ -56,6 +56,7 @@ const props = withDefaults(
     disabled?: boolean;
     persistent?: boolean;
     text?: string;
+    compact?: boolean;
   }>(),
   {
     modelValue: false,

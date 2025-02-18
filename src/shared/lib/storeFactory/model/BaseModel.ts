@@ -1,52 +1,80 @@
 import type { ClassTransformOptions } from 'class-transformer';
 import { Exclude, instanceToPlain, plainToInstance } from 'class-transformer';
 import { diff } from 'deep-object-diff';
-import { Model } from '@/shared/lib/storeFactory';
+import { v4 as uuidv4 } from 'uuid';
 import type { FromJSONPlain } from '@/shared/lib/storeFactory/types';
 import { getOwnPropertyNames } from '@/shared/utils/getOwnPropertyNames';
 
 export abstract class BaseModel {
   @Exclude()
-  protected __snapshot: Record<string, unknown> = {};
+  protected __snapshot: string;
 
-  public get classConstructor() {
-    return this.constructor as ClassConstructor<this>;
-  }
+  @Exclude()
+  protected __uuid: string;
 
-  public get primaryKey(): keyof this {
-    return Reflect.getMetadata('model:primary-key', this.classConstructor)?.['model:primary-key'];
+  constructor() {
+    this.makeSnapshot();
+    this.__uuid = uuidv4();
   }
 
   public get ID() {
-    return this[this.primaryKey] as ID;
+    return this[this.getPrimaryKey()] as ID;
+  }
+
+  public get UUID() {
+    return this.__uuid;
+  }
+
+  protected get classConstructor() {
+    return this.constructor as ClassConstructor<this>;
+  }
+
+  public getPrimaryKey<T extends keyof this>(): T {
+    return Reflect.getMetadata('model:primary-key', this.classConstructor)?.['model:primary-key'];
+  }
+
+  public isSame(instance: typeof this) {
+    return instance.UUID === this.__uuid;
+  }
+
+  public within(target: (typeof this)[]) {
+    return target.some((value) => value?.isSame(this));
   }
 
   public get hasDiff() {
-    return !!getOwnPropertyNames(diff(this.__snapshot, this.toJSON())).length;
+    return !!getOwnPropertyNames(
+      diff(JSON.parse(JSON.stringify(this.toRawJSON())), JSON.parse(this.__snapshot)),
+    ).length;
   }
 
   public makeSnapshot() {
-    this.__snapshot = this.toJSON();
+    this.__snapshot = JSON.stringify(this.toRawJSON());
     return this;
   }
 
   public resetToSnapshot() {
-    this.merge(this.__snapshot);
+    this.merge(this.fromJSONPlain(JSON.parse(this.__snapshot)));
     return this;
+  }
+
+  private fromJSONPlain(plain: Record<string, unknown>, options?: ClassTransformOptions): this {
+    return plainToInstance(this.classConstructor, plain, options);
+  }
+
+  private toRawJSON() {
+    return this.toJSON({ ignoreDecorators: true, excludePrefixes: ['__'] });
+  }
+
+  public fromJSON(plain?: FromJSONPlain<this>, options?: ClassTransformOptions): this {
+    return this.fromJSONPlain(plain ?? {}, options).makeSnapshot();
   }
 
   public toJSON(options?: ClassTransformOptions) {
     return instanceToPlain(this, options);
   }
 
-  public fromJSON(plain?: FromJSONPlain<this>, options?: ClassTransformOptions) {
-    const instance = plainToInstance(this.classConstructor, plain, { ...options });
-    instance.makeSnapshot();
-    return instance;
-  }
-
-  public clone(options?: ClassTransformOptions): this {
-    return this.fromJSON(this.toJSON({ ignoreDecorators: true }) as FromJSONPlain<this>, {
+  public clone(options?: ClassTransformOptions) {
+    return this.fromJSONPlain(this.toJSON({ ignoreDecorators: true }), {
       ignoreDecorators: true,
       ...options,
     });
@@ -54,14 +82,17 @@ export abstract class BaseModel {
 
   public merge(source?: typeof this | Record<string, unknown> | null) {
     if (source) {
+      const uuid = this.__uuid;
       const snapshot = this.__snapshot;
 
-      if (source instanceof Model) {
+      if (source instanceof BaseModel) {
+        // TODO: source.clone ?
         Object.assign(this, source.clone());
       } else {
         Object.assign(this, source);
       }
 
+      this.__uuid = uuid;
       this.__snapshot = snapshot;
     }
   }

@@ -49,7 +49,7 @@ export default createVuetify({
       ripple: false,
       class: 'text-none',
       variant: 'outlined',
-      density: 'comfortable',
+      density: 'compact',
     },
     VTextField: {
       variant: 'outlined',

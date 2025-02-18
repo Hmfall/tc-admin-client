@@ -19,6 +19,7 @@ export type TemplateBuilderMappedSlot<T> = Record<string, TemplateBuilderSlot<T>
 
 export interface ModelTemplateEmit {
   (e: 'update'): void;
-
   (e: 'delete'): void;
+
+  (e: 'reset'): void;
 }

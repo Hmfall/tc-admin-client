@@ -41,7 +41,7 @@ defineOptions({
 });
 
 const props = defineProps<
-  /* eslint-disable-next-line vue/no-reserved-props,vue/no-reserved-keys */
+  // eslint-disable-next-line vue/no-reserved-props,vue/no-reserved-keys,vue/prop-name-casing
   FileInputField<T> & {
     modelValue: ObjectUrl | File;
     item: T;

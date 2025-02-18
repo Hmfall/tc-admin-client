@@ -1,7 +1,7 @@
 export const requiredRule = (v: string) =>
   (v !== null && v !== undefined && v !== '') || 'Обязательно для заполнения';
 
-export const notNullRule = (v: string) => (v: any) => !!v || 'Некорректное значение.';
+export const notNullRule = (v: any) => !!v || 'Некорректное значение.';
 
 export const emailRules = [
   requiredRule,

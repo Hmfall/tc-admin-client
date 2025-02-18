@@ -25,9 +25,10 @@
 
     <ActionButtons
       v-else
+      confirm-button="Сохранить"
       :loading="loading"
       :disabled="!isFormValid"
-      @on-cancel="emit('close')"
+      @cancel="emit('close')"
     />
   </VForm>
 </template>

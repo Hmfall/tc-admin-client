@@ -18,8 +18,11 @@ export type FromJSONPlain<This> = Partial<
     | 'toJSON'
     | 'clone'
     | 'merge'
+    | 'hasDiff'
+    | 'makeSnapshot'
+    | 'resetToSnapshot'
     | 'ID'
-    | 'primaryKey'
+    | 'getPrimaryKey'
     | 'classConstructor'
     | '$config'
     | '$repository'
@@ -32,6 +35,8 @@ export interface ModelConstructor<T extends Model> extends ClassConstructor<T> {
 }
 
 export type ThisJSON<T> = Record<Partial<keyof T>, unknown>;
+
+export type APIRoot<T> = string | ClassConstructor<T>;
 
 export type ModelStore<T extends Model, A extends BaseAPI<T>> = ReturnType<
   typeof storeFactory<T, A>

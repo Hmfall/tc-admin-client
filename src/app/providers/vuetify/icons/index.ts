@@ -1,5 +1,6 @@
 import {
   mdiAlertCircleOutline,
+  mdiArrowULeftBottom,
   mdiCheckCircleOutline,
   mdiDeleteOutline,
   mdiDotsVertical,
@@ -20,4 +21,5 @@ export default {
   mdiDotsVertical,
   mdiAlertCircleOutline,
   mdiCheckCircleOutline,
+  mdiArrowULeftBottom,
 };
