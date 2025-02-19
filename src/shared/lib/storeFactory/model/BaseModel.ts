@@ -30,7 +30,7 @@ export abstract class BaseModel {
   }
 
   public getPrimaryKey<T extends keyof this>(): T {
-    return Reflect.getMetadata('model:primary-key', this.classConstructor)?.['model:primary-key'];
+    return Reflect.getMetadata('model:primary-key', this.classConstructor);
   }
 
   public isSame(instance: typeof this) {
