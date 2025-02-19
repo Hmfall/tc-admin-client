@@ -28,8 +28,8 @@
 </template>
 
 <script setup lang="ts">
+import type { ConfirmInstance, ConfirmOptions } from '@/widgets/confirmDialog/model/types';
 import BaseDialog from '@/shared/ui/baseDialog/BaseDialog.vue';
-import type { ConfirmInstance, ConfirmOptions } from '@/widgets/confirmDialog/types';
 
 const confirm = ref<ConfirmInstance>({ modelValue: false });
 

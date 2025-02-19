@@ -1,5 +1,6 @@
+import { Expose } from 'class-transformer';
+import type { ModelConfig } from 'src/shared/lib/storeFactory/model/types';
 import { Repository } from '@/shared/lib/storeFactory/model/Repository';
-import type { ModelConfig } from '@/shared/lib/storeFactory/types';
 
 export const EntityPath = (path: string) => {
   return (target: any) => {
@@ -13,8 +14,23 @@ export const EntityConfig = (config: ModelConfig) => {
   };
 };
 
+export const ExposeEntityOwnKeys = () => {
+  return (target: any) => {
+    const propertyKeys = (Reflect.ownKeys(new target()) ?? []).filter(
+      (key) => !String(key).startsWith('__'),
+    );
+    propertyKeys.forEach((key) => Expose()(target, key));
+  };
+};
+
 export const Entity = <T extends ClassConstructor>(config: ModelConfig) => {
+  config.exposeOwn = config.exposeOwn ?? true;
+
   return (constructor: T): T => {
+    if (config.exposeOwn) {
+      ExposeEntityOwnKeys()(constructor);
+    }
+
     EntityPath(config.path)(constructor);
     EntityConfig(config)(constructor);
     return constructor;

@@ -2,7 +2,7 @@ import type { ClassTransformOptions } from 'class-transformer';
 import { Exclude, instanceToPlain, plainToInstance } from 'class-transformer';
 import { diff } from 'deep-object-diff';
 import { v4 as uuidv4 } from 'uuid';
-import type { FromJSONPlain } from '@/shared/lib/storeFactory/types';
+import type { FromJSONPlain } from 'src/shared/lib/storeFactory/model/types';
 import { getOwnPropertyNames } from '@/shared/utils/getOwnPropertyNames';
 
 export abstract class BaseModel {

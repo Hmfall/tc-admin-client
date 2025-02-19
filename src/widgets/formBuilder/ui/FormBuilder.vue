@@ -1,7 +1,8 @@
 <template>
   <VForm
-    ref="form"
+    ref="formRef"
     v-model="isFormValid"
+    :validate-on="validateOn"
     @submit.prevent="onSubmit"
   >
     <FormBuilderWrapper :fields="fields">
@@ -27,7 +28,6 @@
       v-else
       confirm-button="Сохранить"
       :loading="loading"
-      :disabled="!isFormValid"
       @cancel="emit('close')"
     />
   </VForm>
@@ -37,14 +37,15 @@
 import type { Ref } from 'vue';
 import type { ClassConstructor } from 'class-transformer';
 import { VForm } from 'vuetify/components';
-import type { BaseModel } from '@/shared/lib/storeFactory';
-import ActionButtons from '@/shared/ui/actionButtons/ActionButtons.vue';
 import type {
   FormBuilderFields,
   FormEditMode,
   UpdateFormFieldPromise,
-} from '@/widgets/formBuilder/types';
+} from '@/widgets/formBuilder/model/types';
 import FormBuilderWrapper from '@/widgets/formBuilder/ui/FormBuilderWrapper.vue';
+import type { BaseModel } from '@/shared/lib/storeFactory';
+import { useForm } from '@/shared/lib/useForm/useForm';
+import ActionButtons from '@/shared/ui/actionButtons/ActionButtons.vue';
 
 const props = defineProps<{
   value: T | null;
@@ -61,29 +62,21 @@ const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
-const form = ref<VForm | null>(null);
-
-const isFormValid = ref(props.mode === 'update' ?? false);
+const { formRef, onValidSubmit, isFormValid, validateOn } = useForm({
+  initial: props.mode === 'update' ?? false,
+});
 
 const thisValue = ref(props.value?.clone() ?? (props?.model && new props.model())) as Ref<T>;
 
 const promises = ref<UpdateFormFieldPromise<T>[]>([]);
 
-const onSubmit = () => {
-  if (!form.value) {
-    return;
+const onSubmit = onValidSubmit(() => {
+  if (props.mode === 'create') {
+    emit('create', thisValue.value, promises.value);
+  } else if (props.mode === 'update') {
+    emit('update', thisValue.value, promises.value);
   }
-
-  form.value.validate().then(({ valid }) => {
-    if (valid && thisValue) {
-      if (props.mode === 'create') {
-        emit('create', thisValue.value, promises.value);
-      } else if (props.mode === 'update') {
-        emit('update', thisValue.value, promises.value);
-      }
-    }
-  });
-};
+});
 
 const resetValue = () => thisValue.value.resetToSnapshot();
 

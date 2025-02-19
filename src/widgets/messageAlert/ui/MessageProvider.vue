@@ -31,8 +31,8 @@
 </template>
 
 <script setup lang="ts">
-import type { MessageOptions } from '@/widgets/messageAlert/types';
-import { MessageType } from '@/widgets/messageAlert/types';
+import type { MessageOptions } from '@/widgets/messageAlert/model/types';
+import { MessageType } from '@/widgets/messageAlert/model/types';
 
 const isSnackbar = ref(false);
 

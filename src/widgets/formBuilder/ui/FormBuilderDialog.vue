@@ -21,14 +21,14 @@
 
 <script setup lang="ts" generic="T extends BaseModel">
 import type { ClassConstructor } from 'class-transformer';
-import type { BaseModel } from '@/shared/lib/storeFactory';
-import BaseDialog from '@/shared/ui/baseDialog/BaseDialog.vue';
 import type {
   FormBuilderFields,
   FormEditMode,
   UpdateFormFieldPromise,
-} from '@/widgets/formBuilder/types';
+} from '@/widgets/formBuilder/model/types';
 import FormBuilder from '@/widgets/formBuilder/ui/FormBuilder.vue';
+import type { BaseModel } from '@/shared/lib/storeFactory';
+import BaseDialog from '@/shared/ui/baseDialog/BaseDialog.vue';
 
 const props = defineProps<{
   modelValue?: boolean;

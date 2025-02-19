@@ -25,9 +25,12 @@
 </template>
 
 <script setup lang="ts" generic="T">
-import { ObjectUrl } from '@/entities/objectURL/model/ObjectUrl';
-import type { TemplateBuilderSlots, TemplateSlotAttrs } from '@/widgets/templateBuilder/types';
+import type {
+  TemplateBuilderSlots,
+  TemplateSlotAttrs,
+} from '@/widgets/templateBuilder/model/types';
 import { templateMappedSlot } from '@/widgets/templateBuilder/utils';
+import { ObjectUrl } from '@/entities/objectURL/ObjectUrl';
 
 const props = defineProps<{
   value: T;

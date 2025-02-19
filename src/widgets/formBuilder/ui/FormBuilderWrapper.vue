@@ -43,13 +43,13 @@
 </template>
 
 <script setup lang="ts" generic="T extends BaseModel">
-import type { BaseModel } from '@/shared/lib/storeFactory';
 import type {
   FormBuilderColArgs,
   FormBuilderColOptions,
   FormBuilderField,
   FormBuilderFields,
-} from '@/widgets/formBuilder/types';
+} from '@/widgets/formBuilder/model/types';
+import type { BaseModel } from '@/shared/lib/storeFactory';
 
 const props = defineProps<{
   fields?: FormBuilderFields<T>;

@@ -1,11 +1,31 @@
 import type { VForm } from 'vuetify/components';
 
-export function useForm(options?: { isFormValid: boolean }) {
+export const useForm = (
+  options: { initial?: boolean; mode?: 'input' | 'lazy' } = {
+    initial: false,
+    mode: 'lazy',
+  },
+) => {
   const formRef = ref<VForm | null>(null);
-  const isFormValid = ref(options?.isFormValid ?? false);
+  const isValid = ref<boolean>(options?.initial ?? false);
   const isDirty = ref(false);
 
-  const validateOn = computed(() => (isDirty.value ? 'input' : 'lazy submit'));
+  const validateOn = computed(() =>
+    options.mode === 'lazy' ? (isDirty.value ? 'input' : 'lazy submit') : 'input',
+  );
+
+  const isFormValid = computed({
+    get() {
+      return isValid.value;
+    },
+    set(value: boolean | null) {
+      if (options.mode === 'lazy' && !isDirty.value) {
+        isValid.value = true;
+      } else {
+        isValid.value = value ?? false;
+      }
+    },
+  });
 
   const validate = async () => {
     if (!formRef.value) {
@@ -20,16 +40,19 @@ export function useForm(options?: { isFormValid: boolean }) {
     return isFormValid.value;
   };
 
-  const onSubmit = (cb: () => Promise<void>) => async () => {
-    if (await validate()) {
-      await cb();
-    }
-  };
+  const onValidSubmit =
+    <T>(cb: () => T) =>
+    async () => {
+      if (await validate()) {
+        await cb();
+      }
+    };
 
   return {
     formRef,
+    isFormValid,
     validate,
+    onValidSubmit,
     validateOn,
-    onSubmit,
   };
-}
+};

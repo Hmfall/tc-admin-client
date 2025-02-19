@@ -1,5 +1,5 @@
-import type { PushMessage } from '@/widgets/messageAlert/types';
-import { MessageType } from '@/widgets/messageAlert/types';
+import type { PushMessage } from '@/widgets/messageAlert/model/types';
+import { MessageType } from '@/widgets/messageAlert/model/types';
 
 export const useMessage = () => {
   const pushMessage = inject<PushMessage>('message', () => {

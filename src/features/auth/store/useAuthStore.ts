@@ -1,7 +1,7 @@
 import { jwtDecode } from 'jwt-decode';
 import router from '@/app/providers/router';
 import { AuthAPI } from '@/features/auth/api/AuthApi';
-import type { AuthPayload, JWTPayload } from '@/features/auth/types';
+import type { AuthPayload, JWTPayload } from '@/features/auth/model/types';
 
 interface State {
   jwt: string | null;

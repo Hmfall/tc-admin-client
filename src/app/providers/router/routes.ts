@@ -1,5 +1,11 @@
 import type { RouteRecordRaw } from 'vue-router';
 import MainLayout from '@/app/layouts/MainLayout.vue';
+import { aboutModuleConfig } from '@/modules/about/domain/config';
+import { contactsModuleConfig } from '@/modules/contacts/domain/config';
+import { eventsModuleConfig } from '@/modules/events/domain/config';
+import { galleryModuleConfig } from '@/modules/gallery/domain/config';
+import { partnersModuleConfig } from '@/modules/partners/domain/config';
+import { socialModuleConfig } from '@/modules/socials/domain/config';
 import { authMiddleware } from '@/features/auth/domain/middleware/authMiddleware';
 
 export const routes: RouteRecordRaw[] = [
@@ -14,32 +20,50 @@ export const routes: RouteRecordRaw[] = [
       {
         path: 'about',
         name: 'about',
-        component: async () => await import('@/pages/section/ui/SectionPage.vue'),
+        props: {
+          moduleConfig: aboutModuleConfig,
+        },
+        component: async () => await import('@/widgets/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'events',
         name: 'events',
-        component: async () => await import('@/pages/section/ui/SectionPage.vue'),
+        props: {
+          moduleConfig: eventsModuleConfig,
+        },
+        component: async () => await import('@/widgets/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'gallery',
         name: 'gallery',
-        component: async () => await import('@/pages/section/ui/SectionPage.vue'),
+        props: {
+          moduleConfig: galleryModuleConfig,
+        },
+        component: async () => await import('@/widgets/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'partners',
         name: 'partners',
-        component: async () => await import('@/pages/section/ui/SectionPage.vue'),
+        props: {
+          moduleConfig: partnersModuleConfig,
+        },
+        component: async () => await import('@/widgets/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'social',
         name: 'social',
-        component: async () => await import('@/pages/section/ui/SectionPage.vue'),
+        props: {
+          moduleConfig: socialModuleConfig,
+        },
+        component: async () => await import('@/widgets/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'contacts',
         name: 'contacts',
-        component: async () => await import('@/pages/section/ui/SectionPage.vue'),
+        props: {
+          moduleConfig: contactsModuleConfig,
+        },
+        component: async () => await import('@/widgets/baseModule/ui/BaseModuleLayout.vue'),
       },
     ],
   },
@@ -55,6 +79,6 @@ export const routes: RouteRecordRaw[] = [
       layout: MainLayout,
       middleware: [authMiddleware],
     },
-    component: async () => await import('@/pages/accounts/ui/AccountsPage.vue'),
+    component: async () => await import('@/modules/accounts/ui/AccountsModule.vue'),
   },
 ];

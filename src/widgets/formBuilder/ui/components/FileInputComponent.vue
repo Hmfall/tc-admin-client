@@ -27,14 +27,14 @@
 
 <script setup lang="ts" generic="T extends BaseModel">
 import { VFileInput } from 'vuetify/components';
-import { objectUrlAPI } from '@/entities/objectURL/api/ObjectUrlAPI';
-import { ObjectUrl } from '@/entities/objectURL/model/ObjectUrl';
-import type { BaseModel } from '@/shared/lib/storeFactory';
 import type {
   FileInputField,
   UpdateFormFieldPromise,
   UpdateFormFieldValue,
-} from '@/widgets/formBuilder/types';
+} from '@/widgets/formBuilder/model/types';
+import { ObjectUrl } from '@/entities/objectURL/ObjectUrl';
+import { objectUrlAPI } from '@/entities/objectURL/ObjectUrlAPI';
+import type { BaseModel } from '@/shared/lib/storeFactory';
 
 defineOptions({
   inheritAttrs: false,

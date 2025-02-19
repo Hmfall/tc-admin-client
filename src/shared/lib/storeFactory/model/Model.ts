@@ -1,7 +1,7 @@
 import { plainToInstance } from 'class-transformer';
+import type { ModelConfig } from 'src/shared/lib/storeFactory/model/types';
 import { BaseModel } from '@/shared/lib/storeFactory/model/BaseModel';
 import type { Repository } from '@/shared/lib/storeFactory/model/Repository';
-import type { ModelConfig } from '@/shared/lib/storeFactory/types';
 
 export abstract class Model extends BaseModel {
   public static get $config(): ModelConfig {

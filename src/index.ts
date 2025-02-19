@@ -9,3 +9,5 @@ export const app = createApp(App);
 app.use(router).use(pinia).use(vuetify);
 
 app.mount('#app');
+export { userFormFields } from '@/modules/accounts/domain/form';
+export { userTemplateSlots } from '@/modules/accounts/domain/template';

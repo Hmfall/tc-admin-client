@@ -68,7 +68,7 @@ export abstract class BaseAPI<T extends Model> {
     ).makeSnapshot();
   }
 
-  /* TODO: makeSnapshot on update? */
+  // TODO: makeSnapshot on update?
   public async update(items: T[]): Promise<void> {
     return await this.$repository.updateAll(items.map((item) => item.toJSON()));
   }

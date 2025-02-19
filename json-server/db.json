@@ -159,7 +159,6 @@
       "id": 1,
       "name": "Contact 1",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
       "logo": {
         "id": 1,
         "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
@@ -227,7 +226,6 @@
     },
     {
       "name": "Tue Feb 18 2025 16:57:12 GMT+0300 (Москва, стандартное время)",
-      "logo": {},
       "id": 9
     },
     {

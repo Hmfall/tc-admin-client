@@ -1,8 +1,9 @@
 <template>
   <VForm
     ref="formRef"
+    v-model="isFormValid"
     :validate-on="validateOn"
-    @submit.prevent="onSubmitForm"
+    @submit.prevent="onSubmit"
   >
     <div class="d-flex flex-column align-center">
       <div class="mb-6 text-center">
@@ -48,26 +49,24 @@
 
 <script setup lang="ts">
 import { VForm } from 'vuetify/components';
+import { useMessage } from '@/widgets/messageAlert/model/useMessage';
+import type { AuthPayload } from '@/features/auth/model/types';
 import { useAuthStore } from '@/features/auth/store/useAuthStore';
-import type { AuthPayload } from '@/features/auth/types';
 import { useForm } from '@/shared/lib/useForm/useForm';
 import { useLoading } from '@/shared/lib/useLoading/useLoading';
 import { requiredRule } from '@/shared/utils/validationRules';
-import { useMessage } from '@/widgets/messageAlert/model/useMessage';
 
 const router = useRouter();
 
 const authStore = useAuthStore();
 
-const { formRef, onSubmit, validateOn } = useForm();
-
-const { isLoading, withLoading } = useLoading();
-
 const { showErrorMessage } = useMessage();
+const { isLoading, withLoading } = useLoading();
+const { formRef, onValidSubmit, validateOn, isFormValid } = useForm();
 
 const authPayload = reactive<AuthPayload>({});
 
-const onSubmitForm = onSubmit(async () => {
+const onSubmit = onValidSubmit(async () => {
   await withLoading(authStore.authorize(authPayload))
     .then(() => router.replace('/'))
     .catch(() => showErrorMessage('Неверный email или пароль.'));

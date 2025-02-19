@@ -1,10 +1,9 @@
 import type { ClassConstructor } from 'class-transformer';
-import pinia from '@/app/providers/store';
+import type { ModelConstructor } from 'src/shared/lib/storeFactory/model/types';
 import type { FetchState } from '@/shared/lib/storeFactory/consts';
 import { fetchState } from '@/shared/lib/storeFactory/consts';
 import { BaseAPI } from '@/shared/lib/storeFactory/model/BaseAPI';
 import type { Model } from '@/shared/lib/storeFactory/model/Model';
-import type { ModelConstructor } from '@/shared/lib/storeFactory/types';
 import { useBaseRawFetch } from '@/shared/lib/useFetch/useBaseRawFetch';
 
 export const storeFactory = <T extends Model, A extends BaseAPI<T>>(options: {
@@ -99,4 +98,4 @@ export const storeFactory = <T extends Model, A extends BaseAPI<T>>(options: {
         singleton: options.model.$config.singleton,
       }),
     },
-  })(pinia);
+  });

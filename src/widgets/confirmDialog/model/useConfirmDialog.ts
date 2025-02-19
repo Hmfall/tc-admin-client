@@ -1,4 +1,4 @@
-import type { ConfirmOptions, PushConfirm } from '@/widgets/confirmDialog/types';
+import type { ConfirmOptions, PushConfirm } from '@/widgets/confirmDialog/model/types';
 
 export const useConfirmDialog = () => {
   const pushConfirm = inject<PushConfirm>('confirm', () => {

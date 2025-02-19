@@ -1,7 +1,7 @@
 import type {
   TemplateBuilderMappedSlot,
   TemplateBuilderSlots,
-} from '@/widgets/templateBuilder/types';
+} from '@/widgets/templateBuilder/model/types';
 
 export const templateMappedSlot = <T>(
   builder: TemplateBuilderSlots<T>,
