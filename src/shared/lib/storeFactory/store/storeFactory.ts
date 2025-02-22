@@ -1,10 +1,10 @@
 import type { ClassConstructor } from 'class-transformer';
 import type { ModelConstructor } from 'src/shared/lib/storeFactory/model/types';
+import { useBaseRawFetch } from '@/shared/composables/useFetch/useBaseRawFetch';
 import type { FetchState } from '@/shared/lib/storeFactory/consts';
 import { fetchState } from '@/shared/lib/storeFactory/consts';
 import { BaseAPI } from '@/shared/lib/storeFactory/model/BaseAPI';
 import type { Model } from '@/shared/lib/storeFactory/model/Model';
-import { useBaseRawFetch } from '@/shared/lib/useFetch/useBaseRawFetch';
 
 export const storeFactory = <T extends Model, A extends BaseAPI<T>>(options: {
   model: ModelConstructor<T>;

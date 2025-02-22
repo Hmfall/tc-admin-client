@@ -3,7 +3,10 @@ import { plainToInstance } from 'class-transformer';
 import type { Model } from '@/shared/lib/storeFactory';
 import { Repository } from '@/shared/lib/storeFactory/model/Repository';
 
-export abstract class BaseAPI<T extends Model> {
+export abstract class BaseAPI<
+  T extends Model | unknown = unknown,
+  C extends ClassConstructor<T> = ClassConstructor<T>,
+> {
   private static get $repository(): Repository {
     const APIRootMeta: typeof Model | string = Reflect.getMetadata('model:api-root', this);
 
@@ -16,10 +19,6 @@ export abstract class BaseAPI<T extends Model> {
 
   private get $repository(): Repository {
     return (this.constructor as typeof BaseAPI).$repository;
-  }
-
-  private getModelConstuctor<T extends Model>(): ClassConstructor<T> {
-    return Reflect.getMetadata('model:constructor', this.constructor);
   }
 
   public get api() {
@@ -48,29 +47,53 @@ export abstract class BaseAPI<T extends Model> {
     };
   }
 
-  public async fetch(): Promise<T[]> {
-    return plainToInstance(this.getModelConstuctor<T>(), await this.$repository.getAll()).map(
-      (instance) => instance.makeSnapshot(),
-    );
+  private getModelConstuctor(): C {
+    return Reflect.getMetadata('model:constructor', this.constructor);
   }
 
-  public async fetchThis(): Promise<T> {
-    return plainToInstance(
-      this.getModelConstuctor<T>(),
-      await this.$repository.getThis(),
-    ).makeSnapshot();
+  private instanceGuard(value: any): value is InstanceType<typeof Model> {
+    return value.constructor.prototype === this.getModelConstuctor().prototype;
   }
 
-  public async fetchById(id: ID): Promise<T> {
-    return plainToInstance(
-      this.getModelConstuctor<T>(),
-      await this.$repository.getById(id),
-    ).makeSnapshot();
+  private processedInstance<T>(response: unknown): T {
+    if (this.getModelConstuctor()) {
+      const instance = plainToInstance(this.getModelConstuctor(), response);
+
+      return (
+        Array.isArray(instance)
+          ? instance.map((value) => value.makeSnapshot())
+          : this.instanceGuard(instance)
+            ? instance.makeSnapshot()
+            : null
+      ) as T;
+    }
+
+    return response as T;
+  }
+
+  private processedPlain<T, P extends Plain | Plain[]>(value: T | T[]): P {
+    return (
+      Array.isArray(value)
+        ? value.map((item) => (this.instanceGuard(item) ? item.toJSON() : item))
+        : value
+    ) as P;
+  }
+
+  public async fetch() {
+    return this.processedInstance<T[]>(await this.$repository.getAll());
+  }
+
+  public async fetchThis() {
+    return this.processedInstance<T>(await this.$repository.getThis());
+  }
+
+  public async fetchById(id: ID) {
+    return this.processedInstance<T>(await this.$repository.getById(id));
   }
 
   // TODO: makeSnapshot on update?
   public async update(items: T[]): Promise<void> {
-    return await this.$repository.updateAll(items.map((item) => item.toJSON()));
+    return await this.$repository.updateAll(this.processedPlain(items));
   }
 
   public async deleteById(id: ID): Promise<void> {

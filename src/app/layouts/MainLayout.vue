@@ -12,13 +12,13 @@
 <script setup lang="ts">
 import { useDisplay } from 'vuetify';
 import { aboutModuleConfig } from '@/modules/about/domain/config';
+import type { NavItem } from '@/modules/appMenu/model/types';
+import AppMenu from '@/modules/appMenu/ui/AppMenu.vue';
 import { contactsModuleConfig } from '@/modules/contacts/domain/config';
 import { eventsModuleConfig } from '@/modules/events/domain/config';
 import { galleryModuleConfig } from '@/modules/gallery/domain/config';
 import { partnersModuleConfig } from '@/modules/partners/domain/config';
 import { socialModuleConfig } from '@/modules/socials/domain/config';
-import type { NavItem } from '@/widgets/appMenu/model/types';
-import AppMenu from '@/widgets/appMenu/ui/AppMenu.vue';
 
 const isDrawerExpanded = ref(useDisplay().lgAndUp.value ?? false);
 

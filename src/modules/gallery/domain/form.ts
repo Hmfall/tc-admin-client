@@ -1,8 +1,8 @@
 import { VTextarea, VTextField } from 'vuetify/components';
-import type { FormBuilderFields } from '@/widgets/formBuilder/model/types';
-import { FieldType } from '@/widgets/formBuilder/model/types';
-import FileInputComponent from '@/widgets/formBuilder/ui/components/FileInputComponent.vue';
 import type { Gallery } from '@/entities/gallery/Gallery';
+import type { FormBuilderFields } from '@/shared/components/formBuilder/model/types';
+import { FieldType } from '@/shared/components/formBuilder/model/types';
+import FileInputComponent from '@/shared/components/formBuilder/ui/components/FileInputComponent.vue';
 
 export const galleryFormFields: FormBuilderFields<Gallery> = [
   [

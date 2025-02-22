@@ -14,7 +14,7 @@ export class ObjectUrl extends Model {
   @Exclude()
   file?: File;
 
-  public updateObjectURL(file?: File) {
+  updateObjectURL(file?: File) {
     if (file) {
       this.objectUrl = URL.createObjectURL(file as Blob);
     } else {

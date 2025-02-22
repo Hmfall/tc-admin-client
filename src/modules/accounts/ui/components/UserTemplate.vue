@@ -34,8 +34,8 @@
 </template>
 
 <script setup lang="ts" generic="T extends User">
-import type { ModelTemplateEmit } from '@/widgets/templateBuilder/model/types';
 import type { User } from '@/entities/user/User';
+import type { ModelTemplateEmit } from '@/shared/components/templateBuilder/model/types';
 
 defineProps<{
   value: T;

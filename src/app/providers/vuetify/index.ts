@@ -1,13 +1,9 @@
 import { createVuetify } from 'vuetify';
 import { mdi } from 'vuetify/iconsets/mdi-svg';
-import { VFileUpload } from 'vuetify/labs/VFileUpload';
 import { ru } from 'vuetify/locale';
 import aliases from '@/app/providers/vuetify/icons';
 
 export default createVuetify({
-  components: {
-    VFileUpload,
-  },
   locale: {
     locale: 'ru',
     fallback: 'ru',
@@ -32,6 +28,7 @@ export default createVuetify({
           primary: '#1F75CBFF',
           'on-primary': '#FFFFFF',
           secondary: '#626168FF',
+          surface: '#FFFFFF',
           background: '#F0F0F0FF',
         },
       },

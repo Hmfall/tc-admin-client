@@ -1,7 +1,7 @@
 import { VTextField } from 'vuetify/components';
-import type { FormBuilderFields } from '@/widgets/formBuilder/model/types';
-import { FieldType } from '@/widgets/formBuilder/model/types';
 import type { User } from '@/entities/user/User';
+import type { FormBuilderFields } from '@/shared/components/formBuilder/model/types';
+import { FieldType } from '@/shared/components/formBuilder/model/types';
 
 export const userFormFields: FormBuilderFields<User> = [
   {

@@ -1,5 +1,5 @@
 import type { Axios } from 'axios';
-import axiosInstance from '@/shared/api/axios/axiosInstance';
+import axiosInstance from '@/shared/api/axios';
 
 export class BaseAxiosAPI {
   path!: string;

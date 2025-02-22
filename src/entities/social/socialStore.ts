@@ -1,4 +1,5 @@
+import { storeAdapter } from '@/app/providers/store/utils';
 import { Social } from '@/entities/social/Social';
 import { storeFactory } from '@/shared/lib/storeFactory';
 
-export const socialStore = storeFactory({ model: Social });
+export const socialStore = storeAdapter(storeFactory({ model: Social }));

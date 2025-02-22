@@ -12,9 +12,9 @@
 
 <script setup lang="ts">
 import EmptyLayout from '@/app/layouts/EmptyLayout.vue';
+import ConfirmProvider from '@/shared/components/confirmDialog/ui/ConfirmProvider.vue';
+import MessageProvider from '@/shared/components/messageAlert/ui/MessageProvider.vue';
 import '@/shared/assets/styles/index.scss';
-import ConfirmProvider from '@/widgets/confirmDialog/ui/ConfirmProvider.vue';
-import MessageProvider from '@/widgets/messageAlert/ui/MessageProvider.vue';
 
 const route = useRoute();
 

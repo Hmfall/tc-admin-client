@@ -11,6 +11,8 @@ declare global {
 
   export type FunctionExpression<T = any> = (...args: any[]) => T;
 
+  export type Plain<T = unknown> = Record<string, T>;
+
   export type ArrayElement<T> = T extends readonly (infer E)[] ? E : never;
 
   export type RequireKeys<T extends object, K extends keyof T> = Required<Pick<T, K>> & Omit<T, K>;

@@ -38,6 +38,10 @@ export interface ModelConstructor<T extends Model> extends ClassConstructor<T> {
   $repository: Repository;
 }
 
-export type ModelStore<T extends Model, A extends BaseAPI<T>> = ReturnType<
-  ReturnType<typeof storeFactory<T, A>>
+export type StoreFactoryDefinition<T extends Model, A extends BaseAPI<T>> = ReturnType<
+  typeof storeFactory<T, A>
+>;
+
+export type StoreFactoryReturn<T extends Model, A extends BaseAPI<T>> = ReturnType<
+  StoreFactoryDefinition<T, A>
 >;

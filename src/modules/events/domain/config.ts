@@ -1,6 +1,6 @@
+import type { BaseModuleConfig } from '@/modules/baseModule/model/types';
 import { eventsTemplateSlots } from '@/modules/contacts/domain/template';
 import { eventsFormFields } from '@/modules/events/domain/form';
-import type { BaseModuleConfig } from '@/widgets/baseModule/model/types';
 import { Event } from '@/entities/event/Event';
 import { eventStore } from '@/entities/event/eventStore';
 

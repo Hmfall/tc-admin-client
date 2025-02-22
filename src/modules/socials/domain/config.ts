@@ -1,6 +1,6 @@
+import type { BaseModuleConfig } from '@/modules/baseModule/model/types';
 import { socialsFormFields } from '@/modules/socials/domain/form';
 import { socialsTemplateSlots } from '@/modules/socials/domain/template';
-import type { BaseModuleConfig } from '@/widgets/baseModule/model/types';
 import { Social } from '@/entities/social/Social';
 import { socialStore } from '@/entities/social/socialStore';
 

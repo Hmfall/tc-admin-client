@@ -1,6 +1,6 @@
 import { aboutFormFields } from '@/modules/about/domain/form';
 import { aboutTemplateSlots } from '@/modules/about/domain/template';
-import type { BaseModuleConfig } from '@/widgets/baseModule/model/types';
+import type { BaseModuleConfig } from '@/modules/baseModule/model/types';
 import { About } from '@/entities/about/About';
 import { aboutStore } from '@/entities/about/aboutStore';
 

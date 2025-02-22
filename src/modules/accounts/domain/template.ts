@@ -1,8 +1,8 @@
 import { VSkeletonLoader } from 'vuetify/components';
 import { UserTemplateSlot } from '@/modules/accounts/model/types';
 import UserTemplate from '@/modules/accounts/ui/components/UserTemplate.vue';
-import type { TemplateBuilderSlots } from '@/widgets/templateBuilder/model/types';
 import type { User } from '@/entities/user/User';
+import type { TemplateBuilderSlots } from '@/shared/components/templateBuilder/model/types';
 
 export const userTemplateSlots: TemplateBuilderSlots<User> = {
   render: () => UserTemplate,

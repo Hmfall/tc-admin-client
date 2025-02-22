@@ -1,6 +1,6 @@
+import type { BaseModuleConfig } from '@/modules/baseModule/model/types';
 import { partnersFormFields } from '@/modules/partners/domain/form';
 import { partnersTemplateSlots } from '@/modules/partners/domain/template';
-import type { BaseModuleConfig } from '@/widgets/baseModule/model/types';
 import { Partner } from '@/entities/partner/Partner';
 import { partnerStore } from '@/entities/partner/partnerStore';
 

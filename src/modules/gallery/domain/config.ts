@@ -1,6 +1,6 @@
+import type { BaseModuleConfig } from '@/modules/baseModule/model/types';
 import { galleryFormFields } from '@/modules/gallery/domain/form';
 import { galleryTemplateSlots } from '@/modules/gallery/domain/template';
-import type { BaseModuleConfig } from '@/widgets/baseModule/model/types';
 import { Gallery } from '@/entities/gallery/Gallery';
 import { galleryStore } from '@/entities/gallery/galleryStore';
 

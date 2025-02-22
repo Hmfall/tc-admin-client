@@ -16,10 +16,9 @@ export const EntityConfig = (config: ModelConfig) => {
 
 export const ExposeEntityOwnKeys = () => {
   return (target: any) => {
-    const propertyKeys = (Reflect.ownKeys(new target()) ?? []).filter(
-      (key) => !String(key).startsWith('__'),
-    );
-    propertyKeys.forEach((key) => Expose()(target, key));
+    (Reflect.ownKeys(new target()) ?? [])
+      .filter((key) => !String(key).startsWith('__'))
+      .forEach((key) => Expose()(target, key));
   };
 };
 
@@ -33,6 +32,7 @@ export const Entity = <T extends ClassConstructor>(config: ModelConfig) => {
 
     EntityPath(config.path)(constructor);
     EntityConfig(config)(constructor);
+
     return constructor;
   };
 };

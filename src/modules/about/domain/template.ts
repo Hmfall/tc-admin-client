@@ -1,9 +1,9 @@
 import { VImg } from 'vuetify/components';
-import type { TemplateBuilderSlots } from '@/widgets/templateBuilder/model/types';
-import { CardTemplateSlot } from '@/widgets/templateBuilder/model/types/templates';
-import CardTemplate from '@/widgets/templateBuilder/ui/templates/common/card/CardTemplate.vue';
-import CardTemplateSkeleton from '@/widgets/templateBuilder/ui/templates/common/card/CardTemplateSkeleton.vue';
 import type { About } from '@/entities/about/About';
+import type { TemplateBuilderSlots } from '@/shared/components/templateBuilder/model/types';
+import { CardTemplateSlot } from '@/shared/components/templateBuilder/model/types/templates';
+import CardTemplate from '@/shared/components/templateBuilder/ui/templates/common/card/CardTemplate.vue';
+import CardTemplateSkeleton from '@/shared/components/templateBuilder/ui/templates/common/card/CardTemplateSkeleton.vue';
 
 export const aboutTemplateSlots: TemplateBuilderSlots<About> = {
   render: () => CardTemplate,

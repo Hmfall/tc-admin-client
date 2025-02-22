@@ -42,14 +42,12 @@
 </template>
 
 <script setup lang="ts">
+import ModuleLayout from '@/app/layouts/ModuleLayout.vue';
 import { userFormFields } from '@/modules/accounts/domain/form';
 import { userTemplateSlots } from '@/modules/accounts/domain/template';
-import BaseModule from '@/widgets/baseModule/ui/BaseModule.vue';
+import BaseModule from '@/modules/baseModule/ui/BaseModule.vue';
 import { User } from '@/entities/user/User';
-import { useUserStore } from '@/entities/user/userStore';
-import ModuleLayout from '@/shared/ui/layouts/ModuleLayout.vue';
-
-const userStore = useUserStore();
+import { userStore } from '@/entities/user/userStore';
 
 userStore.fetch();
 
