@@ -5,11 +5,11 @@ import { About } from '@/entities/about/About';
 import { aboutStore } from '@/entities/about/aboutStore';
 
 export const aboutModuleConfig: BaseModuleConfig<About> = {
-    routeName: 'about',
-    name: 'Об объединении',
-    model: About,
-    store: aboutStore,
-    formFields: aboutFormFields,
-    templateSlots: aboutTemplateSlots,
-    singleton: true,
+  routeName: 'about',
+  name: 'Об объединении',
+  model: About,
+  store: aboutStore,
+  formFields: aboutFormFields,
+  templateSlots: aboutTemplateSlots,
+  singleton: true,
 };

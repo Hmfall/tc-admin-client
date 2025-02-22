@@ -5,10 +5,10 @@ import { Event } from '@/entities/event/Event';
 import { eventStore } from '@/entities/event/eventStore';
 
 export const eventsModuleConfig: BaseModuleConfig<Event> = {
-    routeName: 'events',
-    name: 'Проводимые мероприятия',
-    model: Event,
-    store: eventStore,
-    formFields: eventsFormFields,
-    templateSlots: eventsTemplateSlots,
+  routeName: 'events',
+  name: 'Проводимые мероприятия',
+  model: Event,
+  store: eventStore,
+  formFields: eventsFormFields,
+  templateSlots: eventsTemplateSlots,
 };

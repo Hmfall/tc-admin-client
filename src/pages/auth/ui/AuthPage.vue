@@ -1,7 +1,7 @@
 <template>
-    <v-container class="d-flex justify-center align-center">
-        <LoginForm />
-    </v-container>
+  <v-container class="d-flex justify-center align-center">
+    <LoginForm />
+  </v-container>
 </template>
 
 <script setup lang="ts">

@@ -5,10 +5,10 @@ import { Social } from '@/entities/social/Social';
 import { socialStore } from '@/entities/social/socialStore';
 
 export const socialModuleConfig: BaseModuleConfig<Social> = {
-    routeName: 'social',
-    name: 'Социальные сети',
-    model: Social,
-    store: socialStore,
-    formFields: socialsFormFields,
-    templateSlots: socialsTemplateSlots,
+  routeName: 'social',
+  name: 'Социальные сети',
+  model: Social,
+  store: socialStore,
+  formFields: socialsFormFields,
+  templateSlots: socialsTemplateSlots,
 };

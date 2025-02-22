@@ -3,25 +3,25 @@ import { Entity, Model, PrimaryKey } from '@/shared/lib/storeFactory';
 
 @Entity({ path: 'media' })
 export class ObjectUrl extends Model {
-    @PrimaryKey()
-    id: ID;
+  @PrimaryKey()
+  id: ID;
 
-    url?: string;
+  url?: string;
 
-    @Exclude()
-    objectUrl?: string | null = null;
+  @Exclude()
+  objectUrl?: string | null = null;
 
-    @Exclude()
-    file?: File;
+  @Exclude()
+  file?: File;
 
-    updateObjectURL(file?: File) {
-        if (file) {
-            this.objectUrl = URL.createObjectURL(file as Blob);
-        } else {
-            if (this.objectUrl) {
-                URL.revokeObjectURL(this.objectUrl);
-                this.objectUrl = null;
-            }
-        }
+  updateObjectURL(file?: File) {
+    if (file) {
+      this.objectUrl = URL.createObjectURL(file as Blob);
+    } else {
+      if (this.objectUrl) {
+        URL.revokeObjectURL(this.objectUrl);
+        this.objectUrl = null;
+      }
     }
+  }
 }

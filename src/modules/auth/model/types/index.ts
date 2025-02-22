@@ -1,12 +1,12 @@
 export interface AuthPayload {
-    email?: string;
-    password?: string;
+  email?: string;
+  password?: string;
 }
 
 export interface AuthResponse {
-    jwt: string;
+  jwt: string;
 }
 
 export interface JWTPayload {
-    exp: Date;
+  exp: Date;
 }

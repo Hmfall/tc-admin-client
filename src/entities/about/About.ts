@@ -4,10 +4,10 @@ import { Entity, Model } from '@/shared/lib/storeFactory';
 
 @Entity({ path: 'about', singleton: true })
 export class About extends Model {
-    name: string;
+  name: string;
 
-    description: string;
+  description: string;
 
-    @Type(() => ObjectUrl)
-    logo = new ObjectUrl();
+  @Type(() => ObjectUrl)
+  logo = new ObjectUrl();
 }

@@ -1,56 +1,55 @@
 <template>
-    <component
-        :is="props.slots.render()"
-        v-if="Object.keys(mappedSlots).length"
-        v-bind="{ value }"
+  <component
+    :is="props.slots.render()"
+    v-if="Object.keys(mappedSlots).length"
+    v-bind="{ value }"
+  >
+    <template
+      v-for="slot in mappedSlots"
+      #[slot.slot]
+      :key="slot.key"
     >
-        <template
-            v-for="slot in mappedSlots"
-            #[slot.slot]
-            :key="slot.key"
-        >
-            <component
-                :is="slot.render()"
-                v-if="slot.render"
-                v-bind="bindProps(slot.attrs)"
-            >
-                {{ props.value[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T] }}
-            </component>
+      <component
+        :is="slot.render()"
+        v-if="slot.render"
+        v-bind="bindProps(slot.attrs)"
+      >
+        {{ props.value[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T] }}
+      </component>
 
-            <template v-else>
-                {{ props.value[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T] }}
-            </template>
-        </template>
-    </component>
+      <template v-else>
+        {{ props.value[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T] }}
+      </template>
+    </template>
+  </component>
 </template>
 
 <script setup lang="ts" generic="T">
 import { ObjectUrl } from '@/entities/objectURL/ObjectUrl';
 import type {
-    TemplateBuilderSlots,
-    TemplateSlotAttrs,
+  TemplateBuilderSlots,
+  TemplateSlotAttrs,
 } from '@/shared/components/templateBuilder/model/types';
 import { templateMappedSlot } from '@/shared/components/templateBuilder/utils';
 
 const props = defineProps<{
-    value: T;
-    slots: TemplateBuilderSlots<T>;
+  value: T;
+  slots: TemplateBuilderSlots<T>;
 }>();
 
 const mappedSlots = computed(() => templateMappedSlot(props.slots));
 
 const bindProps = (slotProp?: TemplateSlotAttrs<T>) =>
-    Object.entries(slotProp ?? {}).reduce<Record<string, any>>((acc, [slot, key]) => {
-        if (typeof key === 'object' && key.bindKey) {
-            const value = props.value?.[key.bindKey];
+  Object.entries(slotProp ?? {}).reduce<Record<string, any>>((acc, [slot, key]) => {
+    if (typeof key === 'object' && key.bindKey) {
+      const value = props.value?.[key.bindKey];
 
-            if (value) {
-                acc[slot] =
-                    (value instanceof ObjectUrl ? value.objectUrl ?? value.url : value) ?? key;
-            }
-        } else {
-            acc[slot] = key;
-        }
-        return acc;
-    }, {});
+      if (value) {
+        acc[slot] = (value instanceof ObjectUrl ? value.objectUrl ?? value.url : value) ?? key;
+      }
+    } else {
+      acc[slot] = key;
+    }
+    return acc;
+  }, {});
 </script>

@@ -4,18 +4,18 @@ import { Entity, Model, PrimaryKey } from '@/shared/lib/storeFactory';
 
 @Entity({ path: 'events' })
 export class Event extends Model {
-    @PrimaryKey()
-    id: ID;
+  @PrimaryKey()
+  id: ID;
 
-    name: string;
+  name: string;
 
-    description: string;
+  description: string;
 
-    details: string;
+  details: string;
 
-    @Type(() => ObjectUrl)
-    background = new ObjectUrl();
+  @Type(() => ObjectUrl)
+  background = new ObjectUrl();
 
-    @Type(() => ObjectUrl)
-    logo = new ObjectUrl();
+  @Type(() => ObjectUrl)
+  logo = new ObjectUrl();
 }

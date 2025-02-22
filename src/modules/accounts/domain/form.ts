@@ -4,20 +4,20 @@ import type { FormBuilderFields } from '@/shared/components/formBuilder/model/ty
 import { FieldType } from '@/shared/components/formBuilder/model/types';
 
 export const userFormFields: FormBuilderFields<User> = [
-    {
-        key: 'login',
-        type: FieldType.textField,
-        render: () => VTextField,
-        props: {
-            label: 'Логин',
-        },
+  {
+    key: 'login',
+    type: FieldType.textField,
+    render: () => VTextField,
+    props: {
+      label: 'Логин',
     },
-    {
-        key: 'email',
-        type: FieldType.textField,
-        render: () => VTextField,
-        props: {
-            label: 'Email',
-        },
+  },
+  {
+    key: 'email',
+    type: FieldType.textField,
+    render: () => VTextField,
+    props: {
+      label: 'Email',
     },
+  },
 ];
