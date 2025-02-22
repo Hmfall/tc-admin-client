@@ -1,6 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
 import router from '@/app/providers/router';
-import { storeAdapter } from '@/app/providers/store/utils';
+import { defineStoreAdapter } from '@/app/providers/store/utils';
 import { AuthAPI } from '@/modules/auth/api/AuthApi';
 import type { AuthPayload, JWTPayload } from '@/modules/auth/model/types';
 
@@ -35,4 +35,4 @@ const useAuthStore = defineStore('auth', {
   },
 });
 
-export const authStore = storeAdapter(useAuthStore);
+export const authStore = defineStoreAdapter(useAuthStore);

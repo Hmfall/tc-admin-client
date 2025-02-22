@@ -1,3 +1,4 @@
+import type { GenericAbortSignal } from 'axios/index';
 import type { ClassConstructor } from 'class-transformer';
 import type { ModelConstructor } from 'src/shared/lib/storeFactory/model/types';
 import { useBaseRawFetch } from '@/shared/composables/useFetch/useBaseRawFetch';
@@ -26,9 +27,10 @@ export const storeFactory = <T extends Model, A extends BaseAPI<T>>(options: {
       };
     },
     actions: {
-      async fetch(): Promise<void> {
+      async fetch(options?: { signal?: GenericAbortSignal }): Promise<void> {
         await useBaseRawFetch({
-          handler: () => (this.config.singleton ? this.$api.fetchThis() : this.$api.fetch()),
+          handler: () =>
+            this.config.singleton ? this.$api.fetchThis(options) : this.$api.fetch(options),
           setData: this.setItems,
           setIsLoading: this.setIsLoading,
           setError: this.setError,

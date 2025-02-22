@@ -16,12 +16,15 @@
 import ModuleLayout from '@/app/layouts/ModuleLayout.vue';
 import type { BaseModuleConfig } from '@/modules/baseModule/model/types';
 import BaseModule from '@/modules/baseModule/ui/BaseModule.vue';
+import { abortController } from '@/shared/lib/abortController/abortController';
 import type { BaseAPI, Model } from '@/shared/lib/storeFactory';
 import { isPiniaStore } from '@/shared/utils';
 
 const props = defineProps<{
   moduleConfig: BaseModuleConfig<T, A>;
 }>();
+
+const { getControllerSignal, setupController } = abortController();
 
 const cfg = computed(() => ({
   ...props.moduleConfig,
@@ -30,7 +33,14 @@ const cfg = computed(() => ({
     : props.moduleConfig.store(),
 }));
 
-watch(cfg, (value) => value.store.fetch(), {
-  immediate: true,
-});
+watch(
+  cfg,
+  (value) => {
+    setupController();
+    value.store.fetch({ signal: getControllerSignal() });
+  },
+  {
+    immediate: true,
+  },
+);
 </script>

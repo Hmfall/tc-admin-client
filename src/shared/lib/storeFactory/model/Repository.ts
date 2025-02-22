@@ -1,13 +1,13 @@
-import type { AxiosRequestConfig, AxiosResponse } from 'axios';
+import type { AxiosRequestConfig, AxiosResponse, GenericAbortSignal } from 'axios';
 import { BaseAxiosAPI } from '@/shared/lib/storeFactory/model/BaseAxiosAPI';
 
 export class Repository extends BaseAxiosAPI {
-  async getAll<T>(params?: Record<string, unknown>) {
-    return (await this.axios.get<T[]>(`${this.path}`, { params })).data;
+  async getAll<T>(params?: Record<string, unknown>, options?: { signal?: GenericAbortSignal }) {
+    return (await this.axios.get<T[]>(`${this.path}`, { params, ...options })).data;
   }
 
-  async getThis<T>(params?: Record<string, unknown>) {
-    return (await this.axios.get<T>(`${this.path}`, { params })).data;
+  async getThis<T>(params?: Record<string, unknown>, options?: { signal?: GenericAbortSignal }) {
+    return (await this.axios.get<T>(`${this.path}`, { params, ...options })).data;
   }
 
   async getById<T>(id: ID) {

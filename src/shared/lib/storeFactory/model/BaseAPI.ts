@@ -1,4 +1,4 @@
-import type { AxiosRequestConfig } from 'axios';
+import type { AxiosRequestConfig, GenericAbortSignal } from 'axios';
 import { plainToInstance } from 'class-transformer';
 import type { Model } from '@/shared/lib/storeFactory';
 import { Repository } from '@/shared/lib/storeFactory/model/Repository';
@@ -79,12 +79,12 @@ export abstract class BaseAPI<
     ) as P;
   }
 
-  public async fetch() {
-    return this.processedInstance<T[]>(await this.$repository.getAll());
+  public async fetch(options?: { signal?: GenericAbortSignal }) {
+    return this.processedInstance<T[]>(await this.$repository.getAll({}, options));
   }
 
-  public async fetchThis() {
-    return this.processedInstance<T>(await this.$repository.getThis());
+  public async fetchThis(options?: { signal?: GenericAbortSignal }) {
+    return this.processedInstance<T>(await this.$repository.getThis({}, options));
   }
 
   public async fetchById(id: ID) {
