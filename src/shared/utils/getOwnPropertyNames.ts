@@ -1,3 +1,3 @@
 export const getOwnPropertyNames = Object.getOwnPropertyNames as <T extends object>(
-  obj: T,
+    obj: T,
 ) => Array<keyof T>;

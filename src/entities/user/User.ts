@@ -2,12 +2,12 @@ import { Entity, Model, PrimaryKey } from '@/shared/lib/storeFactory';
 
 @Entity({ path: 'users' })
 export class User extends Model {
-  @PrimaryKey()
-  id: ID;
+    @PrimaryKey()
+    id: ID;
 
-  login: string;
+    login: string;
 
-  email: string;
+    email: string;
 
-  isAdmin: boolean;
+    isAdmin: boolean;
 }

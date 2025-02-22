@@ -1,13 +1,13 @@
 <template>
-  <v-app>
-    <v-layout>
-      <ConfirmProvider>
-        <MessageProvider>
-          <component :is="layout" />
-        </MessageProvider>
-      </ConfirmProvider>
-    </v-layout>
-  </v-app>
+    <v-app>
+        <v-layout>
+            <ConfirmProvider>
+                <MessageProvider>
+                    <component :is="layout" />
+                </MessageProvider>
+            </ConfirmProvider>
+        </v-layout>
+    </v-app>
 </template>
 
 <script setup lang="ts">

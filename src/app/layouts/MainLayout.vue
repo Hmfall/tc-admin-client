@@ -1,12 +1,12 @@
 <template>
-  <AppMenu
-    v-model:expanded="isDrawerExpanded"
-    :nav-items="navItems"
-  />
+    <AppMenu
+        v-model:expanded="isDrawerExpanded"
+        :nav-items="navItems"
+    />
 
-  <v-main>
-    <router-view />
-  </v-main>
+    <v-main>
+        <router-view />
+    </v-main>
 </template>
 
 <script setup lang="ts">
@@ -23,17 +23,17 @@ import { socialModuleConfig } from '@/modules/socials/domain/config';
 const isDrawerExpanded = ref(useDisplay().lgAndUp.value ?? false);
 
 provide('drawerExpanded', {
-  updateDrawerExpanded: (value: boolean) => {
-    isDrawerExpanded.value = value;
-  },
+    updateDrawerExpanded: (value: boolean) => {
+        isDrawerExpanded.value = value;
+    },
 });
 
 const navItems: NavItem[] = [
-  aboutModuleConfig,
-  eventsModuleConfig,
-  galleryModuleConfig,
-  partnersModuleConfig,
-  socialModuleConfig,
-  contactsModuleConfig,
+    aboutModuleConfig,
+    eventsModuleConfig,
+    galleryModuleConfig,
+    partnersModuleConfig,
+    socialModuleConfig,
+    contactsModuleConfig,
 ];
 </script>

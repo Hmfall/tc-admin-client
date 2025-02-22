@@ -2,12 +2,12 @@ import type { Axios } from 'axios';
 import axiosInstance from '@/shared/api/axios';
 
 export class BaseAxiosAPI {
-  path!: string;
+    path!: string;
 
-  axios!: Axios;
+    axios!: Axios;
 
-  constructor(path: string, axios = axiosInstance) {
-    this.path = path;
-    this.axios = axios;
-  }
+    constructor(path: string, axios = axiosInstance) {
+        this.path = path;
+        this.axios = axios;
+    }
 }

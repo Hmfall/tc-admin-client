@@ -6,38 +6,38 @@ import CardTemplate from '@/shared/components/templateBuilder/ui/templates/commo
 import CardTemplateSkeleton from '@/shared/components/templateBuilder/ui/templates/common/card/CardTemplateSkeleton.vue';
 
 export const eventsTemplateSlots: TemplateBuilderSlots<Event> = {
-  render: () => CardTemplate,
-  skeletonRender: () => CardTemplateSkeleton,
-  slots: [
-    {
-      key: 'name',
-      slot: CardTemplateSlot.title,
-    },
-    {
-      key: 'description',
-      slot: CardTemplateSlot.subtitle,
-    },
-    {
-      key: 'details',
-      slot: CardTemplateSlot.text,
-    },
-    {
-      slot: CardTemplateSlot.previewImage,
-      render: () => VImg,
-      attrs: {
-        src: {
-          bindKey: 'logo',
+    render: () => CardTemplate,
+    skeletonRender: () => CardTemplateSkeleton,
+    slots: [
+        {
+            key: 'name',
+            slot: CardTemplateSlot.title,
         },
-      },
-    },
-    {
-      slot: CardTemplateSlot.image,
-      render: () => VImg,
-      attrs: {
-        src: {
-          bindKey: 'background',
+        {
+            key: 'description',
+            slot: CardTemplateSlot.subtitle,
         },
-      },
-    },
-  ],
+        {
+            key: 'details',
+            slot: CardTemplateSlot.text,
+        },
+        {
+            slot: CardTemplateSlot.previewImage,
+            render: () => VImg,
+            attrs: {
+                src: {
+                    bindKey: 'logo',
+                },
+            },
+        },
+        {
+            slot: CardTemplateSlot.image,
+            render: () => VImg,
+            attrs: {
+                src: {
+                    bindKey: 'background',
+                },
+            },
+        },
+    ],
 };
