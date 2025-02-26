@@ -62,7 +62,7 @@ const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
-const { formRef, onValidSubmit, isFormValid, validateOn } = useForm({
+const { formRef, handleSubmit, isFormValid, validateOn } = useForm({
   initial: props.mode === 'update' ?? false,
 });
 
@@ -70,7 +70,7 @@ const thisValue = ref(props.value?.clone() ?? (props?.model && new props.model()
 
 const promises = ref<UpdateFormFieldPromise<T>[]>([]);
 
-const onSubmit = onValidSubmit(() => {
+const onSubmit = handleSubmit(() => {
   if (props.mode === 'create') {
     emit('create', thisValue.value, promises.value);
   } else if (props.mode === 'update') {

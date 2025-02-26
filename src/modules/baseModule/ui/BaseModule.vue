@@ -202,7 +202,7 @@ const onDeleteItem = async (item: T) => {
 const onDeleteAllBtn = () => {};
 
 const onResetBtn = async (item: T) => {
-  await confirm('Сбросить изменения?', 'Сборосить');
+  await confirm('Сбросить изменения?', 'Сбросить');
   item.resetToSnapshot();
 };
 

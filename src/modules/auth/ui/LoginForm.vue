@@ -58,17 +58,17 @@ import { requiredRule } from '@/shared/utils/validationRules';
 
 const router = useRouter();
 
-const { showErrorMessage } = useMessage();
+const message = useMessage();
 const { isLoading, withLoading } = useLoading();
-const { formRef, onValidSubmit, validateOn, isFormValid } = useForm();
+const { formRef, handleSubmit, validateOn, isFormValid } = useForm();
 
 const auth = useAuth();
 
 const authPayload = reactive<AuthPayload>({});
 
-const onSubmit = onValidSubmit(async () => {
+const onSubmit = handleSubmit(async () => {
   await withLoading(auth.authorize(authPayload))
     .then(() => router.replace('/'))
-    .catch(() => showErrorMessage('Неверный email или пароль.'));
+    .catch(() => message.error('Неверный email или пароль.'));
 });
 </script>

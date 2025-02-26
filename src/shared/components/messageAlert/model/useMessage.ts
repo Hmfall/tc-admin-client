@@ -7,10 +7,9 @@ export const useMessage = () => {
   });
 
   return {
-    showSuccessMessage: (value: string) => pushMessage({ value, type: MessageType.success }),
-    showWarningMessage: (value: string) => pushMessage({ value, type: MessageType.warning }),
-    showErrorMessage: (value: string) => pushMessage({ value, type: MessageType.error }),
-    showInfoMessage: (value: string) => pushMessage({ value, type: MessageType.info }),
-    showMessage: (value: string) => pushMessage({ value }),
+    success: (value: string) => pushMessage({ value, type: MessageType.success }),
+    warning: (value: string) => pushMessage({ value, type: MessageType.warning }),
+    error: (value: string) => pushMessage({ value, type: MessageType.error }),
+    info: (value: string) => pushMessage({ value, type: MessageType.info }),
   };
 };

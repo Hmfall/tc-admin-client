@@ -78,7 +78,7 @@ const mappedNavItems = props.navItems.reduce<Record<string, NavItem>>((acc, curr
 }, {});
 
 watch(route, (value) => {
-  if (value && !mappedNavItems[value.name as string]) {
+  if (!mappedNavItems[String(value.name)]) {
     tab.value = null;
   }
 });

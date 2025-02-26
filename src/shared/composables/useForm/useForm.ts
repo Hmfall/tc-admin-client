@@ -40,7 +40,7 @@ export const useForm = (
     return isFormValid.value;
   };
 
-  const onValidSubmit =
+  const handleSubmit =
     <T>(cb: () => T) =>
     async () => {
       if (await validate()) {
@@ -52,7 +52,7 @@ export const useForm = (
     formRef,
     isFormValid,
     validate,
-    onValidSubmit,
+    handleSubmit,
     validateOn,
   };
 };
