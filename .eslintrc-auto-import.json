@@ -86,6 +86,11 @@
     "watch": true,
     "watchEffect": true,
     "watchPostEffect": true,
-    "watchSyncEffect": true
+    "watchSyncEffect": true,
+    "ShallowRef": true,
+    "UnwrapRef": true,
+    "WatchSource": true,
+    "until": true,
+    "useVModel": true
   }
 }
