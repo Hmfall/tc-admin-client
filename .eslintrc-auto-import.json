@@ -87,10 +87,12 @@
     "watchEffect": true,
     "watchPostEffect": true,
     "watchSyncEffect": true,
+    "useVModel": true,
     "ShallowRef": true,
     "UnwrapRef": true,
     "WatchSource": true,
-    "until": true,
-    "useVModel": true
+    "VForm": true,
+    "whenever": true,
+    "until": true
   }
 }

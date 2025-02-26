@@ -1,4 +1,4 @@
-import type { BaseAPI } from '@/shared/lib/storeFactory/model/BaseAPI';
+import type { BaseAPI } from '@/shared/lib/storeFactory';
 import type { Model } from '@/shared/lib/storeFactory/model/Model';
 
 export interface FetchState<T extends Model, A extends BaseAPI<T>> {

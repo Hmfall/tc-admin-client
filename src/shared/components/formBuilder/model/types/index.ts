@@ -1,4 +1,3 @@
-import type { Component } from 'vue';
 import type { VFileInput, VRow, VTextarea, VTextField } from 'vuetify/components';
 
 export interface CommonFormBuilderField<T> {

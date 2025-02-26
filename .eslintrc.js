@@ -20,6 +20,7 @@ module.exports = {
   plugins: [],
   rules: {
     semi: ['warn', 'always'],
+    'no-trailing-spaces': 'warn',
     'lines-between-class-members': ['warn', 'always'],
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/no-unused-vars': 'warn',
@@ -37,8 +38,6 @@ module.exports = {
           { pattern: '@/app/**', group: 'internal', position: 'after' },
           { pattern: '@/pages/**', group: 'internal', position: 'after' },
           { pattern: '@/modules/**', group: 'internal', position: 'after' },
-          { pattern: '@/widgets/**', group: 'internal', position: 'after' },
-          { pattern: '@/features/**', group: 'internal', position: 'after' },
           { pattern: '@/entities/**', group: 'internal', position: 'after' },
           { pattern: '@/shared/**', group: 'internal', position: 'after' },
         ],

@@ -6,8 +6,15 @@ export class BaseAxiosAPI {
 
   axios!: Axios;
 
-  constructor(path: string, axios = axiosInstance) {
-    this.path = path;
+  constructor(path?: string, axios = axiosInstance) {
+    if (path) {
+      this.path = path;
+    }
+
     this.axios = axios;
+  }
+
+  set APIPath(path: string) {
+    this.path = path;
   }
 }

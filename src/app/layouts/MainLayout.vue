@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import { useDisplay } from 'vuetify';
+import { injectKeyModuleLayoutContext } from '@/app/layouts/moduleLayout/model/context';
 import { aboutModuleConfig } from '@/modules/about/domain/config';
 import type { NavItem } from '@/modules/appMenu/model/types';
 import AppMenu from '@/modules/appMenu/ui/AppMenu.vue';
@@ -22,7 +23,7 @@ import { socialModuleConfig } from '@/modules/socials/domain/config';
 
 const isDrawerExpanded = ref(useDisplay().lgAndUp.value ?? false);
 
-provide('drawerExpanded', {
+provide(injectKeyModuleLayoutContext, {
   updateDrawerExpanded: (value: boolean) => {
     isDrawerExpanded.value = value;
   },

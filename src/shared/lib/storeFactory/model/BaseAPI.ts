@@ -1,24 +1,28 @@
 import type { AxiosRequestConfig, GenericAbortSignal } from 'axios';
 import { plainToInstance } from 'class-transformer';
 import type { Model } from '@/shared/lib/storeFactory';
+import { BaseAxiosAPI } from '@/shared/lib/storeFactory/model/BaseAxiosAPI';
 import { Repository } from '@/shared/lib/storeFactory/model/Repository';
+import type { ModelConfig } from '@/shared/lib/storeFactory/model/types';
 
-export abstract class BaseAPI<
+export class BaseAPI<
   T extends Model | unknown = unknown,
-  C extends ClassConstructor<T> = ClassConstructor<T>,
-> {
-  private static get $repository(): Repository {
-    const APIRootMeta: typeof Model | string = Reflect.getMetadata('model:api-root', this);
+  M extends ClassConstructor<T> & {
+    $config: ModelConfig;
+  } = ClassConstructor<T> & { $config: ModelConfig },
+> extends BaseAxiosAPI {
+  public $model: M | null = null;
 
-    if (typeof APIRootMeta !== 'string') {
-      return APIRootMeta.$repository;
+  constructor(path?: string) {
+    super(path);
+
+    if (!path) {
+      this.APIPath = Reflect.getMetadata('api:path', this.constructor);
     }
-
-    return new Repository(APIRootMeta);
   }
 
-  private get $repository(): Repository {
-    return (this.constructor as typeof BaseAPI).$repository;
+  public get $repository(): Repository {
+    return new Repository(this.path);
   }
 
   public get api() {
@@ -47,17 +51,13 @@ export abstract class BaseAPI<
     };
   }
 
-  private getModelConstuctor(): C {
-    return Reflect.getMetadata('model:constructor', this.constructor);
-  }
-
   private instanceGuard(value: any): value is InstanceType<typeof Model> {
-    return value.constructor.prototype === this.getModelConstuctor().prototype;
+    return value.constructor.prototype === this?.$model?.prototype;
   }
 
   private processedInstance<T>(response: unknown): T {
-    if (this.getModelConstuctor()) {
-      const instance = plainToInstance(this.getModelConstuctor(), response);
+    if (this.$model) {
+      const instance = plainToInstance(this.$model, response);
 
       return (
         Array.isArray(instance)
@@ -79,15 +79,15 @@ export abstract class BaseAPI<
     ) as P;
   }
 
-  public async fetch(options?: { signal?: GenericAbortSignal }) {
+  public async load(options?: { signal?: GenericAbortSignal }) {
     return this.processedInstance<T[]>(await this.$repository.getAll({}, options));
   }
 
-  public async fetchThis(options?: { signal?: GenericAbortSignal }) {
-    return this.processedInstance<T>(await this.$repository.getThis({}, options));
+  public async loadThis(options?: { signal?: GenericAbortSignal }) {
+    return this.processedInstance<T>(await this.$repository.getAll({}, options));
   }
 
-  public async fetchById(id: ID) {
+  public async loadById(id: ID) {
     return this.processedInstance<T>(await this.$repository.getById(id));
   }
 

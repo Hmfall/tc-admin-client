@@ -95,5 +95,7 @@ export abstract class BaseModel {
       this.__uuid = uuid;
       this.__snapshot = snapshot;
     }
+
+    return this;
   }
 }

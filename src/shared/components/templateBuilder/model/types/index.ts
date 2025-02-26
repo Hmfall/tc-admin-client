@@ -1,5 +1,3 @@
-import type { Component } from 'vue';
-
 export type TemplateSlotAttrs<T> = Record<string, string | number | Record<'bindKey', keyof T>>;
 
 export interface TemplateBuilderSlot<T> {

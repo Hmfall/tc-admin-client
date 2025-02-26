@@ -1,7 +1,10 @@
-import { Entity, Model, PrimaryKey } from '@/shared/lib/storeFactory';
+import type { Partner } from '@/entities/partner/Partner';
+import { BaseAPI, Entity, Model, PrimaryKey } from '@/shared/lib/storeFactory';
 
-@Entity({ path: 'users' })
+@Entity()
 export class User extends Model {
+  static $api = new BaseAPI<Partner>('users');
+
   @PrimaryKey()
   id: ID;
 

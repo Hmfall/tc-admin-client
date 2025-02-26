@@ -28,7 +28,6 @@
 <script setup lang="ts" generic="T extends BaseModel">
 import { VFileInput } from 'vuetify/components';
 import { ObjectUrl } from '@/entities/objectURL/ObjectUrl';
-import { objectUrlAPI } from '@/entities/objectURL/ObjectUrlAPI';
 import type {
   FileInputField,
   UpdateFormFieldPromise,
@@ -54,7 +53,9 @@ const emit = defineEmits<{
   (e: 'create-promise', promise: UpdateFormFieldPromise<T>): void;
 }>();
 
-const isObjectURL = (value?: ObjectUrl | File): value is ObjectUrl => value instanceof ObjectUrl;
+const isObjectURL = (value?: ObjectUrl | File): value is ObjectUrl => {
+  return value instanceof ObjectUrl;
+};
 
 const objectUrl = computed(() => {
   const value = props.item[props.fieldKey] as ObjectUrl | File;
@@ -67,7 +68,7 @@ const objectUrl = computed(() => {
 });
 
 const getObjectUrlAPIFn = (obj: ObjectUrl) => (): Promise<UpdateFormFieldValue<T>> => {
-  return objectUrlAPI.createObjectUrl(obj.file).then((value) => {
+  return ObjectUrl.$api.createObjectUrl(obj.file).then((value) => {
     value.objectUrl = obj.objectUrl;
     return { key: props.fieldKey, value };
   });

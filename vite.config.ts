@@ -14,7 +14,19 @@ export default defineConfig({
     AutoImport({
       dts: './src/app/imports/auto-imports.d.ts',
       include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/],
-      imports: ['vue', 'vue-router', 'pinia'],
+      imports: [
+        'vue',
+        'vue-router',
+        'pinia',
+        {
+          '@vueuse/core': ['useVModel', 'until'],
+        },
+        {
+          from: 'vue',
+          imports: ['Ref', 'ShallowRef', 'UnwrapRef', 'MaybeRef', 'WatchSource', 'Component'],
+          type: true,
+        },
+      ],
       eslintrc: {
         enabled: true,
       },

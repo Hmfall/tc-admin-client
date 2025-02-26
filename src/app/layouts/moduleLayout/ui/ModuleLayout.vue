@@ -10,7 +10,7 @@
           density="default"
           variant="text"
           icon="$mdiMenu"
-          @click="updateDrawerExpanded(true)"
+          @click="moduleLayoutContext?.updateDrawerExpanded(true)"
         />
 
         <div class="w-100 text-center">
@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-const { updateDrawerExpanded } = inject('drawerExpanded') as {
-  updateDrawerExpanded: (value: boolean) => void;
-};
+import { injectKeyModuleLayoutContext } from '@/app/layouts/moduleLayout/model/context';
+
+const moduleLayoutContext = inject(injectKeyModuleLayoutContext);
 </script>

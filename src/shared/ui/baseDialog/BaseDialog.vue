@@ -1,10 +1,9 @@
 <template>
   <v-dialog
+    v-model="modelValue"
     :persistent="persistent"
-    :model-value="modelValue"
     :width="dialogWidth ?? 'auto'"
     @after-leave="emit('afterLeave')"
-    @update:model-value="updateModelValue"
   >
     <v-card class="text-body-2">
       <div
@@ -16,7 +15,7 @@
           icon="$mdiWindowClose"
           variant="text"
           density="default"
-          @click="updateModelValue(false)"
+          @click="closeDialog"
         />
       </div>
 
@@ -76,18 +75,22 @@ const emit = defineEmits<{
   (e: 'afterLeave'): void;
 }>();
 
-const updateModelValue = (value: boolean) => emit('update:modelValue', value);
+const modelValue = useVModel(props, 'modelValue', emit);
+
+const closeDialog = () => {
+  modelValue.value = false;
+};
 
 const onConfirm = () => {
   emit('onConfirm');
 
   if (!props.persistentOnConfirm) {
-    updateModelValue(false);
+    closeDialog();
   }
 };
 
 const onCancel = () => {
   emit('onCancel');
-  updateModelValue(false);
+  closeDialog();
 };
 </script>
