@@ -1,8 +1,11 @@
 import { Exclude } from 'class-transformer';
+import { ObjectUrlAPI } from '@/entities/objectURL/ObjectUrlAPI';
 import { Entity, Model, PrimaryKey } from '@/shared/lib/storeFactory';
 
-@Entity({ path: 'media' })
+@Entity()
 export class ObjectUrl extends Model {
+  static $api = new ObjectUrlAPI();
+
   @PrimaryKey()
   id: ID;
 

@@ -1,5 +1,3 @@
-import type { Ref, ShallowRef, UnwrapRef, WatchSource } from 'vue';
-import { until } from '@vueuse/core';
 import { useBaseRawFetch } from '@/shared/composables/useFetch/useBaseRawFetch';
 
 type UseFetchData<T> = Ref<T> | Ref<T | null>;

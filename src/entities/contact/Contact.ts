@@ -1,9 +1,11 @@
 import { Type } from 'class-transformer';
 import { ObjectUrl } from '@/entities/objectURL/ObjectUrl';
-import { Entity, Model, PrimaryKey } from '@/shared/lib/storeFactory';
+import { BaseAPI, Entity, Model, PrimaryKey } from '@/shared/lib/storeFactory';
 
-@Entity({ path: 'contacts' })
+@Entity()
 export class Contact extends Model {
+  static $api = new BaseAPI<Contact>('contacts');
+
   @PrimaryKey()
   id: ID;
 

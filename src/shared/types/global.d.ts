@@ -1,4 +1,4 @@
-import type { DefineComponent, MaybeRef } from 'vue';
+import type { DefineComponent } from 'vue';
 // eslint-disable-next-line vue/prefer-import-from-vue
 import type { UnwrapRefSimple as VueUnwrapRefSimple } from '@vue/reactivity';
 

@@ -1,12 +1,6 @@
 import { Expose } from 'class-transformer';
 import type { ModelConfig } from 'src/shared/lib/storeFactory/model/types';
-import { Repository } from '@/shared/lib/storeFactory/model/Repository';
-
-export const EntityPath = (path: string) => {
-  return (target: any) => {
-    Reflect.defineMetadata('model:repository', new Repository(path), target);
-  };
-};
+import type { Model } from '@/shared/lib/storeFactory';
 
 export const EntityConfig = (config: ModelConfig) => {
   return (target: any) => {
@@ -22,15 +16,24 @@ export const ExposeEntityOwnKeys = () => {
   };
 };
 
-export const Entity = <T extends ClassConstructor>(config: ModelConfig) => {
+const ModelConstructor = () => {
+  return (target: any) => {
+    if (typeof target.$api?.$model !== 'undefined') {
+      (target as typeof Model).$api.$model = target;
+    }
+  };
+};
+
+export const Entity = <T extends ClassConstructor>(config: ModelConfig = {}) => {
   config.exposeOwn = config.exposeOwn ?? true;
 
   return (constructor: T): T => {
+    ModelConstructor()(constructor);
+
     if (config.exposeOwn) {
       ExposeEntityOwnKeys()(constructor);
     }
 
-    EntityPath(config.path)(constructor);
     EntityConfig(config)(constructor);
 
     return constructor;

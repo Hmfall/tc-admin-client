@@ -2,8 +2,8 @@ import { plainToInstance } from 'class-transformer';
 import { ObjectUrl } from '@/entities/objectURL/ObjectUrl';
 import { API, BaseAPI } from '@/shared/lib/storeFactory';
 
-@API(ObjectUrl)
-class ObjectUrlAPI extends BaseAPI<ObjectUrl> {
+@API('media')
+export class ObjectUrlAPI extends BaseAPI<ObjectUrl> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async createObjectUrl(file?: File) {
     return plainToInstance(
@@ -19,5 +19,3 @@ class ObjectUrlAPI extends BaseAPI<ObjectUrl> {
     );
   }
 }
-
-export const objectUrlAPI = new ObjectUrlAPI();

@@ -3,10 +3,6 @@ import { BaseAxiosAPI } from '@/shared/lib/storeFactory/model/BaseAxiosAPI';
 
 export class Repository extends BaseAxiosAPI {
   async getAll<T>(params?: Record<string, unknown>, options?: { signal?: GenericAbortSignal }) {
-    return (await this.axios.get<T[]>(`${this.path}`, { params, ...options })).data;
-  }
-
-  async getThis<T>(params?: Record<string, unknown>, options?: { signal?: GenericAbortSignal }) {
     return (await this.axios.get<T>(`${this.path}`, { params, ...options })).data;
   }
 

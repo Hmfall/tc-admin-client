@@ -34,7 +34,6 @@
 </template>
 
 <script setup lang="ts" generic="T extends BaseModel">
-import type { Ref } from 'vue';
 import type { ClassConstructor } from 'class-transformer';
 import { VForm } from 'vuetify/components';
 import type {

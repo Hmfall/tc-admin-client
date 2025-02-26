@@ -65,6 +65,7 @@ declare global {
   const toValue: (typeof import('vue'))['toValue'];
   const triggerRef: (typeof import('vue'))['triggerRef'];
   const unref: (typeof import('vue'))['unref'];
+  const until: (typeof import('@vueuse/core'))['until'];
   const useAttrs: (typeof import('vue'))['useAttrs'];
   const useCssModule: (typeof import('vue'))['useCssModule'];
   const useCssVars: (typeof import('vue'))['useCssVars'];
@@ -75,6 +76,7 @@ declare global {
   const useRouter: (typeof import('vue-router'))['useRouter'];
   const useSlots: (typeof import('vue'))['useSlots'];
   const useTemplateRef: (typeof import('vue'))['useTemplateRef'];
+  const useVModel: (typeof import('@vueuse/core'))['useVModel'];
   const watch: (typeof import('vue'))['watch'];
   const watchEffect: (typeof import('vue'))['watchEffect'];
   const watchPostEffect: (typeof import('vue'))['watchPostEffect'];

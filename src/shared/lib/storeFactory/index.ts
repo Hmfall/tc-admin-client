@@ -5,4 +5,3 @@ export { storeFactory } from '@/shared/lib/storeFactory/store/storeFactory';
 export { PrimaryKey } from '@/shared/lib/storeFactory/decorators/PrimaryKey';
 export { Entity } from '@/shared/lib/storeFactory/decorators/Entity';
 export { API } from '@/shared/lib/storeFactory/decorators/API';
-export { ExposeResponse } from '@/shared/lib/storeFactory/decorators/ExposeResponse';

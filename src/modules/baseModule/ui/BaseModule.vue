@@ -72,7 +72,6 @@
 </template>
 
 <script setup lang="ts" generic="T extends Model, A extends BaseAPI<T>">
-import type { Ref } from 'vue';
 import type { ClassConstructor } from 'class-transformer';
 import { useConfirmDialog } from '@/shared/components/confirmDialog/model/useConfirmDialog';
 import type {
@@ -117,14 +116,11 @@ const emit = defineEmits<{
 
 props.store.initDraftWatch();
 
-const mode = ref<FormEditMode>();
-
 const confirm = useConfirmDialog();
 
+const mode = ref<FormEditMode>();
 const isLocalDialog = ref(props.dialog);
-
 const updatingItem = ref(null) as Ref<T | null>;
-
 const draft = ref(new Map()) as Ref<Map<T, UpdateFormFieldPromise<T>[]>>;
 
 const { isLoading: isLoadingImmediateSubmit, withLoading: withLoadingImmediateSubmit } =
@@ -159,7 +155,7 @@ const useImmediateSubmit = async (
       }[operation](),
     );
 
-    props.store.fetch();
+    props.store.load();
   }
 
   thisDialog.close();
@@ -177,6 +173,7 @@ const onCreateItem = async (item: T) => {
   thisDialog.close();
 };
 
+// TODO: toDraft
 const onUpdateItem = async (item: T, promises: UpdateFormFieldPromise<T>[]) => {
   if (props.immediateSubmit) {
     await useImmediateSubmit('update', item);

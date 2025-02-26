@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts" generic="T extends Model, A extends BaseAPI<T>">
-import ModuleLayout from '@/app/layouts/ModuleLayout.vue';
+import ModuleLayout from '@/app/layouts/moduleLayout/ui/ModuleLayout.vue';
 import type { BaseModuleConfig } from '@/modules/baseModule/model/types';
 import BaseModule from '@/modules/baseModule/ui/BaseModule.vue';
 import { abortController } from '@/shared/lib/abortController/abortController';
@@ -37,7 +37,7 @@ watch(
   cfg,
   (value) => {
     setupController();
-    value.store.fetch({ signal: getControllerSignal() });
+    value.store.load({ signal: getControllerSignal() });
   },
   {
     immediate: true,

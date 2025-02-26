@@ -8,7 +8,5 @@ export const isPiniaStore = <
 >(
   value: any,
 ): value is Store<ID, S, G, A> => {
-  return (
-    value && typeof value === 'object' && '$id' in value && '$state' in value && '$dispose' in value
-  );
+  return typeof value === 'object' && '$id' in value && '$state' in value && '$dispose' in value;
 };

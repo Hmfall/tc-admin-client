@@ -1,45 +1,30 @@
-import type { GenericAbortSignal } from 'axios/index';
-import type { ClassConstructor } from 'class-transformer';
+import type { GenericAbortSignal } from 'axios';
 import type { ModelConstructor } from 'src/shared/lib/storeFactory/model/types';
 import { useBaseRawFetch } from '@/shared/composables/useFetch/useBaseRawFetch';
+import type { BaseAPI } from '@/shared/lib/storeFactory';
 import type { FetchState } from '@/shared/lib/storeFactory/consts';
 import { fetchState } from '@/shared/lib/storeFactory/consts';
-import { BaseAPI } from '@/shared/lib/storeFactory/model/BaseAPI';
 import type { Model } from '@/shared/lib/storeFactory/model/Model';
 
-export const storeFactory = <T extends Model, A extends BaseAPI<T>>(options: {
-  model: ModelConstructor<T>;
-  api?: ClassConstructor<A>;
-}) =>
-  defineStore(options.model.$config.path, {
-    state: (): FetchState<T, A> => {
-      const modelAPI = options.api
-        ? new options.api()
-        : (() => {
-            const API = new (class extends BaseAPI<T> {})() as A;
-            Reflect.defineMetadata('model:api-root', options.model, API.constructor);
-            Reflect.defineMetadata('model:constructor', options.model, API.constructor);
-            return API;
-          })();
-
-      return {
-        ...fetchState(modelAPI),
-      };
-    },
+export const storeFactory = <T extends Model, A extends BaseAPI<T>>(model: ModelConstructor<T>) =>
+  defineStore(model.$api.path, {
+    state: (): FetchState<T, A> => ({
+      ...fetchState(model.$api as A),
+    }),
     actions: {
-      async fetch(options?: { signal?: GenericAbortSignal }): Promise<void> {
+      async load(options?: { signal?: GenericAbortSignal }): Promise<void> {
         await useBaseRawFetch({
           handler: () =>
-            this.config.singleton ? this.$api.fetchThis(options) : this.$api.fetch(options),
+            this.config.singleton ? this.$api.loadThis(options) : this.$api.load(options),
           setData: this.setItems,
           setIsLoading: this.setIsLoading,
           setError: this.setError,
         }).execute();
       },
       async update(): Promise<void> {
-        await this.$api.update(this.draft as T[]);
+        await model.$api.update(this.draft as T[]);
         this.draft = [];
-        await this.fetch();
+        await this.load();
       },
       toDraft(item: T) {
         if (this.config.singleton && !this.draft.length) {
@@ -97,7 +82,7 @@ export const storeFactory = <T extends Model, A extends BaseAPI<T>>(options: {
       items: (state) => state.unwrapItems as T[],
       isDraftEmpty: (state) => !!state.draft.length,
       config: () => ({
-        singleton: options.model.$config.singleton,
+        singleton: model.$config.singleton,
       }),
     },
   });

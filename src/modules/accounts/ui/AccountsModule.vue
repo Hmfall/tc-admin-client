@@ -42,14 +42,14 @@
 </template>
 
 <script setup lang="ts">
-import ModuleLayout from '@/app/layouts/ModuleLayout.vue';
+import ModuleLayout from '@/app/layouts/moduleLayout/ui/ModuleLayout.vue';
 import { userFormFields } from '@/modules/accounts/domain/form';
 import { userTemplateSlots } from '@/modules/accounts/domain/template';
 import BaseModule from '@/modules/baseModule/ui/BaseModule.vue';
 import { User } from '@/entities/user/User';
 import { userStore } from '@/entities/user/userStore';
 
-userStore.fetch();
+userStore.load();
 
 const isDialog = ref(false);
 

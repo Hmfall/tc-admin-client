@@ -1,9 +1,11 @@
 import { Type } from 'class-transformer';
 import { ObjectUrl } from '@/entities/objectURL/ObjectUrl';
-import { Entity, Model } from '@/shared/lib/storeFactory';
+import { BaseAPI, Entity, Model } from '@/shared/lib/storeFactory';
 
-@Entity({ path: 'about', singleton: true })
+@Entity({ singleton: true })
 export class About extends Model {
+  static $api = new BaseAPI<About>('about');
+
   name: string;
 
   description: string;
