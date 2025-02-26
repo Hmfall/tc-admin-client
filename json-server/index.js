@@ -45,6 +45,6 @@ server.post('/auth', (req, res) => {
 
 server.use(router);
 
-server.listen(5000, () => {
+server.listen(3001, () => {
   console.log('JSON Server is running');
 });
