@@ -15,17 +15,23 @@
       variant="flat"
       color="primary"
       :class="{ 'btn--locked': lockedConfirmButton }"
-      :text="confirmButton"
       :disabled="disabled"
       :loading="loading"
       @click="!lockedConfirmButton ? emit('confirm') : null"
-    />
+    >
+      {{ confirmButton }}
+
+      <slot name="confirmButtonTooltip" />
+    </v-btn>
 
     <v-btn
       v-if="!confirm && typeof cancelButton === 'string'"
-      :text="cancelButton"
       @click="emit('cancel')"
-    />
+    >
+      {{ cancelButton }}
+
+      <slot name="cancelButtonTooltip" />
+    </v-btn>
   </div>
 </template>
 

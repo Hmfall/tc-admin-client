@@ -12,3 +12,7 @@ export interface ConfirmInstance extends ConfirmOptions {
 }
 
 export type PushConfirm = (options: ConfirmOptions) => Promise<void>;
+
+export interface ConfirmResolve {
+  isConfirmed: boolean;
+}

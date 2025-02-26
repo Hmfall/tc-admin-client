@@ -100,6 +100,9 @@ declare global {
     MaybeRefOrGetter,
     VNode,
     WritableComputedRef,
+    ShallowRef,
+    UnwrapRef,
+    WatchSource,
   } from 'vue';
   import('vue');
 }

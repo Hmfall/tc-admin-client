@@ -37,7 +37,7 @@ module.exports = {
           { pattern: 'vite', group: 'builtin', position: 'after' },
           { pattern: '@/app/**', group: 'internal', position: 'after' },
           { pattern: '@/pages/**', group: 'internal', position: 'after' },
-          { pattern: '@/modules/**', group: 'internal', position: 'after' },
+          { pattern: '@/features/**', group: 'internal', position: 'after' },
           { pattern: '@/entities/**', group: 'internal', position: 'after' },
           { pattern: '@/shared/**', group: 'internal', position: 'after' },
         ],

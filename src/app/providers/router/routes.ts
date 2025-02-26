@@ -1,12 +1,12 @@
 import type { RouteRecordRaw } from 'vue-router';
 import MainLayout from '@/app/layouts/MainLayout.vue';
-import { aboutModuleConfig } from '@/modules/about/domain/config';
-import { authMiddleware } from '@/modules/auth/domain/middleware/authMiddleware';
-import { contactsModuleConfig } from '@/modules/contacts/domain/config';
-import { eventsModuleConfig } from '@/modules/events/domain/config';
-import { galleryModuleConfig } from '@/modules/gallery/domain/config';
-import { partnersModuleConfig } from '@/modules/partners/domain/config';
-import { socialModuleConfig } from '@/modules/socials/domain/config';
+import { aboutModuleConfig } from '@/pages/about/domain/config';
+import { contactsModuleConfig } from '@/pages/contacts/domain/config';
+import { eventsModuleConfig } from '@/pages/events/domain/config';
+import { galleryModuleConfig } from '@/pages/gallery/domain/config';
+import { partnersModuleConfig } from '@/pages/partners/domain/config';
+import { socialModuleConfig } from '@/pages/socials/domain/config';
+import { authMiddleware } from '@/features/auth/domain/middleware/authMiddleware';
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -23,7 +23,7 @@ export const routes: RouteRecordRaw[] = [
         props: {
           moduleConfig: aboutModuleConfig,
         },
-        component: async () => await import('@/modules/baseModule/ui/BaseModuleLayout.vue'),
+        component: async () => await import('@/features/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'events',
@@ -31,7 +31,7 @@ export const routes: RouteRecordRaw[] = [
         props: {
           moduleConfig: eventsModuleConfig,
         },
-        component: async () => await import('@/modules/baseModule/ui/BaseModuleLayout.vue'),
+        component: async () => await import('@/features/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'gallery',
@@ -39,7 +39,7 @@ export const routes: RouteRecordRaw[] = [
         props: {
           moduleConfig: galleryModuleConfig,
         },
-        component: async () => await import('@/modules/baseModule/ui/BaseModuleLayout.vue'),
+        component: async () => await import('@/features/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'partners',
@@ -47,7 +47,7 @@ export const routes: RouteRecordRaw[] = [
         props: {
           moduleConfig: partnersModuleConfig,
         },
-        component: async () => await import('@/modules/baseModule/ui/BaseModuleLayout.vue'),
+        component: async () => await import('@/features/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'social',
@@ -55,7 +55,7 @@ export const routes: RouteRecordRaw[] = [
         props: {
           moduleConfig: socialModuleConfig,
         },
-        component: async () => await import('@/modules/baseModule/ui/BaseModuleLayout.vue'),
+        component: async () => await import('@/features/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'contacts',
@@ -63,7 +63,7 @@ export const routes: RouteRecordRaw[] = [
         props: {
           moduleConfig: contactsModuleConfig,
         },
-        component: async () => await import('@/modules/baseModule/ui/BaseModuleLayout.vue'),
+        component: async () => await import('@/features/baseModule/ui/BaseModuleLayout.vue'),
       },
     ],
   },
@@ -79,6 +79,6 @@ export const routes: RouteRecordRaw[] = [
       layout: MainLayout,
       middleware: [authMiddleware],
     },
-    component: async () => await import('@/modules/accounts/ui/AccountsModule.vue'),
+    component: async () => await import('@/pages/accounts/ui/AccountsModule.vue'),
   },
 ];

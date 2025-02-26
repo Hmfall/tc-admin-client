@@ -4,8 +4,8 @@
   <v-snackbar
     v-model="isSnackbar"
     class="message-snackbar"
+    timeout="2000"
     location="top"
-    timeout="4000000"
     rounded="md"
   >
     <v-alert

@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "dev-app": "concurrently \"npm run dev\" \"npm run dev:server\"",
     "build": "vite build",
+    "build-app": "concurrently \"npm run build\" \"npm run dev:server\"",
     "lint": "eslint \"src/**/*.{ts,vue}\"",
     "lint:fix": "eslint \"src/**/*.{ts,vue}\" --fix",
     "prettier": "npx prettier --write \"**/*.{js,ts,vue,cjs,mts,json,scss}\"",
@@ -22,6 +24,7 @@
     "@typescript-eslint/eslint-plugin": "=6.18.1",
     "@typescript-eslint/parser": "=6.18.1",
     "@vitejs/plugin-vue": "=5.2.1",
+    "concurrently": "=9.1.2",
     "eslint": "=8.56.0",
     "eslint-config-prettier": "=9.1.0",
     "eslint-import-resolver-alias": "=1.1.2",
