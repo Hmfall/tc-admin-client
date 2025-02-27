@@ -105,4 +105,7 @@ declare global {
     WatchSource,
   } from 'vue';
   import('vue');
+  // @ts-ignore
+  export type { RouteRecordRaw, RouteRecordName } from 'vue-router';
+  import('vue-router');
 }

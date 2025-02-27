@@ -1,14 +1,13 @@
 import { jwtDecode } from 'jwt-decode';
 import router from '@/app/providers/router';
-import { defineStoreAdapter } from '@/app/providers/store/utils';
 import { AuthAPI } from '@/features/auth/api/AuthApi';
-import type { AuthPayload, JWTPayload } from '@/features/auth/model/types';
+import type { AuthPayload, JWTPayload, ResetPasswordPayload } from '@/features/auth/model/types';
 
 interface State {
   jwt: string | null;
 }
 
-const useAuthStore = defineStore('auth', {
+export const useAuthStore = defineStore('auth', {
   state: (): State => ({
     jwt: null,
   }),
@@ -23,6 +22,8 @@ const useAuthStore = defineStore('auth', {
 
       localStorage.setItem('jwt', JSON.stringify(jwt));
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async resetPassword(payload: ResetPasswordPayload) {},
     logout() {
       this.jwt = null;
       localStorage.removeItem('jwt');
@@ -34,5 +35,3 @@ const useAuthStore = defineStore('auth', {
     isAuthorized: () => !!localStorage.getItem('jwt'),
   },
 });
-
-export const authStore = defineStoreAdapter(useAuthStore);

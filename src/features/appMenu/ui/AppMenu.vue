@@ -36,7 +36,7 @@
       <div class="d-flex flex-column align-center ga-5 mt-4 mb-6">
         <div class="text-center">
           <router-link
-            :to="{ name: 'accounts' }"
+            :to="{ name: AppRoutes.accounts }"
             class="text-decoration-underline"
             active-class="color-primary"
           >
@@ -45,7 +45,7 @@
         </div>
 
         <div>
-          <v-btn @click="auth.logout">Выйти</v-btn>
+          <v-btn @click="authStore.logout">Выйти</v-btn>
         </div>
       </div>
     </div>
@@ -53,8 +53,9 @@
 </template>
 
 <script setup lang="ts">
+import { AppRoutes } from '@/app/providers/router/appRoutes';
 import type { NavItem } from '@/features/appMenu/model/types';
-import { useAuth } from '@/features/auth/model/useAuth';
+import { useAuthStore } from '@/features/auth/store/useAuthStore';
 
 const props = defineProps<{
   expanded: boolean;
@@ -68,7 +69,7 @@ defineEmits<{
 const route = useRoute();
 const router = useRouter();
 
-const auth = useAuth();
+const authStore = useAuthStore();
 
 const tab = ref(router.currentRoute.value.name);
 

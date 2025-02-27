@@ -1,8 +1,8 @@
 import type { RouterContext } from '@/app/providers/router/types';
-import { useAuth } from '@/features/auth/model/useAuth';
+import { useAuthStore } from '@/features/auth/store/useAuthStore';
 
 export const authMiddleware = async ({ next }: RouterContext) => {
-  if (!useAuth().isAuthorized.value) {
+  if (!useAuthStore().isAuthorized) {
     return next({
       name: 'auth',
     });

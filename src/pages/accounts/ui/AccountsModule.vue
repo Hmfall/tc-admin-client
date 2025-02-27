@@ -1,6 +1,6 @@
 <template>
   <ModuleLayout>
-    <template #header>Управление аккаунтами администраторов</template>
+    <template #header>{{ accountsModuleConfig.name }}</template>
 
     <v-sheet max-width="480">
       <v-list-item class="mb-2">
@@ -33,33 +33,33 @@
         immediate-submit
         loading-on-delete
         hide-actions
-        :model="User"
-        :store="userStore"
-        :template-slots="userTemplateSlots"
-        :form-fields="userFormFields"
-        :delete-all-confirm="() => confirm('Удалить всех пользователей?', 'Удалить')"
-      />
+        :module-name="accountsModuleConfig.name"
+        :model="accountsModuleConfig.model"
+        :store="accountsModuleConfig.store"
+        :template-slots="accountsModuleConfig.templateSlots"
+        :form-fields="accountsModuleConfig.formFields"
+        :delete-all-confirm="['Удалить всех пользователей?', 'Удалить']"
+      >
+      </BaseModule>
     </v-sheet>
   </ModuleLayout>
 </template>
 
 <script setup lang="ts">
 import ModuleLayout from '@/app/layouts/moduleLayout/ui/ModuleLayout.vue';
-import { userFormFields } from '@/pages/accounts/domain/form';
-import { userTemplateSlots } from '@/pages/accounts/domain/template';
+import { accountsModuleConfig } from '@/pages/accounts/domain/config';
 import BaseModule from '@/features/baseModule/ui/BaseModule.vue';
-import { User } from '@/entities/user/User';
-import { userStore } from '@/entities/user/userStore';
-import { useConfirmDialog } from '@/shared/components/confirmDialog/model/useConfirmDialog';
+import { useUserStore } from '@/entities/user/useUserStore';
 
-const confirm = useConfirmDialog();
+const userStore = useUserStore();
 
 userStore.load();
 
-// TODO: eslit no-undef for global types.d.ts
+const isDialog = ref(false);
+
+// TODO: eslit no-undef global.types.d.ts
 // eslint-disable-next-line no-undef
 const moduleRef = ref<ComponentInstance<typeof BaseModule>>();
-const isDialog = ref(false);
 
 const onOpenDialogBtn = () => {
   isDialog.value = true;

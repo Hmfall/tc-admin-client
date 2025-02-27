@@ -95,7 +95,6 @@
 <script setup lang="ts" generic="T extends Model">
 import type { ModelTemplateEmit } from '@/features/templateBuilder/model/types';
 import type { Model } from '@/shared/lib/storeFactory';
-import ActionButtons from '@/shared/ui/actionButtons/ActionButtons.vue';
 
 const emit = defineEmits<ModelTemplateEmit>();
 

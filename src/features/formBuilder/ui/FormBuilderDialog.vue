@@ -6,6 +6,13 @@
     @after-leave="emit('close')"
     @update:model-value="$emit('update:modelValue', $event)"
   >
+    <template
+      v-if="$slots.header"
+      #header
+    >
+      <slot name="header" />
+    </template>
+
     <!--  TODO: Позиционирование TextEditor -->
     <v-row
       v-if="editor"

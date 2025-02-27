@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-column ga-8">
     <div
-      v-if="!hideActions"
+      v-if="!hideActions && !store.config.singleton"
       class="d-flex justify-end ga-4"
     >
       <v-btn @click="onDeleteAllBtn">Удалить все</v-btn>
@@ -77,7 +77,27 @@
       @update="onUpdateItem"
       @close="onClose"
       @update:model-value="$emit('update:dialog', $event)"
-    />
+    >
+      <template #header>
+        <v-breadcrumbs>
+          <v-breadcrumbs-item>
+            {{ props.moduleName }}
+          </v-breadcrumbs-item>
+
+          <template v-if="!store.config.singleton">
+            <v-breadcrumbs-divider />
+
+            <v-breadcrumbs-item>
+              <template v-if="mode === 'create'">
+                <span class="text-decoration-underline font-italic">Добавить</span>
+              </template>
+
+              <template v-else>{{ updatingItemName }}</template>
+            </v-breadcrumbs-item>
+          </template>
+        </v-breadcrumbs>
+      </template>
+    </FormBuilderDialog>
   </div>
 </template>
 
@@ -92,20 +112,21 @@ import type {
 import FormBuilderDialog from '@/features/formBuilder/ui/FormBuilderDialog.vue';
 import type { TemplateBuilderSlots } from '@/features/templateBuilder/model/types';
 import TemplateBuilder from '@/features/templateBuilder/ui/TemplateBuilder.vue';
-import type { ConfirmResolve } from '@/shared/components/confirmDialog/model/types';
+import type { ConfirmOptions } from '@/shared/components/confirmDialog/model/types';
 import { useConfirmDialog } from '@/shared/components/confirmDialog/model/useConfirmDialog';
 import { useMessage } from '@/shared/components/messageAlert/model/useMessage';
 import { useLoading } from '@/shared/composables/useLoading/useLoading';
 import type { BaseAPI, Model } from '@/shared/lib/storeFactory';
-import type { StoreFactoryReturn } from '@/shared/lib/storeFactory/model/types';
+import type { StoreFactoryDefinition } from '@/shared/lib/storeFactory/model/types';
 import ActionButtons from '@/shared/ui/actionButtons/ActionButtons.vue';
 import SkeletonLoader from '@/shared/ui/skeletonLoader/SkeletonLoader.vue';
 
 const props = withDefaults(
   defineProps<{
     dialog?: boolean;
+    moduleName: string;
     model: ClassConstructor<T>;
-    store: StoreFactoryReturn<T, A>;
+    store: StoreFactoryDefinition<T, A>;
     templateSlots: TemplateBuilderSlots<T>;
     formFields?: FormBuilderFields<T>;
     immediateSubmit?: boolean;
@@ -117,8 +138,8 @@ const props = withDefaults(
     dialogWidth?: string | number;
     class?: string;
     editor?: boolean;
-    deleteItemConfirm?: () => Promise<ConfirmResolve>;
-    deleteAllConfirm?: () => Promise<ConfirmResolve>;
+    deleteItemConfirm?: ConfirmOptions;
+    deleteAllConfirm?: ConfirmOptions;
   }>(),
   {
     refetchStore: true,
@@ -129,21 +150,25 @@ const emit = defineEmits<{
   (e: 'update:dialog', value: boolean): void;
 }>();
 
-props.store.initDraftWatch();
-
 const message = useMessage();
 const confirm = useConfirmDialog();
-
-const mode = ref<FormEditMode>();
-const isLocalDialog = ref(props.dialog);
-const updatingItem = ref(null) as Ref<T | null>;
-const draft = ref(new Map()) as Ref<Map<T, UpdateFormFieldPromise<T>[]>>;
 
 const { isLoading: isLoadingImmediateSubmit, withLoading: withLoadingImmediateSubmit } =
   useLoading();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { isLoading: isLoadingDraft, withLoading: withLoadingDraft } = useLoading();
+
+const mode = ref<FormEditMode>();
+const isLocalDialog = ref(props.dialog);
+
+const updatingItem = ref(null) as Ref<T | null>;
+const updatingItemName = ref(null) as Ref<string | null>;
+const draft = ref(new Map()) as Ref<Map<T, UpdateFormFieldPromise<T>[]>>;
+
+const store = computed(() => props.store());
+
+store.value.initDraftWatch();
 
 // TODO: Обработка promises для immediateSubmit
 const useImmediateSubmit = async (
@@ -160,7 +185,7 @@ const useImmediateSubmit = async (
         delete: props.loadingOnDelete,
       }[operation]
     ) {
-      props.store.setIsLoading(true);
+      store.value.setIsLoading(true);
     }
 
     await withLoadingImmediateSubmit<T | void>(
@@ -171,7 +196,7 @@ const useImmediateSubmit = async (
       }[operation](),
     );
 
-    props.store.load();
+    store.value.load();
   }
 
   thisDialog.close();
@@ -184,7 +209,7 @@ const onCreateItem = async (item: T) => {
     return;
   }
 
-  props.store.toDraft(item);
+  store.value.toDraft(item);
 
   thisDialog.close();
 };
@@ -207,8 +232,12 @@ const onUpdateItem = async (item: T, promises: UpdateFormFieldPromise<T>[]) => {
 // TODO: Обработка delete операции draft-варианта формы
 const onDeleteItem = async (item: T) => {
   if (props.immediateSubmit) {
-    await props.deleteItemConfirm?.();
+    if (props.deleteItemConfirm) {
+      await confirm(...props.deleteItemConfirm);
+    }
+
     await useImmediateSubmit('delete', item);
+
     return;
   }
 
@@ -217,7 +246,9 @@ const onDeleteItem = async (item: T) => {
 };
 
 const onDeleteAllBtn = async () => {
-  await props.deleteAllConfirm?.();
+  if (props.deleteAllConfirm) {
+    await confirm(...props.deleteAllConfirm);
+  }
   // TODO: Запрос на удаление всех сущностей
   message.warning('В разработке!');
 };
@@ -228,13 +259,19 @@ const onResetBtn = async (item: T) => {
 };
 
 const onUpdateBtn = (item: T) => {
+  const primaryField = item.getPrimaryFieldValue();
+
+  if (typeof primaryField === 'string') {
+    updatingItemName.value = primaryField;
+  }
+
   updatingItem.value = item;
   mode.value = 'update';
   thisDialog.open();
 };
 
 const onSaveBtn = () => {
-  console.log(props.store.draft);
+  console.log(store.value.draft);
   // TODO: Обработка промисов формы, отправка черновика
   // withLoadingDraft(
   //   Promise.all(
@@ -254,7 +291,9 @@ const onSaveBtn = () => {
 };
 
 const onClose = () => {
+  mode.value = 'create';
   updatingItem.value = null;
+  updatingItemName.value = null;
 };
 
 const thisDialog = {

@@ -26,6 +26,7 @@
 
     <ActionButtons
       v-else
+      class="mt-2 px-4"
       confirm-button="Сохранить"
       :loading="loading"
       @cancel="emit('close')"
@@ -62,7 +63,7 @@ const emit = defineEmits<{
 }>();
 
 const { formRef, handleSubmit, isFormValid, validateOn } = useForm({
-  initial: props.mode === 'update' ?? false,
+  initial: props.mode === 'update',
 });
 
 const thisValue = ref(props.value?.clone() ?? (props?.model && new props.model())) as Ref<T>;

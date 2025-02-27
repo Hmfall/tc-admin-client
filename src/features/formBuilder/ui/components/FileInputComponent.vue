@@ -4,6 +4,7 @@
       v-if="isObjectURL(modelValue)"
       :src="objectUrl?.objectUrl ?? objectUrl?.url"
       :width="$attrs['width'] as string"
+      max-height="282"
       :class="objectUrl?.objectUrl ?? objectUrl?.url ? 'mb-4' : 'h-0'"
     />
 
@@ -41,7 +42,7 @@ defineOptions({
 
 const props = defineProps<
   // eslint-disable-next-line vue/no-reserved-props,vue/no-reserved-keys,vue/prop-name-casing
-  FileInputField<T> & {
+  FileInputField & {
     modelValue: ObjectUrl | File;
     item: T;
     fieldKey: keyof T;
@@ -81,8 +82,10 @@ const updateModelValue = (file?: File | File[]) => {
 
   if (objectUrl.value) {
     const obj = objectUrl.value.clone();
+
     obj.file = file;
     obj.updateObjectURL(file);
+
     emit('update:modelValue', obj);
     emit('create-promise', getObjectUrlAPIFn(obj));
   } else {

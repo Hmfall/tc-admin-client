@@ -1,7 +1,7 @@
 import type {
-  ConfirmOptions,
-  PushConfirm,
+  ConfirmInternalOptions,
   ConfirmResolve,
+  PushConfirm,
 } from '@/shared/components/confirmDialog/model/types';
 
 export const useConfirmDialog = () => {
@@ -10,9 +10,9 @@ export const useConfirmDialog = () => {
   });
 
   return (
-    content?: ConfirmOptions['content'],
-    confirmText?: ConfirmOptions['confirmText'],
-    cancelText?: ConfirmOptions['cancelText'],
+    content?: ConfirmInternalOptions['content'],
+    confirmText?: ConfirmInternalOptions['confirmText'],
+    cancelText?: ConfirmInternalOptions['cancelText'],
   ) =>
     new Promise<ConfirmResolve>((resolve) =>
       pushConfirm({ content, confirmText, cancelText })

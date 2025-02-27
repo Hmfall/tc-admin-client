@@ -30,14 +30,14 @@
 <script setup lang="ts">
 import type {
   ConfirmInstance,
-  ConfirmOptions,
+  ConfirmInternalOptions,
 } from '@/shared/components/confirmDialog/model/types';
 import BaseDialog from '@/shared/ui/baseDialog/BaseDialog.vue';
 
 // TODO: Array<ConfirmInstance>
 const confirm = ref<ConfirmInstance>({ modelValue: false });
 
-const pushConfirm = (options: ConfirmOptions): Promise<void> => {
+const pushConfirm = (options: ConfirmInternalOptions): Promise<void> => {
   return new Promise((resolve, reject) => {
     confirm.value = {
       id: Symbol(),

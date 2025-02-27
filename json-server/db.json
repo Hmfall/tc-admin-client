@@ -21,10 +21,10 @@
     }
   ],
   "about": {
-    "name": "About",
+    "name": "Об объединении",
     "logo": {
       "id": 14,
-      "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+      "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     },
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
   },
@@ -33,13 +33,13 @@
       "id": 1,
       "logo": {
         "id": 13,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
       "background": {
         "id": 14,
-        "url": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Event 1",
+      "name": "Мероприятие 1",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     },
@@ -47,13 +47,13 @@
       "id": 2,
       "logo": {
         "id": 12,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
       "background": {
         "id": 15,
-        "url": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Event 2",
+      "name": "Мероприятие 2",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     }
@@ -63,31 +63,31 @@
       "id": 1,
       "logo": {
         "id": 11,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Ablum 1",
+      "name": "Альбом 1",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     },
     {
       "id": 2,
       "logo": {
         "id": 10,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Ablum 2",
+      "name": "Альбом 2",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     },
     {
       "id": 3,
       "logo": {
         "id": 9,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Ablum 3",
+      "name": "Альбом 3",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     }
   ],
   "partners": [
@@ -95,31 +95,31 @@
       "id": 1,
       "logo": {
         "id": 8,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Partner 1",
+      "name": "Партнер 1",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     },
     {
       "id": 2,
       "logo": {
         "id": 7,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Partner 2",
+      "name": "Партнер 2",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     },
     {
       "id": 3,
       "logo": {
         "id": 6,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Partner 3",
+      "name": "Партнер 3",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     }
   ],
   "socials": [
@@ -127,93 +127,93 @@
       "id": 1,
       "logo": {
         "id": 5,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Social 1",
+      "name": "Социальная сеть 1",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     },
     {
       "id": 2,
       "logo": {
         "id": 4,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Social 2",
+      "name": "Социальная сеть 2",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     },
     {
       "id": 3,
       "logo": {
         "id": 3,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Social 3",
+      "name": "Социальная сеть 3",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     }
   ],
   "contacts": [
     {
       "id": 1,
-      "name": "Contact 1",
+      "name": "Контакт 1",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "logo": {
         "id": 1,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     },
     {
       "id": 2,
       "logo": {
         "id": 2,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Contact 2",
+      "name": "Контакт 2",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     },
     {
       "id": 3,
       "logo": {
         "id": 15,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Contact 3",
+      "name": "Контакт 3",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     },
     {
       "id": 4,
       "logo": {
         "id": 16,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Contact 4",
+      "name": "Контакт 4",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     },
     {
       "id": 5,
       "logo": {
         "id": 17,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Contact 5",
+      "name": "Контакт 5",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     },
     {
       "id": 6,
       "logo": {
         "id": 18,
-        "url": "https://upload.wikimedia.org/wikipedia/en/e/ec/Coming_of_Age.png"
+        "url": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       },
-      "name": "Contact 6",
+      "name": "Контакт 6",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "link": "https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+      "link": "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     }
   ]
 }

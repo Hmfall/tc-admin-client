@@ -3,6 +3,10 @@ export interface AuthPayload {
   password?: string;
 }
 
+export interface ResetPasswordPayload {
+  email?: string;
+}
+
 export interface AuthResponse {
   jwt: string;
 }

@@ -9,6 +9,10 @@ declare global {
 
   export type ID = number;
 
+  export type Named<T> = T & {
+    name: string;
+  };
+
   export type FunctionExpression<T = any> = (...args: any[]) => T;
 
   export type Plain<T = unknown> = Record<string, T>;

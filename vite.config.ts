@@ -26,6 +26,11 @@ export default defineConfig({
           imports: ['Ref', 'ShallowRef', 'UnwrapRef', 'MaybeRef', 'WatchSource', 'Component'],
           type: true,
         },
+        {
+          from: 'vue-router',
+          imports: ['RouteRecordRaw', 'RouteRecordName'],
+          type: true,
+        },
       ],
       eslintrc: {
         enabled: true,

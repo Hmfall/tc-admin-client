@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { ObjectUrl } from '@/entities/objectURL/ObjectUrl';
-import { BaseAPI, Entity, Model, PrimaryKey } from '@/shared/lib/storeFactory';
+import { BaseAPI, Entity, Model, PrimaryField, PrimaryKey } from '@/shared/lib/storeFactory';
 
 @Entity()
 export class Contact extends Model {
@@ -9,6 +9,7 @@ export class Contact extends Model {
   @PrimaryKey()
   id: ID;
 
+  @PrimaryField()
   name: string;
 
   description: string;

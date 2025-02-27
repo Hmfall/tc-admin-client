@@ -21,4 +21,14 @@
       min-width: 87px !important;
     }
   }
+
+  .v-breadcrumbs {
+    &-item:first-child {
+      font-weight: 500;
+    }
+
+    &-item--disabled {
+      opacity: 1;
+    }
+  }
 }

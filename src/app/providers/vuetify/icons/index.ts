@@ -4,6 +4,8 @@ import {
   mdiCheckCircleOutline,
   mdiDeleteOutline,
   mdiDotsVertical,
+  mdiEyeOffOutline,
+  mdiEyeOutline,
   mdiFolderOpen,
   mdiFormatBold,
   mdiFormatItalic,
@@ -11,7 +13,6 @@ import {
   mdiMenu,
   mdiSquareEditOutline,
   mdiWindowClose,
-  mdiEyeOutline,
 } from '@mdi/js';
 import { aliases } from 'vuetify/iconsets/mdi-svg';
 
@@ -30,4 +31,5 @@ export default {
   mdiFormatItalic,
   mdiLinkVariant,
   mdiEyeOutline,
+  mdiEyeOffOutline,
 };

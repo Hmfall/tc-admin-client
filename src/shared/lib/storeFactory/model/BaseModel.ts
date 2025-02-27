@@ -33,6 +33,12 @@ export abstract class BaseModel {
     return Reflect.getMetadata('model:primary-key', this.classConstructor);
   }
 
+  public getPrimaryFieldValue(): unknown {
+    return this?.[
+      String(Reflect.getMetadata('model:primary-field', this.classConstructor)) as keyof this
+    ];
+  }
+
   public isSame(instance: typeof this) {
     return instance.UUID === this.__uuid;
   }

@@ -1,5 +1,5 @@
-import type { RouteRecordRaw } from 'vue-router';
-import MainLayout from '@/app/layouts/MainLayout.vue';
+import DefaultLayout from '@/app/layouts/DefaultLayout.vue';
+import { AppRoutes } from '@/app/providers/router/appRoutes';
 import { aboutModuleConfig } from '@/pages/about/domain/config';
 import { contactsModuleConfig } from '@/pages/contacts/domain/config';
 import { eventsModuleConfig } from '@/pages/events/domain/config';
@@ -11,15 +11,16 @@ import { authMiddleware } from '@/features/auth/domain/middleware/authMiddleware
 export const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: { name: 'about' },
+    name: AppRoutes.main,
+    redirect: { name: AppRoutes.about },
     meta: {
-      layout: MainLayout,
+      layout: DefaultLayout,
       middleware: [authMiddleware],
     },
     children: [
       {
         path: 'about',
-        name: 'about',
+        name: AppRoutes.about,
         props: {
           moduleConfig: aboutModuleConfig,
         },
@@ -27,7 +28,7 @@ export const routes: RouteRecordRaw[] = [
       },
       {
         path: 'events',
-        name: 'events',
+        name: AppRoutes.events,
         props: {
           moduleConfig: eventsModuleConfig,
         },
@@ -35,7 +36,7 @@ export const routes: RouteRecordRaw[] = [
       },
       {
         path: 'gallery',
-        name: 'gallery',
+        name: AppRoutes.gallery,
         props: {
           moduleConfig: galleryModuleConfig,
         },
@@ -43,7 +44,7 @@ export const routes: RouteRecordRaw[] = [
       },
       {
         path: 'partners',
-        name: 'partners',
+        name: AppRoutes.partners,
         props: {
           moduleConfig: partnersModuleConfig,
         },
@@ -51,7 +52,7 @@ export const routes: RouteRecordRaw[] = [
       },
       {
         path: 'social',
-        name: 'social',
+        name: AppRoutes.social,
         props: {
           moduleConfig: socialModuleConfig,
         },
@@ -59,7 +60,7 @@ export const routes: RouteRecordRaw[] = [
       },
       {
         path: 'contacts',
-        name: 'contacts',
+        name: AppRoutes.contacts,
         props: {
           moduleConfig: contactsModuleConfig,
         },
@@ -69,14 +70,26 @@ export const routes: RouteRecordRaw[] = [
   },
   {
     path: '/auth',
-    name: 'auth',
+    name: AppRoutes.auth,
     component: async () => await import('@/pages/auth/ui/AuthPage.vue'),
+    children: [
+      {
+        path: 'password/reset',
+        name: AppRoutes.resetPassword,
+        component: async () => await import('@/pages/auth/ui/AuthPage.vue'),
+      },
+      {
+        path: 'password/new',
+        name: AppRoutes.newPassword,
+        component: async () => await import('@/pages/auth/ui/AuthPage.vue'),
+      },
+    ],
   },
   {
     path: '/accounts',
-    name: 'accounts',
+    name: AppRoutes.accounts,
     meta: {
-      layout: MainLayout,
+      layout: DefaultLayout,
       middleware: [authMiddleware],
     },
     component: async () => await import('@/pages/accounts/ui/AccountsModule.vue'),

@@ -93,6 +93,8 @@
     "WatchSource": true,
     "VForm": true,
     "whenever": true,
-    "until": true
+    "until": true,
+    "RouteRecordName": true,
+    "RouteRecordRaw": true
   }
 }

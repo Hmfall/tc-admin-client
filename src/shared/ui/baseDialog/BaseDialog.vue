@@ -8,8 +8,10 @@
     <v-card class="text-body-2">
       <div
         v-if="closeIcon"
-        class="d-flex justify-end px-2 pt-2"
+        :class="`d-flex px-2 pt-2 ${$slots.header ? 'justify-space-between' : 'justify-end'}`"
       >
+        <slot name="header" />
+
         <v-btn
           color="secondary"
           icon="$mdiWindowClose"
