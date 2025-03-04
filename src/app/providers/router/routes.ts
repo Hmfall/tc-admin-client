@@ -11,8 +11,8 @@ import { authMiddleware } from '@/features/auth/domain/middleware/authMiddleware
 export const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: AppRoutes.main,
-    redirect: { name: AppRoutes.about },
+    name: AppRoutes.Main,
+    redirect: { name: AppRoutes.About },
     meta: {
       layout: DefaultLayout,
       middleware: [authMiddleware],
@@ -20,74 +20,68 @@ export const routes: RouteRecordRaw[] = [
     children: [
       {
         path: 'about',
-        name: AppRoutes.about,
-        props: {
-          moduleConfig: aboutModuleConfig,
-        },
+        name: AppRoutes.About,
+        props: { moduleConfig: aboutModuleConfig },
         component: async () => await import('@/features/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'events',
-        name: AppRoutes.events,
-        props: {
-          moduleConfig: eventsModuleConfig,
-        },
+        name: AppRoutes.Events,
+        props: { moduleConfig: eventsModuleConfig },
         component: async () => await import('@/features/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'gallery',
-        name: AppRoutes.gallery,
-        props: {
-          moduleConfig: galleryModuleConfig,
-        },
+        name: AppRoutes.Gallery,
+        props: { moduleConfig: galleryModuleConfig },
         component: async () => await import('@/features/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'partners',
-        name: AppRoutes.partners,
-        props: {
-          moduleConfig: partnersModuleConfig,
-        },
+        name: AppRoutes.Partners,
+        props: { moduleConfig: partnersModuleConfig },
         component: async () => await import('@/features/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'social',
-        name: AppRoutes.social,
-        props: {
-          moduleConfig: socialModuleConfig,
-        },
+        name: AppRoutes.Social,
+        props: { moduleConfig: socialModuleConfig },
         component: async () => await import('@/features/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'contacts',
-        name: AppRoutes.contacts,
-        props: {
-          moduleConfig: contactsModuleConfig,
-        },
+        name: AppRoutes.Contacts,
+        props: { moduleConfig: contactsModuleConfig },
         component: async () => await import('@/features/baseModule/ui/BaseModuleLayout.vue'),
       },
     ],
   },
   {
     path: '/auth',
-    name: AppRoutes.auth,
+    name: AppRoutes.Auth,
     component: async () => await import('@/pages/auth/ui/AuthPage.vue'),
+    redirect: { name: AppRoutes.SignIn },
     children: [
       {
+        path: '',
+        name: AppRoutes.SignIn,
+        component: async () => await import('@/features/auth/ui/LoginForm.vue'),
+      },
+      {
         path: 'password/reset',
-        name: AppRoutes.resetPassword,
-        component: async () => await import('@/pages/auth/ui/AuthPage.vue'),
+        name: AppRoutes.ResetPassword,
+        component: async () => await import('@/features/auth/ui/ResetPasswordForm.vue'),
       },
       {
         path: 'password/new',
-        name: AppRoutes.newPassword,
-        component: async () => await import('@/pages/auth/ui/AuthPage.vue'),
+        name: AppRoutes.NewPassword,
+        component: async () => await import('@/features/auth/ui/NewPasswordForm.vue'),
       },
     ],
   },
   {
     path: '/accounts',
-    name: AppRoutes.accounts,
+    name: AppRoutes.Accounts,
     meta: {
       layout: DefaultLayout,
       middleware: [authMiddleware],

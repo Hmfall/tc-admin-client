@@ -24,7 +24,7 @@
       </v-col>
     </v-row>
 
-    <FormBuilder
+    <AutoForm
       :value="props.value"
       :fields="formFields"
       :mode="mode"
@@ -40,11 +40,11 @@
 <script setup lang="ts" generic="T extends BaseModel">
 import type { ClassConstructor } from 'class-transformer';
 import type {
-  FormBuilderFields,
+  AutoFormFields,
   FormEditMode,
-  UpdateFormFieldPromise,
-} from '@/features/formBuilder/model/types';
-import FormBuilder from '@/features/formBuilder/ui/FormBuilder.vue';
+  UpdateAutoFormFieldPromise,
+} from '@/features/autoForm/model/types';
+import AutoForm from '@/features/autoForm/ui/AutoForm.vue';
 import TextEditor from '@/features/textEditor/ui/TextEditor.vue';
 import type { BaseModel } from '@/shared/lib/storeFactory';
 import BaseDialog from '@/shared/ui/baseDialog/BaseDialog.vue';
@@ -53,7 +53,7 @@ const props = defineProps<{
   modelValue?: boolean;
   value: T | null;
   model?: ClassConstructor<T>;
-  formFields?: FormBuilderFields<T>;
+  formFields?: AutoFormFields<T>;
   mode?: FormEditMode;
   loading?: boolean;
   editor?: boolean;
@@ -62,8 +62,8 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:modelValue', modelValue: boolean): void;
-  (e: 'create', value: T, promises: UpdateFormFieldPromise<T>[]): void;
-  (e: 'update', value: T, promises: UpdateFormFieldPromise<T>[]): void;
+  (e: 'create', value: T, promises: UpdateAutoFormFieldPromise<T>[]): void;
+  (e: 'update', value: T, promises: UpdateAutoFormFieldPromise<T>[]): void;
   (e: 'close'): void;
 }>();
 </script>

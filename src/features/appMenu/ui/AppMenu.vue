@@ -36,7 +36,7 @@
       <div class="d-flex flex-column align-center ga-5 mt-4 mb-6">
         <div class="text-center">
           <router-link
-            :to="{ name: AppRoutes.accounts }"
+            :to="{ name: AppRoutes.Accounts }"
             class="text-decoration-underline"
             active-class="color-primary"
           >

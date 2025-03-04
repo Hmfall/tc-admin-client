@@ -42,7 +42,7 @@
     </template>
 
     <template #actions>
-      <router-link :to="{ name: AppRoutes.resetPassword }">
+      <router-link :to="{ name: AppRoutes.ResetPassword }">
         <span class="text-decoration-underline cursor-pointer">Восстановить данные</span>
       </router-link>
     </template>

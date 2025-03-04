@@ -5,7 +5,7 @@
     :validate-on="validateOn"
     @submit.prevent="onSubmit"
   >
-    <FormBuilderLayout :fields="fields">
+    <AutoFormLayout :fields="fields">
       <template #fields="{ field }">
         <component
           :is="field.render()"
@@ -16,7 +16,7 @@
           @create-promise="onCreatePromise"
         />
       </template>
-    </FormBuilderLayout>
+    </AutoFormLayout>
 
     <slot
       v-if="$slots.actions"
@@ -38,27 +38,26 @@
 import type { ClassConstructor } from 'class-transformer';
 import { VForm } from 'vuetify/components';
 import type {
-  FormBuilderFields,
+  AutoFormFields,
   FormEditMode,
-  UpdateFormFieldPromise,
-} from '@/features/formBuilder/model/types';
-import FormBuilderLayout from '@/features/formBuilder/ui/FormBuilderLayout.vue';
+  UpdateAutoFormFieldPromise,
+} from '@/features/autoForm/model/types';
+import AutoFormLayout from '@/features/autoForm/ui/AutoFormLayout.vue';
 import { useForm } from '@/shared/composables/useForm/useForm';
 import type { BaseModel } from '@/shared/lib/storeFactory';
 import ActionButtons from '@/shared/ui/actionButtons/ActionButtons.vue';
 
 const props = defineProps<{
   value: T | null;
-  fields?: FormBuilderFields<T>;
+  fields?: AutoFormFields<T>;
   model?: ClassConstructor<T>;
   mode?: FormEditMode;
   loading?: boolean;
 }>();
 
 const emit = defineEmits<{
-  (e: 'update:value', value: T): void;
-  (e: 'create', value: T, promises: UpdateFormFieldPromise<T>[]): void;
-  (e: 'update', value: T, promises: UpdateFormFieldPromise<T>[]): void;
+  (e: 'create', value: T, promises: UpdateAutoFormFieldPromise<T>[]): void;
+  (e: 'update', value: T, promises: UpdateAutoFormFieldPromise<T>[]): void;
   (e: 'close'): void;
 }>();
 
@@ -68,7 +67,7 @@ const { formRef, handleSubmit, isFormValid, validateOn } = useForm({
 
 const thisValue = ref(props.value?.clone() ?? (props?.model && new props.model())) as Ref<T>;
 
-const promises = ref<UpdateFormFieldPromise<T>[]>([]);
+const promises = ref<UpdateAutoFormFieldPromise<T>[]>([]);
 
 const onSubmit = handleSubmit(() => {
   if (props.mode === 'create') {
@@ -80,7 +79,7 @@ const onSubmit = handleSubmit(() => {
 
 const resetValue = () => thisValue.value.resetToSnapshot();
 
-const onCreatePromise = (promise?: UpdateFormFieldPromise<T>) => {
+const onCreatePromise = (promise?: UpdateAutoFormFieldPromise<T>) => {
   if (promise) {
     promises.value.push(promise);
   }

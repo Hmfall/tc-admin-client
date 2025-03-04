@@ -13,16 +13,14 @@ export class BaseAPI<
 > extends BaseAxiosAPI {
   public $model: M | null = null;
 
+  public $repository = new Repository(this.path);
+
   constructor(path?: string) {
     super(path);
 
     if (!path) {
       this.APIPath = Reflect.getMetadata('api:path', this.constructor);
     }
-  }
-
-  public get $repository(): Repository {
-    return new Repository(this.path);
   }
 
   public get api() {

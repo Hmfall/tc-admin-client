@@ -1,10 +1,10 @@
 import { VTextarea, VTextField } from 'vuetify/components';
-import type { FormBuilderFields } from '@/features/formBuilder/model/types';
-import { FieldType } from '@/features/formBuilder/model/types';
-import FileInputComponent from '@/features/formBuilder/ui/components/FileInputComponent.vue';
+import type { AutoFormFields } from '@/features/autoForm/model/types';
+import { FieldType } from '@/features/autoForm/model/types';
+import FileInputComponent from '@/features/autoForm/ui/components/FileInputComponent.vue';
 import type { Event } from '@/entities/event/Event';
 
-export const eventsFormFields: FormBuilderFields<Event> = [
+export const eventsFormFields: AutoFormFields<Event> = [
   [
     {
       span: 3,

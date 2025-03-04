@@ -1,11 +1,11 @@
 import { VImg } from 'vuetify/components';
-import type { TemplateBuilderSlots } from '@/features/templateBuilder/model/types';
-import { CardTemplateSlot } from '@/features/templateBuilder/model/types/templates';
-import CardTemplate from '@/features/templateBuilder/ui/templates/common/card/CardTemplate.vue';
-import CardTemplateSkeleton from '@/features/templateBuilder/ui/templates/common/card/CardTemplateSkeleton.vue';
+import type { AutoTemplateSlots } from '@/features/autoTemplate/model/types';
+import { CardTemplateSlot } from '@/features/autoTemplate/model/types/templates';
+import CardTemplate from '@/features/autoTemplate/ui/templates/common/card/CardTemplate.vue';
+import CardTemplateSkeleton from '@/features/autoTemplate/ui/templates/common/card/CardTemplateSkeleton.vue';
 import type { Partner } from '@/entities/partner/Partner';
 
-export const partnersTemplateSlots: TemplateBuilderSlots<Partner> = {
+export const partnersTemplateSlots: AutoTemplateSlots<Partner> = {
   render: () => CardTemplate,
   skeletonRender: () => CardTemplateSkeleton,
   slots: [

@@ -78,7 +78,7 @@
           />
 
           <v-btn
-            v-if="value.ID"
+            v-if="value.ID || value.$config.singleton"
             icon="$mdiArrowULeftBottom"
             variant="text"
             density="default"
@@ -93,7 +93,7 @@
 </template>
 
 <script setup lang="ts" generic="T extends Model">
-import type { ModelTemplateEmit } from '@/features/templateBuilder/model/types';
+import type { ModelTemplateEmit } from '@/features/autoTemplate/model/types';
 import type { Model } from '@/shared/lib/storeFactory';
 
 const emit = defineEmits<ModelTemplateEmit>();

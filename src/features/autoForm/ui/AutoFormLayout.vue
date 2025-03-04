@@ -44,15 +44,15 @@
 
 <script setup lang="ts" generic="T extends BaseModel">
 import type {
-  FormBuilderColArgs,
-  FormBuilderColOptions,
-  FormBuilderField,
-  FormBuilderFields,
-} from '@/features/formBuilder/model/types';
+  AutoFormColCommonOptions,
+  AutoFormColOptions,
+  AutoFormField,
+  AutoFormFields,
+} from '@/features/autoForm/model/types';
 import type { BaseModel } from '@/shared/lib/storeFactory';
 
 const props = defineProps<{
-  fields?: FormBuilderFields<T>;
+  fields?: AutoFormFields<T>;
 }>();
 
 const normalizedGrid = computed(() =>
@@ -61,8 +61,9 @@ const normalizedGrid = computed(() =>
         Array.isArray(row)
           ? {
               justify:
-                (row.find((col) => 'justify' in col) as FormBuilderColOptions)?.justify ?? 'start',
-              cols: row.filter((col): col is FormBuilderColArgs<T> => 'span' in col),
+                (row.find((col) => 'justify' in col) as AutoFormColCommonOptions)?.justify ??
+                'start',
+              cols: row.filter((col): col is AutoFormColOptions<T> => 'span' in col),
             }
           : null,
       )
@@ -70,7 +71,7 @@ const normalizedGrid = computed(() =>
 );
 
 const flatFields = computed(() => {
-  const isFlatFields = (fields?: FormBuilderFields<T>): fields is FormBuilderField<T>[] =>
+  const isFlatFields = (fields?: AutoFormFields<T>): fields is AutoFormField<T>[] =>
     Array.isArray(fields) && !Array.isArray(fields?.[0]);
 
   return isFlatFields(props?.fields) ? props.fields : [];

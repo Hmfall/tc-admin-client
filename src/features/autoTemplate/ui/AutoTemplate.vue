@@ -25,16 +25,13 @@
 </template>
 
 <script setup lang="ts" generic="T">
-import type {
-  TemplateBuilderSlots,
-  TemplateSlotAttrs,
-} from '@/features/templateBuilder/model/types';
-import { templateMappedSlot } from '@/features/templateBuilder/utils';
+import type { AutoTemplateSlots, TemplateSlotAttrs } from '@/features/autoTemplate/model/types';
+import { templateMappedSlot } from '@/features/autoTemplate/utils';
 import { ObjectUrl } from '@/entities/objectURL/ObjectUrl';
 
 const props = defineProps<{
   value: T;
-  slots: TemplateBuilderSlots<T>;
+  slots: AutoTemplateSlots<T>;
 }>();
 
 const mappedSlots = computed(() => templateMappedSlot(props.slots));

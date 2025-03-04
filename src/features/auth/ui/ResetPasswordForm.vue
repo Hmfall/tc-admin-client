@@ -25,7 +25,7 @@
     </template>
 
     <template #actions>
-      <router-link :to="{ name: AppRoutes.auth }">
+      <router-link :to="{ name: AppRoutes.Auth }">
         <span class="text-decoration-underline cursor-pointer">Назад</span>
       </router-link>
     </template>

@@ -30,9 +30,9 @@
 import { VFileInput } from 'vuetify/components';
 import type {
   FileInputField,
-  UpdateFormFieldPromise,
-  UpdateFormFieldValue,
-} from '@/features/formBuilder/model/types';
+  UpdateAutoFormFieldPromise,
+  UpdateAutoFormFieldValue,
+} from '@/features/autoForm/model/types';
 import { ObjectUrl } from '@/entities/objectURL/ObjectUrl';
 import type { BaseModel } from '@/shared/lib/storeFactory';
 
@@ -51,7 +51,7 @@ const props = defineProps<
 
 const emit = defineEmits<{
   (e: 'update:modelValue', modelValue: File | ObjectUrl): void;
-  (e: 'create-promise', promise: UpdateFormFieldPromise<T>): void;
+  (e: 'create-promise', promise: UpdateAutoFormFieldPromise<T>): void;
 }>();
 
 const isObjectURL = (value?: ObjectUrl | File): value is ObjectUrl => {
@@ -68,7 +68,7 @@ const objectUrl = computed(() => {
   return null;
 });
 
-const getObjectUrlAPIFn = (obj: ObjectUrl) => (): Promise<UpdateFormFieldValue<T>> => {
+const getObjectUrlAPIFn = (obj: ObjectUrl) => (): Promise<UpdateAutoFormFieldValue<T>> => {
   return ObjectUrl.$api.createObjectUrl(obj.file).then((value) => {
     value.objectUrl = obj.objectUrl;
     return { key: props.fieldKey, value };

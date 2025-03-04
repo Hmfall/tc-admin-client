@@ -1,12 +1,12 @@
 import { Exclude } from 'class-transformer';
 import { ObjectUrlAPI } from '@/entities/objectURL/ObjectUrlAPI';
-import { Entity, Model, PrimaryKey } from '@/shared/lib/storeFactory';
+import { Entity, Id, Model } from '@/shared/lib/storeFactory';
 
 @Entity()
 export class ObjectUrl extends Model {
   static $api = new ObjectUrlAPI();
 
-  @PrimaryKey()
+  @Id()
   id: ID;
 
   url?: string;
@@ -20,11 +20,9 @@ export class ObjectUrl extends Model {
   updateObjectURL(file?: File) {
     if (file) {
       this.objectUrl = URL.createObjectURL(file as Blob);
-    } else {
-      if (this.objectUrl) {
-        URL.revokeObjectURL(this.objectUrl);
-        this.objectUrl = null;
-      }
+    } else if (this.objectUrl) {
+      URL.revokeObjectURL(this.objectUrl);
+      this.objectUrl = null;
     }
   }
 }

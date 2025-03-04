@@ -18,5 +18,5 @@ import '@/shared/assets/styles/index.scss';
 
 const route = useRoute();
 
-const layout = computed(() => route.meta?.layout || EmptyLayout);
+const layout = computed(() => route.meta?.layout ?? EmptyLayout);
 </script>

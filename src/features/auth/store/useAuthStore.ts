@@ -1,5 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
 import router from '@/app/providers/router';
+import { AppRoutes } from '@/app/providers/router/appRoutes';
 import { AuthAPI } from '@/features/auth/api/AuthApi';
 import type { AuthPayload, JWTPayload, ResetPasswordPayload } from '@/features/auth/model/types';
 
@@ -27,7 +28,7 @@ export const useAuthStore = defineStore('auth', {
     logout() {
       this.jwt = null;
       localStorage.removeItem('jwt');
-      router.replace({ name: 'auth' });
+      router.replace({ name: AppRoutes.Auth });
     },
   },
   getters: {

@@ -21,7 +21,7 @@
         :loading="store.isLoading"
         :render="templateSlots.skeletonRender"
       >
-        <TemplateBuilder
+        <AutoTemplate
           v-for="item in store.items"
           :key="item.UUID"
           :value="item"
@@ -64,7 +64,7 @@
       </ActionButtons>
     </div>
 
-    <FormBuilderDialog
+    <AutoFormDialog
       v-model="isLocalDialog"
       :value="updatingItem"
       :model="model"
@@ -97,21 +97,21 @@
           </template>
         </v-breadcrumbs>
       </template>
-    </FormBuilderDialog>
+    </AutoFormDialog>
   </div>
 </template>
 
 <script setup lang="ts" generic="T extends Model, A extends BaseAPI<T>">
 import type { ClassConstructor } from 'class-transformer';
 import type {
-  FormBuilderFields,
+  AutoFormFields,
+  AutoFormSubmitOperation,
   FormEditMode,
-  SubmitOperation,
-  UpdateFormFieldPromise,
-} from '@/features/formBuilder/model/types';
-import FormBuilderDialog from '@/features/formBuilder/ui/FormBuilderDialog.vue';
-import type { TemplateBuilderSlots } from '@/features/templateBuilder/model/types';
-import TemplateBuilder from '@/features/templateBuilder/ui/TemplateBuilder.vue';
+  UpdateAutoFormFieldPromise,
+} from '@/features/autoForm/model/types';
+import AutoFormDialog from '@/features/autoForm/ui/AutoFormDialog.vue';
+import type { AutoTemplateSlots } from '@/features/autoTemplate/model/types';
+import AutoTemplate from '@/features/autoTemplate/ui/AutoTemplate.vue';
 import type { ConfirmOptions } from '@/shared/components/confirmDialog/model/types';
 import { useConfirmDialog } from '@/shared/components/confirmDialog/model/useConfirmDialog';
 import { useMessage } from '@/shared/components/messageAlert/model/useMessage';
@@ -127,8 +127,8 @@ const props = withDefaults(
     moduleName: string;
     model: ClassConstructor<T>;
     store: StoreFactoryDefinition<T, A>;
-    templateSlots: TemplateBuilderSlots<T>;
-    formFields?: FormBuilderFields<T>;
+    templateSlots: AutoTemplateSlots<T>;
+    formFields?: AutoFormFields<T>;
     immediateSubmit?: boolean;
     refetchStore?: boolean;
     loadingOnCreate?: boolean;
@@ -164,7 +164,7 @@ const isLocalDialog = ref(props.dialog);
 
 const updatingItem = ref(null) as Ref<T | null>;
 const updatingItemName = ref(null) as Ref<string | null>;
-const draft = ref(new Map()) as Ref<Map<T, UpdateFormFieldPromise<T>[]>>;
+const draft = ref(new Map()) as Ref<Map<T, UpdateAutoFormFieldPromise<T>[]>>;
 
 const store = computed(() => props.store());
 
@@ -172,10 +172,10 @@ store.value.initDraftWatch();
 
 // TODO: Обработка promises для immediateSubmit
 const useImmediateSubmit = async (
-  operation: SubmitOperation,
+  operation: AutoFormSubmitOperation,
   value: T,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  promises?: UpdateFormFieldPromise<T>[],
+  promises?: UpdateAutoFormFieldPromise<T>[],
 ) => {
   if (value.hasDiff || operation === 'delete') {
     if (
@@ -215,7 +215,7 @@ const onCreateItem = async (item: T) => {
 };
 
 // TODO: toDraft
-const onUpdateItem = async (item: T, promises: UpdateFormFieldPromise<T>[]) => {
+const onUpdateItem = async (item: T, promises: UpdateAutoFormFieldPromise<T>[]) => {
   if (props.immediateSubmit) {
     await useImmediateSubmit('update', item);
     return;

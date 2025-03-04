@@ -1,10 +1,10 @@
 import { VTextarea, VTextField } from 'vuetify/components';
-import type { FormBuilderFields } from '@/features/formBuilder/model/types';
-import { FieldType } from '@/features/formBuilder/model/types';
-import FileInputComponent from '@/features/formBuilder/ui/components/FileInputComponent.vue';
+import type { AutoFormFields } from '@/features/autoForm/model/types';
+import { FieldType } from '@/features/autoForm/model/types';
+import FileInputComponent from '@/features/autoForm/ui/components/FileInputComponent.vue';
 import type { Contact } from '@/entities/contact/Contact';
 
-export const contactsFormFields: FormBuilderFields<Contact> = [
+export const contactsFormFields: AutoFormFields<Contact> = [
   [
     {
       span: 3,

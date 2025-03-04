@@ -25,7 +25,7 @@ const ModelConstructor = () => {
 };
 
 export const Entity = <T extends ClassConstructor>(config: ModelConfig = {}) => {
-  config.exposeOwn = config.exposeOwn ?? true;
+  config.exposeOwn = config.exposeOwn ?? false;
 
   return (constructor: T): T => {
     ModelConstructor()(constructor);
