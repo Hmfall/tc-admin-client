@@ -7,6 +7,8 @@ declare global {
     readonly env: ImportMetaEnv;
   }
 
+  export type UUID = string;
+
   export type ID = number;
 
   export type FunctionExpression<T = any> = (...args: any[]) => T;

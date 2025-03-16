@@ -30,9 +30,12 @@ const { getControllerSignal, setupController } = abortController();
 
 watch(
   () => props.moduleConfig,
-  (value) => {
+  (moduleConfig) => {
     setupController();
-    value.store().load({ signal: getControllerSignal() });
+    moduleConfig
+      .store()
+      .load({ signal: getControllerSignal() })
+      .catch((e) => e);
   },
   {
     immediate: true,

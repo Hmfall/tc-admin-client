@@ -5,6 +5,8 @@
     :validate-on="validateOn"
     @submit.prevent="onSubmit"
   >
+    {{ validateOn }}
+    {{ isFormValid }}
     <AutoFormLayout :fields="fields">
       <template #fields="{ field }">
         <component
@@ -21,22 +23,21 @@
     <slot
       v-if="$slots.actions"
       name="actions"
-      v-bind="{ reset: resetValue }"
+      v-bind="{ reset: thisValue.resetToSnapshot() }"
     />
 
     <ActionButtons
       v-else
       class="mt-2 px-4"
-      confirm-button="Сохранить"
-      :loading="loading"
-      @cancel="emit('close')"
+      primary-button="Сохранить"
+      :loading-primary-button="loading"
+      @on-secondary-click="emit('close')"
     />
   </VForm>
 </template>
 
 <script setup lang="ts" generic="T extends BaseModel">
 import type { ClassConstructor } from 'class-transformer';
-import { VForm } from 'vuetify/components';
 import type {
   AutoFormFields,
   FormEditMode,
@@ -76,8 +77,6 @@ const onSubmit = handleSubmit(() => {
     emit('update', thisValue.value, promises.value);
   }
 });
-
-const resetValue = () => thisValue.value.resetToSnapshot();
 
 const onCreatePromise = (promise?: UpdateAutoFormFieldPromise<T>) => {
   if (promise) {

@@ -1,8 +1,8 @@
-import { VTextarea, VTextField } from 'vuetify/components';
 import type { AutoFormFields } from '@/features/autoForm/model/types';
 import { FieldType } from '@/features/autoForm/model/types';
 import FileInputComponent from '@/features/autoForm/ui/components/FileInputComponent.vue';
 import type { Event } from '@/entities/event/Event';
+import EditedTextField from '@/shared/components/editedTextField/EditedTextField.vue';
 
 export const eventsFormFields: AutoFormFields<Event> = [
   [
@@ -34,31 +34,28 @@ export const eventsFormFields: AutoFormFields<Event> = [
       items: [
         {
           key: 'name',
-          type: FieldType.textField,
-          render: () => VTextField,
+          type: FieldType.editedTextField,
+          render: () => EditedTextField,
           props: {
             label: 'Название',
-            hideDetails: true,
           },
         },
         {
           key: 'description',
-          type: FieldType.textarea,
-          render: () => VTextarea,
+          type: FieldType.editedTextField,
+          render: () => EditedTextField,
           props: {
             label: 'Описание',
-            rows: 4,
-            hideDetails: true,
+            rows: 3,
           },
         },
         {
           key: 'details',
-          type: FieldType.textarea,
-          render: () => VTextarea,
+          type: FieldType.editedTextField,
+          render: () => EditedTextField,
           props: {
-            rows: 15,
             label: 'Подробное описание',
-            hideDetails: true,
+            rows: 12,
           },
         },
       ],

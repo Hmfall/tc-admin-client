@@ -21,49 +21,6 @@ export const storeFactory = <T extends Model, A extends BaseAPI<T>>(model: Model
           setError: this.setError,
         }).execute();
       },
-      async update(): Promise<void> {
-        await model.$api.update(this.draft as T[]);
-        this.draft = [];
-        await this.load();
-      },
-      toDraft(item: T) {
-        if (this.config.singleton && !this.draft.length) {
-          this.draft.push(this.unwrapItems[0]);
-          return;
-        }
-
-        const storeItem = this.unwrapItems.find((value) => value.isSame(item));
-
-        if (storeItem) {
-          if (!storeItem.within(this.draft as T[])) {
-            this.draft.push(storeItem);
-          }
-        } else {
-          this.unwrapItems.push(item as UnwrapRefSimple<T>);
-          this.draft.push(item as UnwrapRefSimple<T>);
-        }
-      },
-      deleteFromDraft(item: T) {
-        if (this.config.singleton) {
-          this.draft = [];
-          return;
-        }
-
-        this.draft = this.draft.filter((value) => !value.isSame(item));
-
-        if (!item.ID) {
-          this.unwrapItems = this.unwrapItems.filter((value) => !value.isSame(item));
-        }
-      },
-      initDraftWatch() {
-        watch(
-          () => this.unwrapItems,
-          (items) => {
-            this.draft = items.filter((value) => value.hasDiff);
-          },
-          { deep: true },
-        );
-      },
       setItems(unwrapItems: T[] | T) {
         if (this.config.singleton && !Array.isArray(unwrapItems)) {
           this.unwrapItems = [unwrapItems] as UnwrapRefSimple<T[]>;
@@ -80,7 +37,7 @@ export const storeFactory = <T extends Model, A extends BaseAPI<T>>(model: Model
     },
     getters: {
       items: (state) => state.unwrapItems as T[],
-      isDraftEmpty: (state) => !!state.draft.length,
+      isDraftEmpty: (state) => !state.draft.length,
       config: () => ({
         singleton: model.$config.singleton,
       }),

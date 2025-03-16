@@ -20,7 +20,7 @@ module.exports = {
   plugins: [],
   rules: {
     semi: ['warn', 'always'],
-    'no-trailing-spaces': 'warn',
+    'no-undef': 'off',
     'lines-between-class-members': ['warn', 'always'],
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/no-unused-vars': 'warn',
@@ -71,6 +71,7 @@ module.exports = {
         'vue/html-indent': ['warn', 2],
         'vue/v-slot-style': 'off',
         'vue/no-unused-vars': 'off',
+        'vue/no-v-html': 'off',
         'vue/multi-word-component-names': 'error',
         'vue/no-reserved-component-names': 'off',
         'vue/singleline-html-element-content-newline': 'off',

@@ -57,15 +57,13 @@ userStore.load();
 
 const isDialog = ref(false);
 
-// TODO: eslit no-undef global.types.d.ts
-// eslint-disable-next-line no-undef
-const moduleRef = ref<ComponentInstance<typeof BaseModule>>();
+const moduleRef = ref<ComponentInstance<typeof BaseModule> | null>(null);
 
 const onOpenDialogBtn = () => {
   isDialog.value = true;
 };
 
-const onDeleteAllBtn = async () => {
+const onDeleteAllBtn = () => {
   moduleRef.value?.deleteAll();
 };
 </script>

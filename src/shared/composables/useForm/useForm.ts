@@ -1,11 +1,9 @@
 import type { VForm } from 'vuetify/components';
 
-export const useForm = (
-  options: { initial?: boolean; mode?: 'input' | 'lazy' } = {
-    initial: false,
-    mode: 'lazy',
-  },
-) => {
+export const useForm = (options: { initial?: boolean; mode?: 'input' | 'lazy' } = {}) => {
+  options.initial = options.initial ?? false;
+  options.mode = options.mode ?? 'lazy';
+
   const formRef = ref<VForm | null>(null);
   const isValid = ref<boolean>(options?.initial ?? false);
   const isDirty = ref(false);

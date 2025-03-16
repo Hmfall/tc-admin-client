@@ -11,5 +11,15 @@ export const useLoading = (defaultValue = false) => {
     return promise;
   };
 
-  return { isLoading, withLoading };
+  const withLoadingFn = async <T>(fn: () => Promise<T>) => {
+    isLoading.value = true;
+
+    try {
+      return await fn();
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
+  return { isLoading, withLoading, withLoadingFn };
 };

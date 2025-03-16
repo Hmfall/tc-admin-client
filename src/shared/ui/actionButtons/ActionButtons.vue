@@ -6,31 +6,34 @@
         'justify-end': position === 'end',
         'justify-center': position === 'center',
         'justify-start': position === 'start',
+        'flex-row-reverse': reversed,
       },
     ]"
   >
     <v-btn
-      v-if="!cancel && typeof confirmButton === 'string'"
+      v-if="!secondary && typeof primaryButton === 'string'"
       type="submit"
       variant="flat"
       color="primary"
-      :class="{ 'btn--locked': lockedConfirmButton }"
+      :class="{ 'btn--locked': lockedPrimaryButton }"
       :disabled="disabled"
-      :loading="loading"
-      @click="!lockedConfirmButton ? emit('confirm') : null"
+      :loading="loadingPrimaryButton"
+      @click="!lockedPrimaryButton ? emit('onPrimaryClick') : null"
     >
-      {{ confirmButton }}
+      {{ primaryButton }}
 
-      <slot name="confirmButtonTooltip" />
+      <slot name="primaryButtonTooltip" />
     </v-btn>
 
     <v-btn
-      v-if="!confirm && typeof cancelButton === 'string'"
-      @click="emit('cancel')"
+      v-if="!primary && typeof secondaryButton === 'string'"
+      :class="{ 'btn--locked': lockedSecondaryButton }"
+      :loading="loadingSecondaryButton"
+      @click="!lockedSecondaryButton ? emit('onSecondaryClick') : null"
     >
-      {{ cancelButton }}
+      {{ secondaryButton }}
 
-      <slot name="cancelButtonTooltip" />
+      <slot name="secondaryButtonTooltip" />
     </v-btn>
   </div>
 </template>
@@ -38,25 +41,28 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    confirm?: boolean;
-    cancel?: boolean;
-    confirmButton?: string | boolean;
-    cancelButton?: string | boolean;
-    lockedConfirmButton?: boolean;
+    primary?: boolean;
+    secondary?: boolean;
+    primaryButton?: string | boolean;
+    secondaryButton?: string | boolean;
+    lockedPrimaryButton?: boolean;
+    lockedSecondaryButton?: boolean;
+    loadingPrimaryButton?: boolean;
+    loadingSecondaryButton?: boolean;
     disabled?: boolean;
-    loading?: boolean;
     position?: 'start' | 'center' | 'end';
+    reversed?: boolean;
   }>(),
   {
-    confirmButton: 'Ок',
-    cancelButton: 'Отмена',
+    primaryButton: 'Ок',
+    secondaryButton: 'Отмена',
     position: 'end',
   },
 );
 
 const emit = defineEmits<{
-  (e: 'confirm'): void;
-  (e: 'cancel'): void;
+  (e: 'onPrimaryClick'): void;
+  (e: 'onSecondaryClick'): void;
 }>();
 </script>
 

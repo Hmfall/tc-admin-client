@@ -38,7 +38,7 @@
           <router-link
             :to="{ name: AppRoutes.Accounts }"
             class="text-decoration-underline"
-            active-class="color-primary"
+            active-class="active-link"
           >
             Управлением аккаунтами
           </router-link>
@@ -86,7 +86,13 @@ watch(route, (value) => {
 </script>
 
 <style scoped lang="scss">
+@import '@/shared/assets/styles/mixins';
+
 :deep(.v-slide-group--vertical .v-tab__slider) {
   width: 3px;
+}
+
+.active-link {
+  @include link;
 }
 </style>

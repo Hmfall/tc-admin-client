@@ -32,10 +32,10 @@
 
         <ActionButtons
           v-if="actions"
-          :confirm-button="confirmButton"
-          :cancel-button="cancelButton"
-          @confirm="onConfirm"
-          @cancel="onCancel"
+          :primary-button="confirmButton"
+          :secondary-button="cancelButton"
+          @on-primary-click="onConfirm"
+          @on-secondary-click="onCancel"
         />
       </v-card-text>
     </v-card>

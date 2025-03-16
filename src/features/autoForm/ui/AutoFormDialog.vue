@@ -13,17 +13,6 @@
       <slot name="header" />
     </template>
 
-    <!--  TODO: Позиционирование TextEditor -->
-    <v-row
-      v-if="editor"
-      class="px-4 pb-2"
-    >
-      <v-col cols="3" />
-      <v-col cols="9">
-        <TextEditor />
-      </v-col>
-    </v-row>
-
     <AutoForm
       :value="props.value"
       :fields="formFields"
@@ -45,7 +34,6 @@ import type {
   UpdateAutoFormFieldPromise,
 } from '@/features/autoForm/model/types';
 import AutoForm from '@/features/autoForm/ui/AutoForm.vue';
-import TextEditor from '@/features/textEditor/ui/TextEditor.vue';
 import type { BaseModel } from '@/shared/lib/storeFactory';
 import BaseDialog from '@/shared/ui/baseDialog/BaseDialog.vue';
 

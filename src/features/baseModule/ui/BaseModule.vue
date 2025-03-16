@@ -1,18 +1,17 @@
 <template>
-  <div class="d-flex flex-column ga-8">
+  <div class="d-flex flex-column flex-1-1-100 ga-8">
     <div
       v-if="!hideActions && !store.config.singleton"
       class="d-flex justify-end ga-4"
     >
-      <v-btn @click="onDeleteAllBtn">Удалить все</v-btn>
-
-      <v-btn
-        variant="flat"
-        color="primary"
-        @click="thisDialog.open"
-      >
-        Добавить
-      </v-btn>
+      <ActionButtons
+        secondary-button="Удалить все"
+        primary-button="Добавить"
+        reversed
+        :loading-secondary-button="isLoadingDeleteAll"
+        @on-primary-click="thisDialog.open"
+        @on-secondary-click="onDeleteAllBtn"
+      />
     </div>
 
     <div :class="props.class">
@@ -21,20 +20,32 @@
         :loading="store.isLoading"
         :render="templateSlots.skeletonRender"
       >
-        <AutoTemplate
-          v-for="item in store.items"
-          :key="item.UUID"
-          :value="item"
-          :slots="templateSlots"
-          @reset="onResetBtn(item)"
-          @update="onUpdateBtn(item)"
-          @delete="onDeleteItem(item)"
-        />
+        <template v-if="items.length">
+          <AutoTemplate
+            v-for="item in items"
+            :key="item.UUID"
+            :value="item"
+            :slots="templateSlots"
+            @reset="onResetBtn(item)"
+            @update="onUpdateBtn(item)"
+            @delete="onDeleteItem(item)"
+          />
+        </template>
+
+        <template v-else>
+          <v-empty-state>
+            <template #text>
+              <div class="text-medium-emphasis">Нет данных.</div>
+            </template>
+          </v-empty-state>
+        </template>
       </SkeletonLoader>
     </div>
-
+    {{ snapshotItemsLength }}
+    {{ hasDiff }}
+    {{ hasSnapshotDiff }}
     <div
-      v-if="!immediateSubmit"
+      v-if="!immediateSubmit && !hasSnapshotDiff"
       class="d-flex justify-end"
     >
       <slot
@@ -42,26 +53,18 @@
         name="submit"
         v-bind="{
           save: onSaveBtn,
-          isLoading: isLoadingDraft,
+          isLoading,
         }"
       />
 
-      <!-- TODO: locked-confirm-button="!props.store.isDraftEmpty" -->
       <ActionButtons
-        confirm
-        confirm-button="Сохранить"
-        locked-confirm-button
-        :loading="isLoadingDraft"
-        @confirm="onSaveBtn"
-      >
-        <template #confirmButtonTooltip>
-          <v-tooltip
-            activator="parent"
-            location="bottom"
-            text="В разработке!"
-          />
-        </template>
-      </ActionButtons>
+        v-else
+        primary
+        primary-button="Сохранить"
+        :locked-primary-button="!hasDiff"
+        :loading-primary-button="isLoading"
+        @on-primary-click="onSaveBtn"
+      />
     </div>
 
     <AutoFormDialog
@@ -92,7 +95,9 @@
                 <span class="text-decoration-underline font-italic">Добавить</span>
               </template>
 
-              <template v-else>{{ updatingItemName }}</template>
+              <template v-else>
+                <span v-html="updatingItemName" />
+              </template>
             </v-breadcrumbs-item>
           </template>
         </v-breadcrumbs>
@@ -105,6 +110,7 @@
 import type { ClassConstructor } from 'class-transformer';
 import type {
   AutoFormFields,
+  AutoFormItemsMap,
   AutoFormSubmitOperation,
   FormEditMode,
   UpdateAutoFormFieldPromise,
@@ -150,27 +156,36 @@ const emit = defineEmits<{
   (e: 'update:dialog', value: boolean): void;
 }>();
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const message = useMessage();
 const confirm = useConfirmDialog();
 
 const { isLoading: isLoadingImmediateSubmit, withLoading: withLoadingImmediateSubmit } =
   useLoading();
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { isLoading: isLoadingDraft, withLoading: withLoadingDraft } = useLoading();
+const { isLoading, withLoadingFn } = useLoading();
+const { isLoading: isLoadingDeleteAll, withLoadingFn: withLoadingDeleteAllFn } = useLoading();
 
 const mode = ref<FormEditMode>();
 const isLocalDialog = ref(props.dialog);
 
 const updatingItem = ref(null) as Ref<T | null>;
 const updatingItemName = ref(null) as Ref<string | null>;
-const draft = ref(new Map()) as Ref<Map<T, UpdateAutoFormFieldPromise<T>[]>>;
+
+const items = ref([]) as Ref<T[]>;
+const snapshotItemsLength = ref(null) as Ref<number | null>;
+
+const toCreateItems = ref(new Map()) as Ref<AutoFormItemsMap<T>>;
+const toUpdateItems = ref(new Map()) as Ref<AutoFormItemsMap<T>>;
+const toDeleteItems = ref([]) as Ref<T[]>;
 
 const store = computed(() => props.store());
 
-store.value.initDraftWatch();
+const hasDiff = computed(() =>
+  [toCreateItems.value.size, toUpdateItems.value.size, toDeleteItems.value.length].some(Boolean),
+);
 
-// TODO: Обработка promises для immediateSubmit
+const hasSnapshotDiff = computed(() => !hasDiff.value && !snapshotItemsLength.value);
+
 const useImmediateSubmit = async (
   operation: AutoFormSubmitOperation,
   value: T,
@@ -203,33 +218,41 @@ const useImmediateSubmit = async (
   emit('update:dialog', false);
 };
 
-const onCreateItem = async (item: T) => {
+const onCreateItem = async (item: T, promises: UpdateAutoFormFieldPromise<T>[]) => {
   if (props.immediateSubmit) {
     await useImmediateSubmit('create', item);
     return;
   }
 
-  store.value.toDraft(item);
+  items.value.push(item);
+  toCreateItems.value.set(item.UUID, {
+    item,
+    promises,
+  });
 
   thisDialog.close();
 };
 
-// TODO: toDraft
 const onUpdateItem = async (item: T, promises: UpdateAutoFormFieldPromise<T>[]) => {
   if (props.immediateSubmit) {
     await useImmediateSubmit('update', item);
     return;
   }
 
-  if (updatingItem.value) {
+  if (updatingItem.value && item.hasDiff) {
     updatingItem.value.merge(item);
-    draft.value.set(updatingItem.value, promises);
+
+    if (item.ID) {
+      toUpdateItems.value.set(updatingItem.value.UUID, {
+        item: updatingItem.value,
+        promises,
+      });
+    }
   }
 
   thisDialog.close();
 };
 
-// TODO: Обработка delete операции draft-варианта формы
 const onDeleteItem = async (item: T) => {
   if (props.immediateSubmit) {
     if (props.deleteItemConfirm) {
@@ -241,20 +264,18 @@ const onDeleteItem = async (item: T) => {
     return;
   }
 
-  // TODO: Локальное удаление сущности
-  message.warning('В разработке!');
-};
+  items.value = items.value.filter((value) => !value.isSame(item));
+  toCreateItems.value.delete(item.UUID);
+  toUpdateItems.value.delete(item.UUID);
 
-const onDeleteAllBtn = async () => {
-  if (props.deleteAllConfirm) {
-    await confirm(...props.deleteAllConfirm);
+  if (item.ID) {
+    toDeleteItems.value.push(item);
   }
-  // TODO: Запрос на удаление всех сущностей
-  message.warning('В разработке!');
 };
 
 const onResetBtn = async (item: T) => {
   await confirm('Сбросить изменения?', 'Сбросить');
+  toUpdateItems.value.delete(item.UUID);
   item.resetToSnapshot();
 };
 
@@ -270,24 +291,51 @@ const onUpdateBtn = (item: T) => {
   thisDialog.open();
 };
 
-const onSaveBtn = () => {
-  console.log(store.value.draft);
-  // TODO: Обработка промисов формы, отправка черновика
-  // withLoadingDraft(
-  //   Promise.all(
-  //     Array.from(draft.value.entries()).flatMap(([item, promises]) =>
-  //       promises.map((promise) =>
-  //         promise().then((response) => {
-  //           item[response.key] = response.value;
-  //           props.store.toDraft(item);
-  //         }),
-  //       ),
-  //     ),
-  //   ).then(() => {
-  //     console.log(props.store.draft);
-  //     // Array.from(draft.value.keys()).forEach(() => {});
-  //   }),
-  // );
+const onDeleteAllBtn = async () => {
+  if (props.deleteAllConfirm) {
+    await confirm(...props.deleteAllConfirm);
+  }
+
+  store.value.setIsLoading(true);
+
+  await withLoadingDeleteAllFn(async () => {
+    await Promise.all(items.value.map((item) => item.delete()));
+    await store.value.load();
+  });
+};
+
+const onSaveBtn = async () => {
+  const prepare = () => {
+    const processItems = (itemsMap: AutoFormItemsMap<T>) =>
+      [...itemsMap.values()].flatMap(({ item, promises }) =>
+        promises.map(async (promise) => {
+          const response = await promise();
+          item[response.key] = response.value;
+        }),
+      );
+
+    return [...processItems(toCreateItems.value), ...processItems(toUpdateItems.value)];
+  };
+
+  const toCreate = [...toCreateItems.value.values()].map(({ item }) => item);
+  const toUpdate = [...toUpdateItems.value.values()].map(({ item }) => item);
+  const toDelete = [...toDeleteItems.value];
+
+  store.value.setIsLoading(true);
+
+  await withLoadingFn(async () => {
+    await Promise.all(prepare());
+    await Promise.all([
+      ...toCreate.map((item) => item.create()),
+      ...toUpdate.map((item) => item.update()),
+      ...toDelete.map((item) => item.delete()),
+    ]);
+    await store.value.load();
+  });
+
+  toCreateItems.value.clear();
+  toUpdateItems.value.clear();
+  toDeleteItems.value = [];
 };
 
 const onClose = () => {
@@ -304,6 +352,14 @@ const thisDialog = {
 defineExpose({
   deleteAll: onDeleteAllBtn,
 });
+
+watch(
+  () => store.value.items,
+  (value) => {
+    items.value = [...value];
+    snapshotItemsLength.value = value.length;
+  },
+);
 
 watch(
   () => props.dialog,

@@ -3,7 +3,7 @@
     class="px-8 page-wrapper"
     fluid
   >
-    <div class="d-flex flex-column ga-10">
+    <div class="h-100 d-flex flex-column ga-10">
       <div class="d-flex align-center text-h6">
         <v-btn
           v-if="$vuetify.display.mdAndDown"
@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div>
+      <div class="h-100 d-flex">
         <slot />
       </div>
     </div>

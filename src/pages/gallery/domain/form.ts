@@ -29,7 +29,6 @@ export const galleryFormFields: AutoFormFields<Gallery> = [
           render: () => VTextField,
           props: {
             label: 'Название',
-            hideDetails: true,
           },
         },
         {
@@ -39,7 +38,6 @@ export const galleryFormFields: AutoFormFields<Gallery> = [
           props: {
             label: 'Описание',
             rows: 4,
-            hideDetails: true,
           },
         },
         {

@@ -14,11 +14,11 @@
         v-if="slot.render"
         v-bind="bindProps(slot.attrs)"
       >
-        {{ props.value[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T] }}
+        <div v-html="props.value[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T]" />
       </component>
 
       <template v-else>
-        {{ props.value[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T] }}
+        <div v-html="props.value[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T]" />
       </template>
     </template>
   </component>

@@ -17,7 +17,7 @@ export default defineConfig({
         'vue-router',
         'pinia',
         {
-          '@vueuse/core': ['useVModel', 'until'],
+          '@vueuse/core': ['useVModel'],
         },
         {
           from: 'vue',

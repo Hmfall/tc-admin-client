@@ -9,10 +9,20 @@ export type FileInputField = /* @vue-ignore */ InstanceType<typeof VFileInput>['
   accept?: string[];
 };
 
+export type EditedTextField = {
+  label?: string;
+  rows?: string | number;
+  rules?: ((v: any) => any)[];
+};
+
 export type AutoFormFieldInput =
   | {
       type: FieldType.textField;
       props?: InstanceType<typeof VTextField>['$props'];
+    }
+  | {
+      type: FieldType.editedTextField;
+      props?: EditedTextField;
     }
   | {
       type: FieldType.textarea;
@@ -49,8 +59,19 @@ export interface UpdateAutoFormFieldValue<T> {
 
 export type UpdateAutoFormFieldPromise<T> = () => Promise<UpdateAutoFormFieldValue<T>>;
 
+export type AutoFormItemsMap<T> = Map<
+  UUID,
+  {
+    item: T;
+    promises: UpdateAutoFormFieldPromise<T>[];
+  }
+>;
+
+export type MaybeValidateComponentRef = Ref & { validate?: () => Promise<void> };
+
 export enum FieldType {
   textField = 'textField',
+  editedTextField = 'editedTextField',
   textarea = 'textarea',
   fileInput = 'fileInput',
 }

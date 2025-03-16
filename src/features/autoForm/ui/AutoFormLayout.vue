@@ -19,7 +19,7 @@
             >
               <slot
                 name="fields"
-                :field="field"
+                v-bind="{ field, bindRef }"
               />
             </v-col>
           </v-row>
@@ -35,7 +35,7 @@
       >
         <slot
           name="fields"
-          :field="field"
+          v-bind="{ field, bindRef }"
         />
       </v-col>
     </v-row>
@@ -48,12 +48,19 @@ import type {
   AutoFormColOptions,
   AutoFormField,
   AutoFormFields,
+  MaybeValidateComponentRef,
 } from '@/features/autoForm/model/types';
 import type { BaseModel } from '@/shared/lib/storeFactory';
 
 const props = defineProps<{
   fields?: AutoFormFields<T>;
 }>();
+
+const emit = defineEmits<{
+  (e: 'refs', value: MaybeValidateComponentRef[]): void;
+}>();
+
+const refs = ref<MaybeValidateComponentRef[]>([]);
 
 const normalizedGrid = computed(() =>
   Array.isArray(props.fields?.[0])
@@ -76,4 +83,13 @@ const flatFields = computed(() => {
 
   return isFlatFields(props?.fields) ? props.fields : [];
 });
+
+// TODO: Изменение формирования normalizedGrid (дублирование вызова bindRef)
+const bindRef = (ref: MaybeValidateComponentRef) => {
+  if (ref && 'validate' in ref && !refs.value.includes(ref)) {
+    refs.value.push(ref);
+  }
+};
+
+onMounted(() => emit('refs', refs.value));
 </script>

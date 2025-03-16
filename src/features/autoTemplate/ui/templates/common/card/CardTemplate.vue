@@ -26,8 +26,8 @@
         </v-avatar>
       </div>
 
-      <div class="d-flex flex-1-1-100 flex-column flex-md-row ga-0 ga-md-2">
-        <div class="w-100">
+      <div class="content-container d-flex flex-1-1-100 flex-column flex-md-row ga-0 ga-md-2">
+        <div class="content-buttons-container d-flex flex-column flex-1-1-100">
           <div
             v-if="$slots.title"
             class="text-h6 mb-2"
@@ -104,29 +104,34 @@ defineProps<{
 </script>
 
 <style scoped lang="scss">
-@import '@/shared/assets/styles/main';
+@import '@/shared/assets/styles/mixins';
+
+.content-container,
+.content-buttons-container {
+  min-width: 0;
+}
 
 .subtitle {
   @include wordWrap;
   line-clamp: 2;
-  -webkit-line-clamp: 2;
 
   &--expanded {
     @include wordWrap;
     line-clamp: 5;
-    -webkit-line-clamp: 5;
   }
 }
 
 .text {
   @include wordWrap;
   line-clamp: 6;
-  -webkit-line-clamp: 6;
 }
 
 .link {
   @include wordWrap;
   line-clamp: 1;
-  -webkit-line-clamp: 1;
+}
+
+:deep(a) {
+  @include link;
 }
 </style>
