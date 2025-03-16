@@ -41,9 +41,6 @@
         </template>
       </SkeletonLoader>
     </div>
-    {{ snapshotItemsLength }}
-    {{ hasDiff }}
-    {{ hasSnapshotDiff }}
     <div
       v-if="!immediateSubmit && !hasSnapshotDiff"
       class="d-flex justify-end"
