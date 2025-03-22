@@ -14,7 +14,6 @@ export type FromJSONPlain<T> = Partial<
     | 'ID'
     | 'UUID'
     | 'isSame'
-    | 'within'
     | 'create'
     | 'update'
     | 'updateThis'

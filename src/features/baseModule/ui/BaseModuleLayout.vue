@@ -19,6 +19,7 @@
 import ModuleLayout from '@/app/layouts/moduleLayout/ui/ModuleLayout.vue';
 import type { BaseModuleConfig } from '@/features/baseModule/model/types';
 import BaseModule from '@/features/baseModule/ui/BaseModule.vue';
+import { useMessage } from '@/shared/components/messageAlert/model/useMessage';
 import { abortController } from '@/shared/lib/abortController/abortController';
 import type { BaseAPI, Model } from '@/shared/lib/storeFactory';
 
@@ -26,7 +27,9 @@ const props = defineProps<{
   moduleConfig: BaseModuleConfig<T, A>;
 }>();
 
-const { getControllerSignal, setupController } = abortController();
+const { getControllerSignal, setupController, isCanceledError } = abortController();
+
+const message = useMessage();
 
 watch(
   () => props.moduleConfig,
@@ -35,7 +38,11 @@ watch(
     moduleConfig
       .store()
       .load({ signal: getControllerSignal() })
-      .catch((e) => e);
+      .catch((e) => {
+        if (!isCanceledError(e)) {
+          message.error();
+        }
+      });
   },
   {
     immediate: true,

@@ -14,7 +14,7 @@ export class Contact extends Model {
 
   description: string;
 
-  link: string;
+  url: string;
 
   @Type(() => ObjectUrl)
   logo: ObjectUrl = new ObjectUrl();

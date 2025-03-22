@@ -1,6 +1,6 @@
 <template>
   <v-container
-    class="px-8 page-wrapper"
+    class="px-8 pt-5 page-wrapper"
     fluid
   >
     <div class="h-100 d-flex flex-column ga-10">
@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div class="h-100 d-flex">
+      <div class="d-flex">
         <slot />
       </div>
     </div>

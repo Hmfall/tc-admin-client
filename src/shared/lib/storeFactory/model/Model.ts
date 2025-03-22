@@ -25,7 +25,10 @@ export abstract class Model extends BaseModel {
   }
 
   public async update(): Promise<this> {
-    const response = await this.$repository.updateById(this.ID, this.toJSON());
+    const response = await this.$repository.updateById(
+      this.ID,
+      this.toJSON({ excludePrefixes: ['_'] }),
+    );
     return plainToInstance(this.classConstructor, response);
   }
 
@@ -34,7 +37,7 @@ export abstract class Model extends BaseModel {
   }
 
   public async updateThis(): Promise<this> {
-    const response = await this.$repository.updateThis(this.toJSON());
+    const response = await this.$repository.updateThis(this.toJSON({ excludePrefixes: ['_'] }));
     return plainToInstance(this.classConstructor, response);
   }
 

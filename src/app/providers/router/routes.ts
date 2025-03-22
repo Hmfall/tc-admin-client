@@ -4,8 +4,9 @@ import { aboutModuleConfig } from '@/pages/about/domain/config';
 import { contactsModuleConfig } from '@/pages/contacts/domain/config';
 import { eventsModuleConfig } from '@/pages/events/domain/config';
 import { galleryModuleConfig } from '@/pages/gallery/domain/config';
+import { inProgressModuleConfig } from '@/pages/inProgress/domain/config';
 import { partnersModuleConfig } from '@/pages/partners/domain/config';
-import { socialModuleConfig } from '@/pages/socials/domain/config';
+import { socialsModuleConfig } from '@/pages/socials/domain/config';
 import { authMiddleware } from '@/features/auth/domain/middleware/authMiddleware';
 
 export const routes: RouteRecordRaw[] = [
@@ -45,13 +46,28 @@ export const routes: RouteRecordRaw[] = [
       {
         path: 'social',
         name: AppRoutes.Social,
-        props: { moduleConfig: socialModuleConfig },
+        props: { moduleConfig: socialsModuleConfig },
         component: async () => await import('@/features/baseModule/ui/BaseModuleLayout.vue'),
       },
       {
         path: 'contacts',
         name: AppRoutes.Contacts,
         props: { moduleConfig: contactsModuleConfig },
+        component: async () => await import('@/features/baseModule/ui/BaseModuleLayout.vue'),
+      },
+      {
+        path: 'accounts',
+        name: AppRoutes.Accounts,
+        meta: {
+          layout: DefaultLayout,
+          middleware: [authMiddleware],
+        },
+        component: async () => await import('@/pages/accounts/ui/AccountsModule.vue'),
+      },
+      {
+        path: 'in-progress',
+        name: AppRoutes.InProgress,
+        props: { moduleConfig: inProgressModuleConfig },
         component: async () => await import('@/features/baseModule/ui/BaseModuleLayout.vue'),
       },
     ],
@@ -68,24 +84,10 @@ export const routes: RouteRecordRaw[] = [
         component: async () => await import('@/features/auth/ui/LoginForm.vue'),
       },
       {
-        path: 'password/reset',
-        name: AppRoutes.ResetPassword,
-        component: async () => await import('@/features/auth/ui/ResetPasswordForm.vue'),
-      },
-      {
         path: 'password/new',
-        name: AppRoutes.NewPassword,
-        component: async () => await import('@/features/auth/ui/NewPasswordForm.vue'),
+        name: AppRoutes.ResetPassword,
+        component: async () => await import('@/features/auth/ui/RecoveryForm.vue'),
       },
     ],
-  },
-  {
-    path: '/accounts',
-    name: AppRoutes.Accounts,
-    meta: {
-      layout: DefaultLayout,
-      middleware: [authMiddleware],
-    },
-    component: async () => await import('@/pages/accounts/ui/AccountsModule.vue'),
   },
 ];

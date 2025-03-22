@@ -3,13 +3,13 @@ export type TemplateSlotAttrs<T> = Record<string, string | number | Record<'bind
 export interface AutoTemplateSlot<T> {
   key?: keyof T;
   slot: string;
-  render?: () => Component | VNode | string;
+  render?: () => Component | VNode;
   attrs?: TemplateSlotAttrs<T>;
 }
 
 export type AutoTemplateSlots<T> = {
   render: () => Component;
-  skeletonRender?: () => Component;
+  skeletonRender?: () => Component | VNode;
   slots: AutoTemplateSlot<T>[];
 };
 

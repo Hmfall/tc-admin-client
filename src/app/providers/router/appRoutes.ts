@@ -10,5 +10,6 @@ export enum AppRoutes {
   Partners = 'partners',
   Social = 'social',
   Contacts = 'contacts',
-  Accounts = 'cccounts',
+  Accounts = 'accounts',
+  InProgress = 'inProgress',
 }

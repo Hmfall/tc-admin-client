@@ -14,11 +14,17 @@
         v-if="slot.render"
         v-bind="bindProps(slot.attrs)"
       >
-        <div v-html="props.value[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T]" />
+        <div
+          class="render-slot"
+          v-html="props.value[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T]"
+        />
       </component>
 
       <template v-else>
-        <div v-html="props.value[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T]" />
+        <div
+          class="render-slot"
+          v-html="props.value[templateMappedSlot(props.slots)[slot.slot]?.key as keyof T]"
+        />
       </template>
     </template>
   </component>
@@ -40,10 +46,7 @@ const bindProps = (slotProp?: TemplateSlotAttrs<T>) =>
   Object.entries(slotProp ?? {}).reduce<Record<string, any>>((acc, [slot, key]) => {
     if (typeof key === 'object' && key.bindKey) {
       const value = props.value?.[key.bindKey];
-
-      if (value) {
-        acc[slot] = (value instanceof ObjectUrl ? value.objectUrl ?? value.url : value) ?? key;
-      }
+      acc[slot] = (value instanceof ObjectUrl ? value.objectUrl ?? value.url : value) ?? key;
     } else {
       acc[slot] = key;
     }

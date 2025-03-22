@@ -12,5 +12,4 @@ export const aboutModuleConfig: BaseModuleConfig<About> = {
   store: useAboutStore,
   formFields: aboutFormFields,
   templateSlots: aboutTemplateSlots,
-  singleton: true,
 };

@@ -17,7 +17,7 @@ import { contactsModuleConfig } from '@/pages/contacts/domain/config';
 import { eventsModuleConfig } from '@/pages/events/domain/config';
 import { galleryModuleConfig } from '@/pages/gallery/domain/config';
 import { partnersModuleConfig } from '@/pages/partners/domain/config';
-import { socialModuleConfig } from '@/pages/socials/domain/config';
+import { socialsModuleConfig } from '@/pages/socials/domain/config';
 import type { NavItem } from '@/features/appMenu/model/types';
 import AppMenu from '@/features/appMenu/ui/AppMenu.vue';
 
@@ -34,7 +34,7 @@ const navItems: NavItem[] = [
   eventsModuleConfig,
   galleryModuleConfig,
   partnersModuleConfig,
-  socialModuleConfig,
+  socialsModuleConfig,
   contactsModuleConfig,
 ];
 </script>

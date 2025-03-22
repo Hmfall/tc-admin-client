@@ -1,8 +1,15 @@
-import { VTextarea, VTextField } from 'vuetify/components';
 import type { AutoFormFields } from '@/features/autoForm/model/types';
 import { FieldType } from '@/features/autoForm/model/types';
 import FileInputComponent from '@/features/autoForm/ui/components/FileInputComponent.vue';
 import type { Gallery } from '@/entities/gallery/Gallery';
+import EditedTextField from '@/shared/components/editedTextField/EditedTextField.vue';
+import TextField from '@/shared/ui/textField/TextField.vue';
+import {
+  maxLengthRule,
+  minLengthRule,
+  requiredObjectUrlRule,
+  requiredRule,
+} from '@/shared/utils/validationRules';
 
 export const galleryFormFields: AutoFormFields<Gallery> = [
   [
@@ -14,7 +21,18 @@ export const galleryFormFields: AutoFormFields<Gallery> = [
           type: FieldType.fileInput,
           render: () => FileInputComponent,
           props: {
+            label: 'Логотип',
+            rules: [requiredObjectUrlRule],
+            accept: ['image/png, image/jpeg'],
+          },
+        },
+        {
+          key: 'background',
+          type: FieldType.fileInput,
+          render: () => FileInputComponent,
+          props: {
             label: 'Фоновое изображение',
+            rules: [requiredObjectUrlRule],
             accept: ['image/png, image/jpeg'],
           },
         },
@@ -25,27 +43,30 @@ export const galleryFormFields: AutoFormFields<Gallery> = [
       items: [
         {
           key: 'name',
-          type: FieldType.textField,
-          render: () => VTextField,
+          type: FieldType.editedTextField,
+          render: () => EditedTextField,
           props: {
             label: 'Название',
+            rules: [requiredRule, minLengthRule, maxLengthRule],
           },
         },
         {
           key: 'description',
-          type: FieldType.textarea,
-          render: () => VTextarea,
+          type: FieldType.editedTextField,
+          render: () => EditedTextField,
           props: {
             label: 'Описание',
             rows: 4,
+            rules: [requiredRule],
           },
         },
         {
-          key: 'link',
+          key: 'url',
           type: FieldType.textField,
-          render: () => VTextField,
+          render: () => TextField,
           props: {
             label: 'Ссылка на внешний ресурс',
+            rules: [requiredRule],
           },
         },
       ],

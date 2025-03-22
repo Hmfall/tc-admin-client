@@ -1,41 +1,40 @@
 import { VImg } from 'vuetify/components';
 import type { AutoTemplateSlots } from '@/features/autoTemplate/model/types';
-import { CardTemplateSlot } from '@/features/autoTemplate/model/types/templates';
-import CardTemplate from '@/features/autoTemplate/ui/templates/common/card/CardTemplate.vue';
-import CardTemplateSkeleton from '@/features/autoTemplate/ui/templates/common/card/CardTemplateSkeleton.vue';
-import type { Event } from '@/entities/event/Event';
+import { CardTemplateSlot } from '@/features/autoTemplate/ui/templates/common/card/model/types';
+import CardTemplate from '@/features/autoTemplate/ui/templates/common/card/ui/CardTemplate.vue';
+import CardTemplateSkeleton from '@/features/autoTemplate/ui/templates/common/card/ui/CardTemplateSkeleton.vue';
+import type { Contact } from '@/entities/contact/Contact';
 
-export const eventsTemplateSlots: AutoTemplateSlots<Event> = {
+export const contactTemplateSlots: AutoTemplateSlots<Contact> = {
   render: () => CardTemplate,
   skeletonRender: () => CardTemplateSkeleton,
   slots: [
     {
       key: 'name',
-      slot: CardTemplateSlot.title,
+      slot: CardTemplateSlot.Title,
     },
     {
       key: 'description',
-      slot: CardTemplateSlot.subtitle,
+      slot: CardTemplateSlot.Subtitle,
     },
     {
-      key: 'details',
-      slot: CardTemplateSlot.text,
-    },
-    {
-      slot: CardTemplateSlot.previewImage,
-      render: () => VImg,
+      key: 'url',
+      slot: CardTemplateSlot.Url,
+      render: () => h('a'),
       attrs: {
-        src: {
-          bindKey: 'logo',
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        href: {
+          bindKey: 'url',
         },
       },
     },
     {
-      slot: CardTemplateSlot.image,
+      slot: CardTemplateSlot.Img,
       render: () => VImg,
       attrs: {
         src: {
-          bindKey: 'background',
+          bindKey: 'logo',
         },
       },
     },

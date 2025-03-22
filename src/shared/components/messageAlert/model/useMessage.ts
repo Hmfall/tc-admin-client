@@ -9,7 +9,8 @@ export const useMessage = () => {
   return {
     success: (value: string) => pushMessage({ value, type: MessageType.success }),
     warning: (value: string) => pushMessage({ value, type: MessageType.warning }),
-    error: (value: string) => pushMessage({ value, type: MessageType.error }),
+    error: (value?: string) =>
+      pushMessage({ value: value ?? 'Произошла ошибка!', type: MessageType.error }),
     info: (value: string) => pushMessage({ value, type: MessageType.info }),
   };
 };

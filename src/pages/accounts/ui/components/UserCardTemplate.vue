@@ -1,13 +1,13 @@
 <template>
   <v-list-item>
     <template #title>
-      <span :class="{ 'font-weight-medium': value.isAdmin }">
+      <span :class="{ 'font-weight-medium': value.isNotDeletedUser }">
         <slot name="title" />
       </span>
     </template>
 
     <template #subtitle>
-      <span :class="{ 'font-weight-medium': value.isAdmin }">
+      <span :class="{ 'font-weight-medium': value.isNotDeletedUser }">
         <slot name="subtitle" />
       </span>
     </template>
@@ -26,7 +26,7 @@
         <v-list>
           <v-list-item @click="emit('update')">Редактировать</v-list-item>
           <v-list-item
-            v-if="!value.isAdmin"
+            v-if="!value.isNotDeletedUser"
             @click="emit('delete')"
           >
             Удалить

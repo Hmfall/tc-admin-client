@@ -2,6 +2,7 @@
   <v-navigation-drawer
     :model-value="expanded"
     color="background"
+    border="0"
     :mobile="$vuetify.display.mdAndDown"
     @update:model-value="$emit('update:expanded', $event)"
   >
@@ -21,6 +22,8 @@
           <router-link
             v-for="item in navItems"
             :key="item.name"
+            v-slot="{ navigate }"
+            custom
             :to="{ name: item.routeName }"
           >
             <v-tab
@@ -28,25 +31,36 @@
               class="w-100"
               :text="item.name"
               :value="item.routeName"
+              @click="navigate"
             />
           </router-link>
         </v-tabs>
       </div>
 
       <div class="d-flex flex-column align-center ga-5 mt-4 mb-6">
-        <div class="text-center">
-          <router-link
-            :to="{ name: AppRoutes.Accounts }"
-            class="text-decoration-underline"
-            active-class="active-link"
-          >
-            Управлением аккаунтами
-          </router-link>
+        <div class="d-flex flex-column ga-4">
+          <div class="text-center">
+            <router-link
+              :to="{ name: AppRoutes.Accounts }"
+              class="text-decoration-underline"
+              active-class="active-link"
+            >
+              Управлением аккаунтами
+            </router-link>
+          </div>
+
+          <div class="text-center">
+            <router-link
+              :to="{ name: AppRoutes.InProgress }"
+              class="text-decoration-underline"
+              active-class="active-link"
+            >
+              В разработке
+            </router-link>
+          </div>
         </div>
 
-        <div>
-          <v-btn @click="authStore.logout">Выйти</v-btn>
-        </div>
+        <v-btn @click="logout">Выйти</v-btn>
       </div>
     </div>
   </v-navigation-drawer>
@@ -77,6 +91,11 @@ const mappedNavItems = props.navItems.reduce<Record<string, NavItem>>((acc, curr
   acc[curr.routeName] = { ...curr };
   return acc;
 }, {});
+
+const logout = async () => {
+  authStore.logout();
+  await router.replace({ name: AppRoutes.Auth });
+};
 
 watch(route, (value) => {
   if (!mappedNavItems[String(value.name)]) {

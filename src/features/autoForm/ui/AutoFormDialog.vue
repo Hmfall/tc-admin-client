@@ -19,6 +19,7 @@
       :mode="mode"
       :model="model"
       :loading="loading"
+      :disabled="disabled"
       @create="(...args) => emit('create', ...args)"
       @update="(...args) => emit('update', ...args)"
       @close="emit('update:modelValue', false)"
@@ -44,6 +45,7 @@ const props = defineProps<{
   formFields?: AutoFormFields<T>;
   mode?: FormEditMode;
   loading?: boolean;
+  disabled?: boolean;
   editor?: boolean;
   dialogWidth?: string | number;
 }>();

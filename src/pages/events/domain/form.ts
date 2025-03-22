@@ -1,10 +1,17 @@
+import EventPositionSelect from '@/pages/events/ui/EventPositionSelect.vue';
 import type { AutoFormFields } from '@/features/autoForm/model/types';
 import { FieldType } from '@/features/autoForm/model/types';
 import FileInputComponent from '@/features/autoForm/ui/components/FileInputComponent.vue';
-import type { Event } from '@/entities/event/Event';
+import type { Event } from '@/entities/event/model/Event';
 import EditedTextField from '@/shared/components/editedTextField/EditedTextField.vue';
+import {
+  maxLengthRule,
+  minLengthRule,
+  requiredObjectUrlRule,
+  requiredRule,
+} from '@/shared/utils/validationRules';
 
-export const eventsFormFields: AutoFormFields<Event> = [
+export const eventFormFields: AutoFormFields<Event> = [
   [
     {
       span: 3,
@@ -15,15 +22,25 @@ export const eventsFormFields: AutoFormFields<Event> = [
           render: () => FileInputComponent,
           props: {
             label: 'Логотип',
+            rules: [requiredObjectUrlRule],
             accept: ['image/png, image/jpeg'],
           },
         },
         {
-          key: 'background',
+          key: 'position',
+          type: FieldType.select,
+          render: () => EventPositionSelect,
+          props: {
+            label: 'Расположение',
+          },
+        },
+        {
+          key: 'img',
           type: FieldType.fileInput,
           render: () => FileInputComponent,
           props: {
             label: 'Фоновое изображение',
+            rules: [requiredObjectUrlRule],
             accept: ['image/png, image/jpeg'],
           },
         },
@@ -38,6 +55,7 @@ export const eventsFormFields: AutoFormFields<Event> = [
           render: () => EditedTextField,
           props: {
             label: 'Название',
+            rules: [requiredRule, minLengthRule, maxLengthRule],
           },
         },
         {
@@ -46,6 +64,7 @@ export const eventsFormFields: AutoFormFields<Event> = [
           render: () => EditedTextField,
           props: {
             label: 'Описание',
+            rules: [requiredRule],
             rows: 3,
           },
         },

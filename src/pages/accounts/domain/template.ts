@@ -1,11 +1,11 @@
 import { VSkeletonLoader } from 'vuetify/components';
 import { UserTemplateSlot } from '@/pages/accounts/model/types';
-import UserTemplate from '@/pages/accounts/ui/components/UserTemplate.vue';
+import UserCardTemplate from '@/pages/accounts/ui/components/UserCardTemplate.vue';
 import type { AutoTemplateSlots } from '@/features/autoTemplate/model/types';
 import type { User } from '@/entities/user/User';
 
 export const userTemplateSlots: AutoTemplateSlots<User> = {
-  render: () => UserTemplate,
+  render: () => UserCardTemplate,
   skeletonRender: () =>
     h(VSkeletonLoader, {
       type: 'list-item-two-line',

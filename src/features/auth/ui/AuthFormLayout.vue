@@ -11,8 +11,8 @@
       </div>
 
       <v-sheet
+        class="d-flex flex-column mb-2"
         width="400"
-        class="d-flex flex-column ga-2 mb-2"
       >
         <slot />
       </v-sheet>

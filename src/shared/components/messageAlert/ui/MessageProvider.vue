@@ -4,7 +4,6 @@
   <v-snackbar
     v-model="isSnackbar"
     class="message-snackbar"
-    timeout="2000"
     location="top"
     rounded="md"
   >
@@ -35,8 +34,6 @@
 import type { MessageOptions } from '@/shared/components/messageAlert/model/types';
 import { MessageType } from '@/shared/components/messageAlert/model/types';
 
-const route = useRoute();
-
 const isSnackbar = ref(false);
 
 const message = ref<MessageOptions>();
@@ -47,10 +44,6 @@ const pushMessage = (messageOptions: MessageOptions) => {
 };
 
 provide('message', pushMessage);
-
-watch(route, () => {
-  isSnackbar.value = false;
-});
 
 const icons = new Map([
   [MessageType.success, '$mdiCheckCircleOutline'],

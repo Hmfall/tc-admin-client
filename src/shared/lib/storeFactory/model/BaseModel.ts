@@ -43,18 +43,17 @@ export abstract class BaseModel {
     return instance.UUID === this.__uuid;
   }
 
-  public within(target: (typeof this)[]) {
-    return target.some((value) => value?.isSame(this));
-  }
-
   public get hasDiff() {
     return !!getOwnPropertyNames(
-      diff(JSON.parse(JSON.stringify(this.toRawJSON())), JSON.parse(this.__snapshot)),
+      diff(
+        JSON.parse(JSON.stringify(this.toJSON({ excludePrefixes: ['__'] }))),
+        JSON.parse(this.__snapshot),
+      ),
     ).length;
   }
 
   public makeSnapshot() {
-    this.__snapshot = JSON.stringify(this.toRawJSON());
+    this.__snapshot = JSON.stringify(this.toJSON({ excludePrefixes: ['__'] }));
     return this;
   }
 
@@ -65,10 +64,6 @@ export abstract class BaseModel {
 
   private fromJSONPlain(plain: Record<string, unknown>, options?: ClassTransformOptions): this {
     return plainToInstance(this.classConstructor, plain, options);
-  }
-
-  private toRawJSON() {
-    return this.toJSON({ ignoreDecorators: true, excludePrefixes: ['__'] });
   }
 
   public fromJSON(plain?: FromJSONPlain<this>, options?: ClassTransformOptions): this {

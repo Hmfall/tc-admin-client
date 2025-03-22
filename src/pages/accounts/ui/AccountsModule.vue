@@ -2,7 +2,7 @@
   <ModuleLayout>
     <template #header>{{ accountsModuleConfig.name }}</template>
 
-    <v-sheet max-width="480">
+    <v-sheet min-width="540">
       <v-list-item class="mb-2">
         <span class="font-weight-medium">Список текущих администраторов</span>
 
@@ -19,25 +19,31 @@
 
             <v-list>
               <v-list-item @click="onOpenDialogBtn">Добавить</v-list-item>
-              <v-list-item @click="onDeleteAllBtn">Очистить всех</v-list-item>
+
+              <v-list-item
+                :disabled="deleteAllBtnDisabled"
+                @click="onDeleteAllBtn"
+              >
+                Очистить всех
+              </v-list-item>
             </v-list>
           </v-menu>
         </template>
       </v-list-item>
 
       <BaseModule
-        ref="moduleRef"
-        v-model:dialog="isDialog"
+        ref="baseModuleRef"
+        v-model:dialog="isDialogVisible"
         class="d-flex flex-column ga-3"
         dialog-width="800"
         immediate-submit
-        loading-on-delete
         hide-actions
         :module-name="accountsModuleConfig.name"
         :model="accountsModuleConfig.model"
         :store="accountsModuleConfig.store"
         :template-slots="accountsModuleConfig.templateSlots"
         :form-fields="accountsModuleConfig.formFields"
+        :loading-on="['delete']"
         :delete-all-confirm="['Удалить всех пользователей?', 'Удалить']"
       >
       </BaseModule>
@@ -55,15 +61,19 @@ const userStore = useUserStore();
 
 userStore.load();
 
-const isDialog = ref(false);
+const isDialogVisible = ref(false);
 
-const moduleRef = ref<ComponentInstance<typeof BaseModule> | null>(null);
+const baseModuleRef = ref<ComponentInstance<typeof BaseModule> | null>(null);
+
+const deleteAllBtnDisabled = computed(
+  () => !userStore.items.filter((item) => !item.isNotDeletedUser).length,
+);
 
 const onOpenDialogBtn = () => {
-  isDialog.value = true;
+  isDialogVisible.value = true;
 };
 
 const onDeleteAllBtn = () => {
-  moduleRef.value?.deleteAll();
+  baseModuleRef.value?.deleteAll();
 };
 </script>

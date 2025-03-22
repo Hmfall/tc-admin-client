@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column flex-1-1-100 ga-8">
+  <div class="w-100 d-flex flex-column flex-1-1-100 ga-8">
     <div
       v-if="!hideActions && !store.config.singleton"
       class="d-flex justify-end ga-4"
@@ -7,8 +7,8 @@
       <ActionButtons
         secondary-button="Удалить все"
         primary-button="Добавить"
-        reversed
         :loading-secondary-button="isLoadingDeleteAll"
+        :locked-secondary-button="!items.length"
         @on-primary-click="thisDialog.open"
         @on-secondary-click="onDeleteAllBtn"
       />
@@ -41,6 +41,7 @@
         </template>
       </SkeletonLoader>
     </div>
+
     <div
       v-if="!immediateSubmit && !hasSnapshotDiff"
       class="d-flex justify-end"
@@ -59,13 +60,14 @@
         primary
         primary-button="Сохранить"
         :locked-primary-button="!hasDiff"
+        :primary-button-tooltip="!hasDiff ? 'Нет изменений' : null"
         :loading-primary-button="isLoading"
         @on-primary-click="onSaveBtn"
       />
     </div>
 
     <AutoFormDialog
-      v-model="isLocalDialog"
+      v-model="isDialogVisible"
       :value="updatingItem"
       :model="model"
       :form-fields="formFields"
@@ -73,6 +75,7 @@
       :loading="isLoadingImmediateSubmit"
       :dialog-width="dialogWidth"
       :editor="editor"
+      :disabled="isFieldsDisabled"
       @create="onCreateItem"
       @update="onUpdateItem"
       @close="onClose"
@@ -134,9 +137,7 @@ const props = withDefaults(
     formFields?: AutoFormFields<T>;
     immediateSubmit?: boolean;
     refetchStore?: boolean;
-    loadingOnCreate?: boolean;
-    loadingOnUpdate?: boolean;
-    loadingOnDelete?: boolean;
+    loadingOn?: AutoFormSubmitOperation[];
     hideActions?: boolean;
     dialogWidth?: string | number;
     class?: string;
@@ -153,17 +154,17 @@ const emit = defineEmits<{
   (e: 'update:dialog', value: boolean): void;
 }>();
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const message = useMessage();
 const confirm = useConfirmDialog();
 
 const { isLoading: isLoadingImmediateSubmit, withLoading: withLoadingImmediateSubmit } =
   useLoading();
 const { isLoading, withLoadingFn } = useLoading();
-const { isLoading: isLoadingDeleteAll, withLoadingFn: withLoadingDeleteAllFn } = useLoading();
+const { isLoading: isLoadingDeleteAll, withLoading: withLoadingDeleteAll } = useLoading();
 
 const mode = ref<FormEditMode>();
-const isLocalDialog = ref(props.dialog);
+const isDialogVisible = ref(props.dialog);
+const isFieldsDisabled = ref(false);
 
 const updatingItem = ref(null) as Ref<T | null>;
 const updatingItemName = ref(null) as Ref<string | null>;
@@ -192,27 +193,35 @@ const useImmediateSubmit = async (
   if (value.hasDiff || operation === 'delete') {
     if (
       {
-        create: props.loadingOnCreate,
-        update: props.loadingOnUpdate,
-        delete: props.loadingOnDelete,
+        create: props?.loadingOn?.includes('create'),
+        update: props?.loadingOn?.includes('update'),
+        delete: props?.loadingOn?.includes('delete'),
       }[operation]
     ) {
       store.value.setIsLoading(true);
     }
 
-    await withLoadingImmediateSubmit<T | void>(
+    isFieldsDisabled.value = true;
+
+    withLoadingImmediateSubmit<T | void>(
       {
         create: () => value.create(),
         update: () => value.update(),
         delete: () => value.delete(),
       }[operation](),
-    );
-
-    store.value.load();
+    )
+      .then(() => {
+        closeDialog();
+        store.value.load();
+      })
+      .catch(() => {
+        store.value.setIsLoading(false);
+        closeDialog();
+        message.error();
+      });
+  } else {
+    closeDialog();
   }
-
-  thisDialog.close();
-  emit('update:dialog', false);
 };
 
 const onCreateItem = async (item: T, promises: UpdateAutoFormFieldPromise<T>[]) => {
@@ -222,11 +231,7 @@ const onCreateItem = async (item: T, promises: UpdateAutoFormFieldPromise<T>[]) 
   }
 
   items.value.push(item);
-  toCreateItems.value.set(item.UUID, {
-    item,
-    promises,
-  });
-
+  toCreateItems.value.set(item.UUID, { item, promises });
   thisDialog.close();
 };
 
@@ -295,10 +300,16 @@ const onDeleteAllBtn = async () => {
 
   store.value.setIsLoading(true);
 
-  await withLoadingDeleteAllFn(async () => {
-    await Promise.all(items.value.map((item) => item.delete()));
-    await store.value.load();
-  });
+  await withLoadingDeleteAll(
+    Promise.all(store.value.items.map((item) => item.delete()))
+      .then(() => store.value.load())
+      .catch(() => {
+        store.value.setIsLoading(false);
+        message.error();
+      }),
+  );
+
+  clearLocalItems();
 };
 
 const onSaveBtn = async () => {
@@ -326,46 +337,63 @@ const onSaveBtn = async () => {
       ...toCreate.map((item) => item.create()),
       ...toUpdate.map((item) => item.update()),
       ...toDelete.map((item) => item.delete()),
-    ]);
-    await store.value.load();
+    ])
+      .then(() => store.value.load())
+      .catch(() => {
+        items.value = cloneItems(store.value.items);
+        store.value.setIsLoading(false);
+        message.error();
+      });
   });
 
-  toCreateItems.value.clear();
-  toUpdateItems.value.clear();
-  toDeleteItems.value = [];
+  clearLocalItems();
 };
 
 const onClose = () => {
   mode.value = 'create';
   updatingItem.value = null;
   updatingItemName.value = null;
+  isFieldsDisabled.value = false;
 };
 
 const thisDialog = {
-  open: () => (isLocalDialog.value = true),
-  close: () => (isLocalDialog.value = false),
+  open: () => (isDialogVisible.value = true),
+  close: () => (isDialogVisible.value = false),
 };
 
-defineExpose({
-  deleteAll: onDeleteAllBtn,
-});
+const closeDialog = () => {
+  thisDialog.close();
+  emit('update:dialog', false);
+};
 
-watch(
-  () => store.value.items,
-  (value) => {
-    items.value = [...value];
-    snapshotItemsLength.value = value.length;
-  },
-);
+const clearLocalItems = () => {
+  toCreateItems.value.clear();
+  toUpdateItems.value.clear();
+  toDeleteItems.value = [];
+};
+
+const cloneItems = (items: T[]) => items.map((item) => item.clone());
+
+defineExpose({ deleteAll: onDeleteAllBtn });
 
 watch(
   () => props.dialog,
   (value) => {
-    isLocalDialog.value = value;
+    isDialogVisible.value = value;
     mode.value = updatingItem.value ? 'update' : 'create';
   },
   {
     immediate: true,
   },
 );
+
+watch(
+  () => store.value.items,
+  (value) => {
+    items.value = cloneItems(value);
+    snapshotItemsLength.value = value.length;
+  },
+);
+
+watch(store, clearLocalItems);
 </script>

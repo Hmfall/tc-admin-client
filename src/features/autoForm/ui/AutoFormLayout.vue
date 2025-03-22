@@ -19,7 +19,7 @@
             >
               <slot
                 name="fields"
-                v-bind="{ field, bindRef }"
+                v-bind="{ field }"
               />
             </v-col>
           </v-row>
@@ -31,11 +31,12 @@
       <v-col
         v-for="field in flatFields"
         :key="field.key"
+        class="flat"
         cols="12"
       >
         <slot
           name="fields"
-          v-bind="{ field, bindRef }"
+          v-bind="{ field }"
         />
       </v-col>
     </v-row>
@@ -48,19 +49,12 @@ import type {
   AutoFormColOptions,
   AutoFormField,
   AutoFormFields,
-  MaybeValidateComponentRef,
 } from '@/features/autoForm/model/types';
 import type { BaseModel } from '@/shared/lib/storeFactory';
 
 const props = defineProps<{
   fields?: AutoFormFields<T>;
 }>();
-
-const emit = defineEmits<{
-  (e: 'refs', value: MaybeValidateComponentRef[]): void;
-}>();
-
-const refs = ref<MaybeValidateComponentRef[]>([]);
 
 const normalizedGrid = computed(() =>
   Array.isArray(props.fields?.[0])
@@ -78,18 +72,23 @@ const normalizedGrid = computed(() =>
 );
 
 const flatFields = computed(() => {
-  const isFlatFields = (fields?: AutoFormFields<T>): fields is AutoFormField<T>[] =>
-    Array.isArray(fields) && !Array.isArray(fields?.[0]);
+  const isFlatFields = (fields?: AutoFormFields<T>): fields is AutoFormField<T>[] => {
+    return Array.isArray(fields) && !Array.isArray(fields?.[0]);
+  };
 
   return isFlatFields(props?.fields) ? props.fields : [];
 });
-
-// TODO: Изменение формирования normalizedGrid (дублирование вызова bindRef)
-const bindRef = (ref: MaybeValidateComponentRef) => {
-  if (ref && 'validate' in ref && !refs.value.includes(ref)) {
-    refs.value.push(ref);
-  }
-};
-
-onMounted(() => emit('refs', refs.value));
 </script>
+
+<style scoped lang="scss">
+.flat {
+  :deep(.v-input:not(.editor-hidden-input)) {
+    position: relative;
+
+    .v-input__details {
+      position: absolute;
+      width: 100%;
+    }
+  }
+}
+</style>

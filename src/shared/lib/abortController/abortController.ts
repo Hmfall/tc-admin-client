@@ -14,10 +14,14 @@ export const abortController = () => {
     reinit();
   };
 
+  const isCanceledError = (e: unknown) =>
+    typeof e === 'object' && e !== null && (e as Error).name === 'CanceledError';
+
   return {
     getControllerSignal,
     abort,
     reinit,
     setupController,
+    isCanceledError,
   };
 };

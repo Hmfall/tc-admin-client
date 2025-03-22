@@ -14,7 +14,7 @@ export class Social extends Model {
 
   description: string;
 
-  link: string;
+  url: string;
 
   @Type(() => ObjectUrl)
   logo = new ObjectUrl();

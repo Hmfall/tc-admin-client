@@ -3,10 +3,6 @@ import type { DefineComponent } from 'vue';
 import type { UnwrapRefSimple as VueUnwrapRefSimple } from '@vue/reactivity';
 
 declare global {
-  interface ImportMeta {
-    readonly env: ImportMetaEnv;
-  }
-
   export type UUID = string;
 
   export type ID = number;

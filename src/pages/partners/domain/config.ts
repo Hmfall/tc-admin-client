@@ -1,6 +1,6 @@
 import { AppRoutes } from '@/app/providers/router/appRoutes';
-import { partnersFormFields } from '@/pages/partners/domain/form';
-import { partnersTemplateSlots } from '@/pages/partners/domain/template';
+import { partnerFormFields } from '@/pages/partners/domain/form';
+import { partnerTemplateSlots } from '@/pages/partners/domain/template';
 import type { BaseModuleConfig } from '@/features/baseModule/model/types';
 import { Partner } from '@/entities/partner/Partner';
 import { usePartnerStore } from '@/entities/partner/usePartnerStore';
@@ -10,6 +10,6 @@ export const partnersModuleConfig: BaseModuleConfig<Partner> = {
   name: 'Патрнёры/спонсоры',
   model: Partner,
   store: usePartnerStore,
-  formFields: partnersFormFields,
-  templateSlots: partnersTemplateSlots,
+  formFields: partnerFormFields,
+  templateSlots: partnerTemplateSlots,
 };

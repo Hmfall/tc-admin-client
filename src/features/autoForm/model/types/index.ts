@@ -1,13 +1,15 @@
-import type { VFileInput, VRow, VTextarea, VTextField } from 'vuetify/components';
+import type { VFileInput, VRow, VSelect, VSwitch, VTextarea, VTextField } from 'vuetify/components';
 
 export interface AutoFormCommonField<T> {
   key: keyof T;
-  render: () => Component | VNode | string;
+  render: () => Component | VNode;
 }
 
 export type FileInputField = /* @vue-ignore */ InstanceType<typeof VFileInput>['$props'] & {
   accept?: string[];
 };
+
+export type SelectField = /* @vue-ignore */ InstanceType<typeof VSelect>['$props'];
 
 export type EditedTextField = {
   label?: string;
@@ -19,6 +21,14 @@ export type AutoFormFieldInput =
   | {
       type: FieldType.textField;
       props?: InstanceType<typeof VTextField>['$props'];
+    }
+  | {
+      type: FieldType.select;
+      props?: SelectField;
+    }
+  | {
+      type: FieldType.switch;
+      props?: InstanceType<typeof VSwitch>['$props'];
     }
   | {
       type: FieldType.editedTextField;
@@ -59,6 +69,11 @@ export interface UpdateAutoFormFieldValue<T> {
 
 export type UpdateAutoFormFieldPromise<T> = () => Promise<UpdateAutoFormFieldValue<T>>;
 
+export type UpdateAutoFormFieldPromiseMappedKey<T> = {
+  key: UpdateAutoFormFieldValue<T>['key'];
+  fn: UpdateAutoFormFieldPromise<T>;
+};
+
 export type AutoFormItemsMap<T> = Map<
   UUID,
   {
@@ -67,10 +82,10 @@ export type AutoFormItemsMap<T> = Map<
   }
 >;
 
-export type MaybeValidateComponentRef = Ref & { validate?: () => Promise<void> };
-
 export enum FieldType {
   textField = 'textField',
+  select = 'select',
+  switch = 'switch',
   editedTextField = 'editedTextField',
   textarea = 'textarea',
   fileInput = 'fileInput',

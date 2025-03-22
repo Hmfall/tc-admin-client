@@ -11,6 +11,23 @@
     ]"
   >
     <v-btn
+      v-if="!primary && typeof secondaryButton === 'string'"
+      :class="{ 'btn--locked': lockedSecondaryButton }"
+      :loading="loadingSecondaryButton"
+      @click="!lockedSecondaryButton ? emit('onSecondaryClick') : null"
+    >
+      {{ secondaryButton }}
+
+      <v-tooltip
+        v-if="secondaryButtonTooltip"
+        activator="parent"
+        open-delay="100"
+        location="top"
+        :text="secondaryButtonTooltip"
+      />
+    </v-btn>
+
+    <v-btn
       v-if="!secondary && typeof primaryButton === 'string'"
       type="submit"
       variant="flat"
@@ -22,18 +39,13 @@
     >
       {{ primaryButton }}
 
-      <slot name="primaryButtonTooltip" />
-    </v-btn>
-
-    <v-btn
-      v-if="!primary && typeof secondaryButton === 'string'"
-      :class="{ 'btn--locked': lockedSecondaryButton }"
-      :loading="loadingSecondaryButton"
-      @click="!lockedSecondaryButton ? emit('onSecondaryClick') : null"
-    >
-      {{ secondaryButton }}
-
-      <slot name="secondaryButtonTooltip" />
+      <v-tooltip
+        v-if="primaryButtonTooltip"
+        activator="parent"
+        open-delay="100"
+        location="top"
+        :text="primaryButtonTooltip"
+      />
     </v-btn>
   </div>
 </template>
@@ -44,6 +56,8 @@ withDefaults(
     primary?: boolean;
     secondary?: boolean;
     primaryButton?: string | boolean;
+    primaryButtonTooltip?: string | null;
+    secondaryButtonTooltip?: string | null;
     secondaryButton?: string | boolean;
     lockedPrimaryButton?: boolean;
     lockedSecondaryButton?: boolean;

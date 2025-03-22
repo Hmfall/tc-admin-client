@@ -1,10 +1,17 @@
-import { VTextarea, VTextField } from 'vuetify/components';
 import type { AutoFormFields } from '@/features/autoForm/model/types';
 import { FieldType } from '@/features/autoForm/model/types';
 import FileInputComponent from '@/features/autoForm/ui/components/FileInputComponent.vue';
 import type { Social } from '@/entities/social/Social';
+import EditedTextField from '@/shared/components/editedTextField/EditedTextField.vue';
+import TextField from '@/shared/ui/textField/TextField.vue';
+import {
+  maxLengthRule,
+  minLengthRule,
+  requiredObjectUrlRule,
+  requiredRule,
+} from '@/shared/utils/validationRules';
 
-export const socialsFormFields: AutoFormFields<Social> = [
+export const socialFormFields: AutoFormFields<Social> = [
   [
     {
       span: 3,
@@ -15,6 +22,7 @@ export const socialsFormFields: AutoFormFields<Social> = [
           render: () => FileInputComponent,
           props: {
             label: 'Логотип',
+            rules: [requiredObjectUrlRule],
             accept: ['image/png, image/jpeg'],
           },
         },
@@ -25,29 +33,30 @@ export const socialsFormFields: AutoFormFields<Social> = [
       items: [
         {
           key: 'name',
-          type: FieldType.textField,
-          render: () => VTextField,
+          type: FieldType.editedTextField,
+          render: () => EditedTextField,
           props: {
             label: 'Название',
-            hideDetails: true,
+            rules: [requiredRule, minLengthRule, maxLengthRule],
           },
         },
         {
           key: 'description',
-          type: FieldType.textarea,
-          render: () => VTextarea,
+          type: FieldType.editedTextField,
+          render: () => EditedTextField,
           props: {
             label: 'Описание',
             rows: 4,
-            hideDetails: true,
+            rules: [requiredRule],
           },
         },
         {
-          key: 'link',
+          key: 'url',
           type: FieldType.textField,
-          render: () => VTextField,
+          render: () => TextField,
           props: {
             label: 'Ссылка на внешний ресурс',
+            rules: [requiredRule],
           },
         },
       ],

@@ -18,11 +18,11 @@ server.use(async (req, res, next) => {
   next();
 });
 
-server.post('/auth', (req, res) => {
+server.post('/auth/signin', (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { credentials, password } = req.body;
 
-    if (!email || !password) {
+    if (!credentials || !password) {
       return res.status(403).json();
     }
 
@@ -30,11 +30,14 @@ server.post('/auth', (req, res) => {
 
     const { users = [] } = db;
 
-    const userFromBd = users.find((user) => user.email === email && user.password === password);
+    const userFromBd = users.find(
+      (user) => user.email === credentials && user.password === password,
+    );
 
     if (userFromBd) {
       return res.json({
-        jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3Mzk2NDkzOTQsImV4cCI6MTc3MTE4NTM5NCwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSJ9.ykZWlL5TdKEd5T6X6_JiKc4ET0uLeDcYeuzuHV8b-l4',
+        token:
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3Mzk2NDkzOTQsImV4cCI6MTc3MTE4NTM5NCwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSJ9.ykZWlL5TdKEd5T6X6_JiKc4ET0uLeDcYeuzuHV8b-l4',
       });
     }
 

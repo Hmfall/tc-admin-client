@@ -4,18 +4,10 @@ import { API, BaseAPI } from '@/shared/lib/storeFactory';
 
 @API('media')
 export class ObjectUrlAPI extends BaseAPI<ObjectUrl> {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async createObjectUrl(file?: File) {
-    return plainToInstance(
-      ObjectUrl,
-      await new Promise((resolve) =>
-        setTimeout(() => {
-          resolve({
-            id: new Date(),
-            url: '',
-          });
-        }, 2000),
-      ),
-    );
+  async createObjectUrl(formData?: FormData) {
+    const response = await this.api.post('/save', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return plainToInstance(ObjectUrl, response);
   }
 }

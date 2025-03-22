@@ -4,23 +4,22 @@
       <span class="text-h6">Восстановление данных</span>
     </template>
 
-    <v-text-field
-      v-model="resetPasswordPayload.email"
-      label="Email"
-      autocomplete="email"
-      placeholder="Введите email"
-      :rules="[requiredRule]"
-    />
+    <InputLayout label="Email">
+      <v-text-field
+        v-model="recoveryRequestBody.email"
+        autocomplete="email"
+        :rules="emailRules"
+      />
+    </InputLayout>
 
     <template #submit>
       <v-btn
         type="submit"
-        width="180"
         variant="flat"
         color="primary"
         :loading="isLoading"
       >
-        Сбросить пароль
+        Отправить временный пароль
       </v-btn>
     </template>
 
@@ -34,23 +33,31 @@
 
 <script setup lang="ts">
 import { AppRoutes } from '@/app/providers/router/appRoutes';
-import type { ResetPasswordPayload } from '@/features/auth/model/types';
+import type { RecoveryRequest } from '@/features/auth/model/types';
+import { useAuthFormState } from '@/features/auth/store/useAuthFormState';
 import { useAuthStore } from '@/features/auth/store/useAuthStore';
 import AuthFormLayout from '@/features/auth/ui/AuthFormLayout.vue';
 import { useMessage } from '@/shared/components/messageAlert/model/useMessage';
 import { useLoading } from '@/shared/composables/useLoading/useLoading';
-import { requiredRule } from '@/shared/utils/validationRules';
+import InputLayout from '@/shared/ui/input/InputLayout.vue';
+import { emailRules } from '@/shared/utils/validationRules';
+
+const router = useRouter();
 
 const message = useMessage();
 const { isLoading, withLoading } = useLoading();
 
 const authStore = useAuthStore();
 
-const resetPasswordPayload = reactive<ResetPasswordPayload>({});
+const recoveryRequestBody = ref<RecoveryRequest>({ email: '' });
 
 const onSubmit = async () => {
-  await withLoading(authStore.resetPassword(resetPasswordPayload))
-    .then(() => {})
-    .catch(() => message.error('Ошибка.'));
+  await withLoading(authStore.recovery(recoveryRequestBody.value))
+    .then(async () => {
+      useAuthFormState().setCredentials(recoveryRequestBody.value.email);
+      message.info('Временный пароль отправлен на Ваш email.');
+      await router.replace({ name: AppRoutes.Auth });
+    })
+    .catch(() => message.error('Произошла ошибка!'));
 };
 </script>

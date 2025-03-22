@@ -11,5 +11,4 @@ export interface BaseModuleConfig<T extends Model, A extends BaseAPI<T> = BaseAP
   store: StoreFactoryDefinition<T, A>;
   formFields: AutoFormFields<T>;
   templateSlots: AutoTemplateSlots<T>;
-  singleton?: boolean;
 }

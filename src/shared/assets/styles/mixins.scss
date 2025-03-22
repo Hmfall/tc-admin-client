@@ -1,12 +1,12 @@
 @import "colors";
 
 @mixin wordWrap {
-  -webkit-box-orient: vertical;
   display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
   word-wrap: break-word;
+  -webkit-box-orient: vertical;
 }
 
 @mixin link {

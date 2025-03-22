@@ -1,38 +1,36 @@
 <template>
-  <div class="editor-field">
-    <div class="editor-field__container">
-      <div class="editor-field__header d-flex align-center">
-        <div class="editor-field__header-inner d-flex align-center">
-          <label class="editor-field__label font-weight-medium">
-            {{ label }}
-          </label>
-
-          <Transition>
-            <div
-              v-show="isToolbarVisible"
-              class="editor-field__divider"
-            >
-              <v-divider
-                class="editor-field__divider-icon"
-                vertical
-              />
-            </div>
-          </Transition>
-
-          <Transition>
-            <div
-              v-show="isToolbarVisible"
-              ref="toolbarContainer"
-              class="editor-field__toolbar"
-            >
-              <button class="ql-bold" />
-              <button class="ql-italic" />
-              <button class="ql-underline" />
-              <button class="ql-link" />
-            </div>
-          </Transition>
+  <TextField
+    class="editor-field"
+    :label="label"
+  >
+    <template #header>
+      <Transition>
+        <div
+          v-show="isToolbarVisible"
+          class="editor-field__divider"
+        >
+          <v-divider
+            class="editor-field__divider-icon"
+            vertical
+          />
         </div>
-      </div>
+      </Transition>
+
+      <Transition>
+        <div
+          v-show="isToolbarVisible"
+          ref="toolbarContainer"
+          class="editor-field__toolbar"
+        >
+          <button class="ql-bold" />
+          <button class="ql-italic" />
+          <button class="ql-underline" />
+          <button class="ql-link" />
+        </div>
+      </Transition>
+    </template>
+
+    <template #input>
       <div
         class="editor-field__field"
         :style="{ minHeight: toPx(contentEditableContainerHeight) }"
@@ -40,23 +38,19 @@
         <div
           ref="contentEditableContainer"
           class="editor-field__editable text-body-1"
-        ></div>
+        />
         <div ref="hiddenInputContainer">
           <v-textarea
             v-model="quillRawValue"
-            class="editor-field__hidden"
+            class="editor-field__hidden editor-hidden-input"
             :rows="rows"
             :rules="rules"
             :style="{ minHeight: toPx(hiddenInputHeight) }"
           />
         </div>
-        <div
-          ref="contentEditableContainerOutline"
-          class="editor-field__outline"
-        />
       </div>
-    </div>
-  </div>
+    </template>
+  </TextField>
 </template>
 
 <script setup lang="ts">
@@ -70,6 +64,7 @@ import {
 } from '@vueuse/core';
 import Quill from 'quill';
 import type { EditedTextField } from '@/features/autoForm/model/types';
+import TextField from '@/shared/ui/textField/TextField.vue';
 
 const props = withDefaults(
   defineProps<{
@@ -84,7 +79,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void;
+  (e: 'update:modelValue', modelValue: string): void;
 }>();
 
 let quill: Quill | null = null;
@@ -96,6 +91,7 @@ const quillRawValue = ref<string>();
 
 const toolbarContainer = ref<HTMLElement | null>(null);
 const contentEditableContainer = ref<HTMLElement | null>(null);
+const contentEditableInner = ref<HTMLElement | null>(null);
 const hiddenInputContainer = ref<HTMLElement | null>(null);
 
 const layoutCfg = {
@@ -132,6 +128,8 @@ const onMouseDown = (event: MouseEvent) => {
   if (contentEditableContainer.value?.contains(event.target as Node)) {
     isToolbarVisible.value = true;
     onHiddenInputContainerFocus.in();
+  } else if (!toolbarContainer.value?.contains(event.target as Node)) {
+    onHiddenInputContainerFocus.out();
   }
 };
 
@@ -164,8 +162,8 @@ useResizeObserver(contentEditableContainer, (entries) => {
 });
 
 const onTextChange = () => {
-  if (quill) {
-    emit('update:modelValue', quill.getSemanticHTML());
+  if (quill && contentEditableInner.value?.innerHTML) {
+    emit('update:modelValue', contentEditableInner.value.innerHTML);
   }
 };
 
@@ -184,10 +182,10 @@ const setupQuill = () => {
       quill.setContents(quill.clipboard.convert({ html: props.modelValue }), 'silent');
     }
 
-    const qlEditor: HTMLElement | null = contentEditableContainer.value.querySelector('.ql-editor');
+    contentEditableInner.value = contentEditableContainer.value.querySelector('.ql-editor');
 
-    if (qlEditor) {
-      qlEditor.style.minHeight = toPx(contentEditableContainerHeight.value);
+    if (contentEditableInner.value) {
+      contentEditableInner.value.style.minHeight = toPx(contentEditableContainerHeight.value);
       quill.on('text-change', onTextChange);
     }
   }
@@ -251,14 +249,6 @@ onUnmounted(() => {
 @import '@/shared/assets/styles/colors';
 
 .editor-field {
-  &__header {
-    height: 2rem;
-  }
-
-  &__label {
-    font-size: 0.875rem;
-  }
-
   &__divider {
     height: 100%;
   }
@@ -294,12 +284,6 @@ onUnmounted(() => {
     :deep(textarea) {
       visibility: hidden;
     }
-  }
-
-  &__field {
-    position: relative;
-    font-size: 1rem;
-    min-height: 40px;
   }
 
   &__toolbar {

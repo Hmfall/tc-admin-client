@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="w-100">
     <v-img
       v-if="isObjectURL(modelValue)"
       :src="objectUrl?.objectUrl ?? objectUrl?.url"
@@ -12,7 +12,7 @@
       v-if="isObjectURL(modelValue)"
       v-bind="$attrs"
       :model-value="modelValue.file"
-      hide-details
+      :rules="objectURLRules"
       @update:model-value="updateModelValue"
     />
 
@@ -20,7 +20,6 @@
       v-else
       v-bind="$attrs"
       :model-value="modelValue"
-      hide-details
       @update:model-value="updateModelValue"
     />
   </div>
@@ -30,11 +29,11 @@
 import { VFileInput } from 'vuetify/components';
 import type {
   FileInputField,
-  UpdateAutoFormFieldPromise,
-  UpdateAutoFormFieldValue,
+  UpdateAutoFormFieldPromiseMappedKey,
 } from '@/features/autoForm/model/types';
 import { ObjectUrl } from '@/entities/objectURL/ObjectUrl';
 import type { BaseModel } from '@/shared/lib/storeFactory';
+import { requiredObjectUrlRule } from '@/shared/utils/validationRules';
 
 defineOptions({
   inheritAttrs: false,
@@ -46,12 +45,13 @@ const props = defineProps<
     modelValue: ObjectUrl | File;
     item: T;
     fieldKey: keyof T;
+    rules?: FileInputField['rules'];
   }
 >();
 
 const emit = defineEmits<{
   (e: 'update:modelValue', modelValue: File | ObjectUrl): void;
-  (e: 'create-promise', promise: UpdateAutoFormFieldPromise<T>): void;
+  (e: 'create-promise', promise: UpdateAutoFormFieldPromiseMappedKey<T>): void;
 }>();
 
 const isObjectURL = (value?: ObjectUrl | File): value is ObjectUrl => {
@@ -68,11 +68,29 @@ const objectUrl = computed(() => {
   return null;
 });
 
-const getObjectUrlAPIFn = (obj: ObjectUrl) => (): Promise<UpdateAutoFormFieldValue<T>> => {
-  return ObjectUrl.$api.createObjectUrl(obj.file).then((value) => {
-    value.objectUrl = obj.objectUrl;
-    return { key: props.fieldKey, value };
-  });
+const objectURLRules = computed(() => {
+  return (
+    props?.rules?.map((item) => {
+      return item === requiredObjectUrlRule
+        ? () => requiredObjectUrlRule(props.modelValue as ObjectUrl)
+        : item;
+    }) ?? []
+  );
+});
+
+const getObjectUrlPromise = (obj: ObjectUrl): UpdateAutoFormFieldPromiseMappedKey<T> => {
+  const formData = new FormData();
+
+  formData.append('file', obj.file!);
+
+  return {
+    key: props.fieldKey,
+    fn: () =>
+      ObjectUrl.$api.createObjectUrl(formData).then((value) => {
+        value.objectUrl = obj.objectUrl;
+        return { key: props.fieldKey, value };
+      }),
+  };
 };
 
 const updateModelValue = (file?: File | File[]) => {
@@ -83,11 +101,11 @@ const updateModelValue = (file?: File | File[]) => {
   if (objectUrl.value) {
     const obj = objectUrl.value.clone();
 
-    obj.file = file;
+    obj.file = file ?? null;
     obj.updateObjectURL(file);
 
     emit('update:modelValue', obj);
-    emit('create-promise', getObjectUrlAPIFn(obj));
+    emit('create-promise', getObjectUrlPromise(obj));
   } else {
     if (file instanceof File) {
       emit('update:modelValue', file);

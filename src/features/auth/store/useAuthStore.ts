@@ -1,38 +1,42 @@
+import type { JwtPayload } from 'jwt-decode';
 import { jwtDecode } from 'jwt-decode';
-import router from '@/app/providers/router';
-import { AppRoutes } from '@/app/providers/router/appRoutes';
-import { AuthAPI } from '@/features/auth/api/AuthAPI';
-import type { AuthPayload, JWTPayload, ResetPasswordPayload } from '@/features/auth/model/types';
+import { authAPI } from '@/features/auth/api/AuthAPI';
+import type { LSAuth, RecoveryRequest, SignInRequest } from '@/features/auth/model/types';
+import { LSKeys } from '@/shared/constants/LSKeys';
 
 interface State {
-  jwt: string | null;
+  accessToken: string | null;
 }
 
 export const useAuthStore = defineStore('auth', {
   state: (): State => ({
-    jwt: null,
+    accessToken: null,
   }),
   actions: {
-    async authorize(payload: AuthPayload) {
-      const { jwt } = await this.$api.authorize(payload);
+    async authorize(payload: SignInRequest) {
+      const { token: accessToken } = await authAPI.signIn(payload);
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const jwtPayload: JWTPayload = jwtDecode(jwt);
+      const jwtPayload: JwtPayload = jwtDecode(accessToken);
 
-      this.jwt = jwtDecode(jwt);
+      const LSAuthValue: LSAuth = {
+        accessToken,
+      };
 
-      localStorage.setItem('jwt', JSON.stringify(jwt));
+      this.accessToken = accessToken;
+      localStorage.setItem(LSKeys.Auth, JSON.stringify(LSAuthValue));
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async resetPassword(payload: ResetPasswordPayload) {},
+    async recovery(request: RecoveryRequest) {
+      return await authAPI.recovery(request);
+    },
     logout() {
-      this.jwt = null;
-      localStorage.removeItem('jwt');
-      router.replace({ name: AppRoutes.Auth });
+      this.accessToken = null;
+      localStorage.removeItem(LSKeys.Auth);
     },
   },
   getters: {
-    $api: (): AuthAPI => new AuthAPI(),
-    isAuthorized: () => !!localStorage.getItem('jwt'),
+    isAuthorized() {
+      return !!localStorage.getItem(LSKeys.Auth);
+    },
   },
 });

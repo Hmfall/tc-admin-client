@@ -14,8 +14,11 @@ export class Gallery extends Model {
 
   description: string;
 
-  link: string;
+  url: string;
 
   @Type(() => ObjectUrl)
   logo = new ObjectUrl();
+
+  @Type(() => ObjectUrl)
+  background = new ObjectUrl();
 }
