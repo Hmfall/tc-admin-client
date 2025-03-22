@@ -5,7 +5,7 @@
     item-title="name"
     return-object
     :items="eventsPositions"
-    :rules="rules"
+    :rules="validationRules"
   />
 </template>
 
@@ -22,6 +22,7 @@ defineOptions({
 });
 
 const props = defineProps<
+  // eslint-disable-next-line vue/no-reserved-props,vue/no-reserved-keys,vue/prop-name-casing
   SelectField & {
     item: Event;
   }
@@ -33,7 +34,7 @@ const emit = defineEmits<{
 
 const eventStore = useEventStore();
 
-const rules = computed(() => (eventsPositions.value.length ? [requiredRule] : []));
+const validationRules = computed(() => (eventsPositions.value.length ? [requiredRule] : []));
 
 const eventsPositions = computed(() =>
   eventsLayoutPositions.filter(
