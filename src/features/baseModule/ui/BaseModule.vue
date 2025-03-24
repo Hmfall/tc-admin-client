@@ -400,7 +400,7 @@ defineExpose({ deleteAll: onDeleteAllBtn });
 onBeforeRouteLeave(async (to, from, next) => {
   if (hasDiff.value) {
     await confirm({
-      message: 'Есть несохраненные измененения. Сбросить?',
+      message: 'Есть несохраненные изменения. Сбросить?',
       confirmBtn: 'Сбросить',
       icon: 'info',
     });
