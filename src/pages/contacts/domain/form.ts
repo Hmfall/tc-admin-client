@@ -4,17 +4,12 @@ import FileInputComponent from '@/features/autoForm/ui/components/FileInputCompo
 import type { Contact } from '@/entities/contact/Contact';
 import EditedTextField from '@/shared/components/editedTextField/EditedTextField.vue';
 import TextField from '@/shared/ui/textField/TextField.vue';
-import {
-  maxLengthRule,
-  minLengthRule,
-  requiredObjectUrlRule,
-  requiredRule,
-} from '@/shared/utils/validationRules';
+import { minLengthRule, requiredObjectUrlRule, requiredRule } from '@/shared/utils/validationRules';
 
 export const contactFormFields: AutoFormFields<Contact> = [
   [
     {
-      span: 3,
+      span: { md: 3 },
       items: [
         {
           key: 'logo',
@@ -29,7 +24,7 @@ export const contactFormFields: AutoFormFields<Contact> = [
       ],
     },
     {
-      span: 9,
+      span: { md: 9 },
       items: [
         {
           key: 'name',
@@ -37,7 +32,7 @@ export const contactFormFields: AutoFormFields<Contact> = [
           render: () => EditedTextField,
           props: {
             label: 'Название',
-            rules: [requiredRule, minLengthRule, maxLengthRule],
+            rules: [requiredRule, minLengthRule],
           },
         },
         {
@@ -46,7 +41,7 @@ export const contactFormFields: AutoFormFields<Contact> = [
           render: () => EditedTextField,
           props: {
             label: 'Описание',
-            rows: 4,
+            rows: 3,
             rules: [requiredRule],
           },
         },

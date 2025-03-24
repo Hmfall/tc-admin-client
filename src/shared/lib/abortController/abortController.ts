@@ -14,7 +14,7 @@ export const abortController = () => {
     reinit();
   };
 
-  const isCanceledError = (e: unknown) =>
+  const isCancelError = (e: unknown) =>
     typeof e === 'object' && e !== null && (e as Error).name === 'CanceledError';
 
   return {
@@ -22,6 +22,6 @@ export const abortController = () => {
     abort,
     reinit,
     setupController,
-    isCanceledError,
+    isCancelError,
   };
 };

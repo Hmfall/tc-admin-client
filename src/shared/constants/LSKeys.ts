@@ -1,3 +1,3 @@
-export const enum LSKeys {
+export enum LSKeys {
   Auth = 'auth',
 }

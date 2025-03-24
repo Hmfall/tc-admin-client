@@ -60,7 +60,7 @@
 
           <div
             v-if="$slots.text"
-            class="text mb-4"
+            class="text mb-3"
           >
             <slot name="text" />
           </div>

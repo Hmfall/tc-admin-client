@@ -4,22 +4,19 @@ import { FieldType } from '@/features/autoForm/model/types';
 import FileInputComponent from '@/features/autoForm/ui/components/FileInputComponent.vue';
 import type { Event } from '@/entities/event/model/Event';
 import EditedTextField from '@/shared/components/editedTextField/EditedTextField.vue';
-import {
-  maxLengthRule,
-  minLengthRule,
-  requiredObjectUrlRule,
-  requiredRule,
-} from '@/shared/utils/validationRules';
+import { minLengthRule, requiredObjectUrlRule, requiredRule } from '@/shared/utils/validationRules';
 
 export const eventFormFields: AutoFormFields<Event> = [
   [
     {
-      span: 3,
+      span: { md: 3 },
       items: [
         {
           key: 'logo',
           type: FieldType.fileInput,
           render: () => FileInputComponent,
+          span: { sm: 6, md: 12 },
+          order: { xs: 1, md: 12 },
           props: {
             label: 'Логотип',
             rules: [requiredObjectUrlRule],
@@ -30,6 +27,7 @@ export const eventFormFields: AutoFormFields<Event> = [
           key: 'position',
           type: FieldType.select,
           render: () => EventPositionSelect,
+          order: { xs: 12 },
           props: {
             label: 'Расположение',
           },
@@ -38,6 +36,8 @@ export const eventFormFields: AutoFormFields<Event> = [
           key: 'img',
           type: FieldType.fileInput,
           render: () => FileInputComponent,
+          span: { xs: 12, sm: 6, md: 12 },
+          order: { xs: 6, md: 12 },
           props: {
             label: 'Фоновое изображение',
             rules: [requiredObjectUrlRule],
@@ -47,7 +47,7 @@ export const eventFormFields: AutoFormFields<Event> = [
       ],
     },
     {
-      span: 9,
+      span: { xs: 12, md: 9 },
       items: [
         {
           key: 'name',
@@ -55,7 +55,7 @@ export const eventFormFields: AutoFormFields<Event> = [
           render: () => EditedTextField,
           props: {
             label: 'Название',
-            rules: [requiredRule, minLengthRule, maxLengthRule],
+            rules: [requiredRule, minLengthRule],
           },
         },
         {

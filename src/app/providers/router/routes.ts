@@ -58,10 +58,6 @@ export const routes: RouteRecordRaw[] = [
       {
         path: 'accounts',
         name: AppRoutes.Accounts,
-        meta: {
-          layout: DefaultLayout,
-          middleware: [authMiddleware],
-        },
         component: async () => await import('@/pages/accounts/ui/AccountsModule.vue'),
       },
       {

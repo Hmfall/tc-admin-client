@@ -3,7 +3,6 @@ export enum AppRoutes {
   Auth = 'auth',
   SignIn = 'signIn',
   ResetPassword = 'resetPassword',
-  NewPassword = 'newPassword',
   About = 'about',
   Events = 'events',
   Gallery = 'gallery',

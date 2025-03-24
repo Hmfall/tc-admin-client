@@ -82,7 +82,7 @@
       @update:model-value="$emit('update:dialog', $event)"
     >
       <template #header>
-        <v-breadcrumbs>
+        <v-breadcrumbs density="compact">
           <v-breadcrumbs-item>
             {{ props.moduleName }}
           </v-breadcrumbs-item>
@@ -107,6 +107,7 @@
 </template>
 
 <script setup lang="ts" generic="T extends Model, A extends BaseAPI<T>">
+import { useEventListener } from '@vueuse/core';
 import type { ClassConstructor } from 'class-transformer';
 import type {
   AutoFormFields,
@@ -119,7 +120,7 @@ import AutoFormDialog from '@/features/autoForm/ui/AutoFormDialog.vue';
 import type { AutoTemplateSlots } from '@/features/autoTemplate/model/types';
 import AutoTemplate from '@/features/autoTemplate/ui/AutoTemplate.vue';
 import type { ConfirmOptions } from '@/shared/components/confirmDialog/model/types';
-import { useConfirmDialog } from '@/shared/components/confirmDialog/model/useConfirmDialog';
+import { useConfirm } from '@/shared/components/confirmDialog/model/useConfirm';
 import { useMessage } from '@/shared/components/messageAlert/model/useMessage';
 import { useLoading } from '@/shared/composables/useLoading/useLoading';
 import type { BaseAPI, Model } from '@/shared/lib/storeFactory';
@@ -155,7 +156,7 @@ const emit = defineEmits<{
 }>();
 
 const message = useMessage();
-const confirm = useConfirmDialog();
+const confirm = useConfirm();
 
 const { isLoading: isLoadingImmediateSubmit, withLoading: withLoadingImmediateSubmit } =
   useLoading();
@@ -218,6 +219,9 @@ const useImmediateSubmit = async (
         store.value.setIsLoading(false);
         closeDialog();
         message.error();
+      })
+      .finally(() => {
+        isFieldsDisabled.value = false;
       });
   } else {
     closeDialog();
@@ -256,9 +260,14 @@ const onUpdateItem = async (item: T, promises: UpdateAutoFormFieldPromise<T>[]) 
 };
 
 const onDeleteItem = async (item: T) => {
+  await confirm({
+    message: `Удалить ${item.getPrimaryFieldValue()}?`,
+    confirmBtn: 'Удалить',
+  });
+
   if (props.immediateSubmit) {
     if (props.deleteItemConfirm) {
-      await confirm(...props.deleteItemConfirm);
+      await confirm(props.deleteItemConfirm);
     }
 
     await useImmediateSubmit('delete', item);
@@ -276,7 +285,11 @@ const onDeleteItem = async (item: T) => {
 };
 
 const onResetBtn = async (item: T) => {
-  await confirm('Сбросить изменения?', 'Сбросить');
+  await confirm({
+    message: 'Сбросить изменения?',
+    confirmBtn: 'Сбросить',
+  });
+
   toUpdateItems.value.delete(item.UUID);
   item.resetToSnapshot();
 };
@@ -295,7 +308,7 @@ const onUpdateBtn = (item: T) => {
 
 const onDeleteAllBtn = async () => {
   if (props.deleteAllConfirm) {
-    await confirm(...props.deleteAllConfirm);
+    await confirm(props.deleteAllConfirm);
   }
 
   store.value.setIsLoading(true);
@@ -314,7 +327,7 @@ const onDeleteAllBtn = async () => {
 
 const onSaveBtn = async () => {
   const prepare = () => {
-    const processItems = (itemsMap: AutoFormItemsMap<T>) =>
+    const prepareItems = (itemsMap: AutoFormItemsMap<T>) =>
       [...itemsMap.values()].flatMap(({ item, promises }) =>
         promises.map(async (promise) => {
           const response = await promise();
@@ -322,7 +335,7 @@ const onSaveBtn = async () => {
         }),
       );
 
-    return [...processItems(toCreateItems.value), ...processItems(toUpdateItems.value)];
+    return [...prepareItems(toCreateItems.value), ...prepareItems(toUpdateItems.value)];
   };
 
   const toCreate = [...toCreateItems.value.values()].map(({ item }) => item);
@@ -332,18 +345,26 @@ const onSaveBtn = async () => {
   store.value.setIsLoading(true);
 
   await withLoadingFn(async () => {
-    await Promise.all(prepare());
-    await Promise.all([
-      ...toCreate.map((item) => item.create()),
-      ...toUpdate.map((item) => item.update()),
-      ...toDelete.map((item) => item.delete()),
-    ])
-      .then(() => store.value.load())
-      .catch(() => {
-        items.value = cloneItems(store.value.items);
-        store.value.setIsLoading(false);
-        message.error();
-      });
+    try {
+      await Promise.all(prepare());
+    } catch {
+      store.value.setIsLoading(false);
+      message.error('Произошла ошибка! Данные не сохранены.');
+      return;
+    }
+
+    try {
+      await Promise.all([
+        ...toCreate.map((item) => item.create()),
+        ...toUpdate.map((item) => item.update()),
+        ...toDelete.map((item) => item.delete()),
+      ]);
+      await store.value.load();
+    } catch (e) {
+      store.value.setIsLoading(false);
+      items.value = cloneItems(store.value.items);
+      message.error('Произошла ошибка! Данные не сохранены.');
+    }
   });
 
   clearLocalItems();
@@ -375,6 +396,30 @@ const clearLocalItems = () => {
 const cloneItems = (items: T[]) => items.map((item) => item.clone());
 
 defineExpose({ deleteAll: onDeleteAllBtn });
+
+onBeforeRouteLeave(async (to, from, next) => {
+  if (hasDiff.value) {
+    await confirm({
+      message: 'Есть несохраненные измененения. Сбросить?',
+      confirmBtn: 'Сбросить',
+      icon: 'info',
+    });
+
+    return next();
+  }
+
+  next();
+});
+
+useEventListener('beforeunload', (e) => {
+  if (hasDiff.value) {
+    if (e) {
+      e.returnValue = 'confirm';
+    }
+
+    return 'confirm';
+  }
+});
 
 watch(
   () => props.dialog,

@@ -3,7 +3,7 @@
     :model-value="expanded"
     color="background"
     border="0"
-    :mobile="$vuetify.display.mdAndDown"
+    :mobile="$vuetify.display.lgAndDown"
     @update:model-value="$emit('update:expanded', $event)"
   >
     <div class="h-100 d-flex flex-column">
@@ -13,11 +13,12 @@
 
       <div class="d-flex flex-1-1 flex-column justify-space-between">
         <v-tabs
-          v-model="tab"
+          :model-value="currentTab"
           class="flex-1-1"
           color="primary"
           direction="vertical"
           mandatory
+          @update:model-value="null"
         >
           <router-link
             v-for="item in navItems"
@@ -85,21 +86,23 @@ const router = useRouter();
 
 const authStore = useAuthStore();
 
-const tab = ref(router.currentRoute.value.name);
+const currentTab = ref(route.name);
+
+const logout = async () => {
+  await router.replace({ name: AppRoutes.Auth });
+  authStore.logout();
+};
 
 const mappedNavItems = props.navItems.reduce<Record<string, NavItem>>((acc, curr) => {
   acc[curr.routeName] = { ...curr };
   return acc;
 }, {});
 
-const logout = async () => {
-  authStore.logout();
-  await router.replace({ name: AppRoutes.Auth });
-};
-
 watch(route, (value) => {
-  if (!mappedNavItems[String(value.name)]) {
-    tab.value = null;
+  if (mappedNavItems[String(value.name)]) {
+    currentTab.value = value.name;
+  } else {
+    currentTab.value = null;
   }
 });
 </script>

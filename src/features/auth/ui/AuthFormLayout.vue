@@ -6,7 +6,7 @@
     @submit.prevent="onSubmit"
   >
     <div class="d-flex flex-column align-center">
-      <div class="mb-6 text-center">
+      <div class="w-100 mb-4 text-center">
         <slot name="title" />
       </div>
 

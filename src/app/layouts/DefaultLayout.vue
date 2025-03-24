@@ -5,7 +5,12 @@
   />
 
   <v-main>
-    <router-view />
+    <v-container
+      class="page-wrapper px-6"
+      fluid
+    >
+      <router-view />
+    </v-container>
   </v-main>
 </template>
 
@@ -21,10 +26,10 @@ import { socialsModuleConfig } from '@/pages/socials/domain/config';
 import type { NavItem } from '@/features/appMenu/model/types';
 import AppMenu from '@/features/appMenu/ui/AppMenu.vue';
 
-const isDrawerExpanded = ref(useDisplay().lgAndUp.value ?? false);
+const isDrawerExpanded = ref(useDisplay().xlAndUp.value ?? false);
 
 provide(injectKeyModuleLayoutContext, {
-  updateDrawerExpanded: (value: boolean) => {
+  updateDrawerExpanded: (value) => {
     isDrawerExpanded.value = value;
   },
 });

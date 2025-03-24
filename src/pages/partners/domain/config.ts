@@ -7,7 +7,7 @@ import { usePartnerStore } from '@/entities/partner/usePartnerStore';
 
 export const partnersModuleConfig: BaseModuleConfig<Partner> = {
   routeName: AppRoutes.Partners,
-  name: 'Патрнёры/спонсоры',
+  name: 'Партнёры/спонсоры',
   model: Partner,
   store: usePartnerStore,
   formFields: partnerFormFields,

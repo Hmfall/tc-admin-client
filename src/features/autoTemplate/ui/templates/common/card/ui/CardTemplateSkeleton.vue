@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column flex-md-row ga-2">
-    <div class="d-flex flex-column justify-center ga-3">
+    <div class="d-flex flex-column align-center ga-3">
       <v-skeleton-loader
         v-if="topImg"
         class="flex-0-0"

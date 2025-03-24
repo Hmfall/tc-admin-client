@@ -8,16 +8,10 @@
       "isAdmin": true
     },
     {
-      "id": 3,
-      "login": "User 3",
-      "email": "user3@mail.ru",
+      "id": 2,
+      "login": "User 2",
+      "email": "user2@mail.ru",
       "password": "12345"
-    },
-    {
-      "login": "dfg",
-      "email": "sdfg",
-      "password": "dsfg",
-      "id": 4
     }
   ],
   "about": [
@@ -195,7 +189,7 @@
     {
       "id": 1,
       "isAvailable": false,
-      "description": "<p>Lorem&nbsp;ipsum&nbsp;dolor&nbsp;sit&nbsp;ameth34</p>"
+      "description": "<p>Lorem ipsum dolor</p>"
     }
   ]
 }

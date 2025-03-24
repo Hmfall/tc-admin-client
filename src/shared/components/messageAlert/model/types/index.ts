@@ -1,13 +1,8 @@
-export enum MessageType {
-  success = 'success',
-  warning = 'warning',
-  error = 'error',
-  info = 'info',
-}
+import type { WidgetIconType } from '@/shared/constants/widgetIcons';
 
 export interface MessageOptions {
   value: string;
-  type?: MessageType;
+  type?: WidgetIconType;
 }
 
 export type PushMessage = (options: MessageOptions) => void;

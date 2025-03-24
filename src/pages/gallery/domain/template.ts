@@ -7,7 +7,10 @@ import type { Gallery } from '@/entities/gallery/Gallery';
 
 export const galleryTemplateSlots: AutoTemplateSlots<Gallery> = {
   render: () => CardTemplate,
-  skeletonRender: () => CardTemplateSkeleton,
+  skeletonRender: () =>
+    h(CardTemplateSkeleton, {
+      topImg: true,
+    }),
   slots: [
     {
       key: 'name',

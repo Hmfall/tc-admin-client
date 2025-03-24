@@ -1,21 +1,17 @@
 import type {
-  ConfirmInternalOptions,
+  ConfirmOptions,
   ConfirmResolve,
   PushConfirm,
 } from '@/shared/components/confirmDialog/model/types';
 
-export const useConfirmDialog = () => {
+export const useConfirm = () => {
   const pushConfirm = inject<PushConfirm>('confirm', () => {
     throw new Error('Confirm is not injected!');
   });
 
-  return (
-    content?: ConfirmInternalOptions['content'],
-    confirmText?: ConfirmInternalOptions['confirmText'],
-    cancelText?: ConfirmInternalOptions['cancelText'],
-  ) =>
+  return (options: ConfirmOptions = { icon: 'info' }) =>
     new Promise<ConfirmResolve>((resolve) =>
-      pushConfirm({ content, confirmText, cancelText })
+      pushConfirm(options)
         .then(() => resolve({ isConfirmed: true }))
         .catch((e) => e),
     );

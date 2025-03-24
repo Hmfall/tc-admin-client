@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <template v-if="normalizedGrid">
       <v-row
         v-for="(row, rowIndex) in normalizedGrid"
@@ -9,13 +9,20 @@
         <v-col
           v-for="(col, colIndex) in row?.cols"
           :key="colIndex"
-          :cols="col.span"
+          v-bind="isAutoFormColSpan(col.span) ? transformAutoFormColSpan(col.span) : {}"
+          :cols="isAutoFormColSpan(col.span) ? col.span?.xs ?? 12 : col.span"
         >
           <v-row>
             <v-col
               v-for="field in col.items"
               :key="field.key"
-              cols="12"
+              v-bind="isAutoFormColSpan(field.span) ? transformAutoFormColSpan(field.span) : {}"
+              :cols="isAutoFormColSpan(field.span) ? field.span?.xs ?? 12 : field?.span ?? 12"
+              :order="field?.order?.xs"
+              :order-sm="field?.order?.sm"
+              :order-md="field?.order?.md"
+              :order-lg="field?.order?.lg"
+              :order-xl="field?.order?.xl"
             >
               <slot
                 name="fields"
@@ -44,7 +51,9 @@
 </template>
 
 <script setup lang="ts" generic="T extends BaseModel">
+import { useMemoize } from '@vueuse/core';
 import type {
+  AutoFormColBreakpoint,
   AutoFormColCommonOptions,
   AutoFormColOptions,
   AutoFormField,
@@ -71,10 +80,20 @@ const normalizedGrid = computed(() =>
     : null,
 );
 
+const isAutoFormColSpan = (span?: number | AutoFormColBreakpoint): span is AutoFormColBreakpoint =>
+  typeof span === 'object';
+
+const transformAutoFormColSpan = useMemoize(
+  (span: AutoFormColBreakpoint): Omit<AutoFormColBreakpoint, 'xs'> => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { xs, ...value } = span;
+    return value;
+  },
+);
+
 const flatFields = computed(() => {
-  const isFlatFields = (fields?: AutoFormFields<T>): fields is AutoFormField<T>[] => {
-    return Array.isArray(fields) && !Array.isArray(fields?.[0]);
-  };
+  const isFlatFields = (fields?: AutoFormFields<T>): fields is AutoFormField<T>[] =>
+    Array.isArray(fields) && !Array.isArray(fields?.[0]);
 
   return isFlatFields(props?.fields) ? props.fields : [];
 });

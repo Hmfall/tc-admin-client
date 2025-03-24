@@ -1,21 +1,20 @@
-import type { useConfirmDialog } from '@/shared/components/confirmDialog/model/useConfirmDialog';
+import type { BaseDialogProps } from '@/shared/ui/baseDialog/model/types';
 
-export interface ConfirmInternalOptions {
-  content?: string;
-  confirmText?: string;
-  cancelText?: string;
+export interface ConfirmOptions {
+  message?: string;
+  confirmBtn?: string;
+  cancelBtn?: string;
+  icon?: BaseDialogProps['icon'];
 }
 
-export type ConfirmOptions = Parameters<ReturnType<typeof useConfirmDialog>>;
-
-export interface ConfirmInstance extends ConfirmInternalOptions {
+export interface ConfirmInstance extends ConfirmOptions {
   id?: symbol;
   modelValue: boolean;
   resolve?: () => void;
   reject?: () => void;
 }
 
-export type PushConfirm = (options: ConfirmInternalOptions) => Promise<void>;
+export type PushConfirm = (options?: ConfirmOptions) => Promise<void>;
 
 export interface ConfirmResolve {
   isConfirmed: boolean;

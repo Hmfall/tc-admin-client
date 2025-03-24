@@ -2,7 +2,7 @@ import type { AutoFormFields } from '@/features/autoForm/model/types';
 import { FieldType } from '@/features/autoForm/model/types';
 import type { About } from '@/entities/about/About';
 import EditedTextField from '@/shared/components/editedTextField/EditedTextField.vue';
-import { maxLengthRule, minLengthRule, requiredRule } from '@/shared/utils/validationRules';
+import { minLengthRule, requiredRule } from '@/shared/utils/validationRules';
 
 export const aboutFormFields: AutoFormFields<About> = [
   {
@@ -11,7 +11,7 @@ export const aboutFormFields: AutoFormFields<About> = [
     render: () => EditedTextField,
     props: {
       label: 'Название',
-      rules: [requiredRule, minLengthRule, maxLengthRule],
+      rules: [requiredRule, minLengthRule],
     },
   },
   {

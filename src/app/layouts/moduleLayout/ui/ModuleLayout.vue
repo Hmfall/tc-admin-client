@@ -1,19 +1,17 @@
 <template>
-  <v-container
-    class="px-8 pt-5 page-wrapper"
-    fluid
-  >
-    <div class="h-100 d-flex flex-column ga-10">
+  <div class="h-100">
+    <div class="d-flex flex-column ga-10">
       <div class="d-flex align-center text-h6">
         <v-btn
-          v-if="$vuetify.display.mdAndDown"
+          v-if="$vuetify.display.lgAndDown"
+          class="ml-n2"
           density="default"
           variant="text"
           icon="$mdiMenu"
           @click="moduleLayoutContext?.updateDrawerExpanded(true)"
         />
 
-        <div class="w-100 text-center">
+        <div class="w-100 text-center px-4">
           <slot name="header" />
         </div>
       </div>
@@ -22,7 +20,7 @@
         <slot />
       </div>
     </div>
-  </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">

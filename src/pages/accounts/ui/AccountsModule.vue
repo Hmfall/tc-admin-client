@@ -24,7 +24,7 @@
                 :disabled="deleteAllBtnDisabled"
                 @click="onDeleteAllBtn"
               >
-                Очистить всех
+                Удалить всех
               </v-list-item>
             </v-list>
           </v-menu>
@@ -44,7 +44,7 @@
         :template-slots="accountsModuleConfig.templateSlots"
         :form-fields="accountsModuleConfig.formFields"
         :loading-on="['delete']"
-        :delete-all-confirm="['Удалить всех пользователей?', 'Удалить']"
+        :delete-all-confirm="{ message: 'Удалить всех пользователей?', confirmBtn: 'Удалить' }"
       >
       </BaseModule>
     </v-sheet>

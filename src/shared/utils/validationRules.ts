@@ -6,9 +6,6 @@ export const requiredRule = (v: unknown) =>
 export const minLengthRule = (v: string) =>
   v?.length >= 3 || 'Поле должно содержать минимум 3 символа';
 
-export const maxLengthRule = (v: string) =>
-  v?.length <= 255 || 'Поле должно содержать максимум 255 символов';
-
 export const requiredFileRule = (v: File[] | undefined) =>
   (v && v.length > 0) || 'Обязательно для заполнения';
 

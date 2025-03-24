@@ -43,14 +43,26 @@ export type AutoFormFieldInput =
       props?: FileInputField;
     };
 
-export type AutoFormField<T> = AutoFormFieldInput & AutoFormCommonField<T>;
+export interface AutoFormColBreakpoint {
+  xs?: number;
+  sm?: number;
+  md?: number;
+  lg?: number;
+  xl?: number;
+}
+
+export type AutoFormField<T> = AutoFormFieldInput &
+  AutoFormCommonField<T> & {
+    span?: AutoFormColBreakpoint;
+    order?: AutoFormColBreakpoint;
+  };
 
 export interface AutoFormColCommonOptions {
   justify?: VRow['justify'];
 }
 
 export interface AutoFormColOptions<T> {
-  span: number;
+  span: number | AutoFormColBreakpoint;
   items: AutoFormField<T>[];
 }
 

@@ -36,7 +36,7 @@ import type {
 } from '@/features/autoForm/model/types';
 import AutoForm from '@/features/autoForm/ui/AutoForm.vue';
 import type { BaseModel } from '@/shared/lib/storeFactory';
-import BaseDialog from '@/shared/ui/baseDialog/BaseDialog.vue';
+import BaseDialog from '@/shared/ui/baseDialog/ui/BaseDialog.vue';
 
 const props = defineProps<{
   modelValue?: boolean;

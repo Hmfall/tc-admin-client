@@ -5,7 +5,7 @@
     :width="dialogWidth ?? 'auto'"
     @after-leave="emit('afterLeave')"
   >
-    <v-card class="text-body-2">
+    <v-card>
       <div
         v-if="closeIcon"
         :class="`d-flex px-2 pt-2 ${$slots.header ? 'justify-space-between' : 'justify-end'}`"
@@ -22,16 +22,27 @@
       </div>
 
       <v-card-text :class="closeIcon ? 'pt-2' : compact ? 'pa-5' : 'pa-6'">
-        <div v-if="$slots.default">
-          <slot />
-        </div>
+        <div :class="{ 'd-flex ga-1': icon }">
+          <div v-if="icon">
+            <v-icon
+              class="mr-2 opacity-90"
+              size="24"
+              :icon="widgetIcons.get(icon)"
+            />
+          </div>
 
-        <template v-else>
-          {{ text }}
-        </template>
+          <template v-if="$slots.default">
+            <slot />
+          </template>
+
+          <template v-else>
+            {{ text }}
+          </template>
+        </div>
 
         <ActionButtons
           v-if="actions"
+          class="mt-5"
           :primary-button="confirmButton"
           :secondary-button="cancelButton"
           @on-primary-click="onConfirm"
@@ -43,22 +54,16 @@
 </template>
 
 <script setup lang="ts">
+import { widgetIcons } from '@/shared/constants/widgetIcons';
 import ActionButtons from '@/shared/ui/actionButtons/ActionButtons.vue';
+import type { BaseDialogProps } from '@/shared/ui/baseDialog/model/types';
 
 const props = withDefaults(
-  defineProps<{
-    modelValue?: boolean;
-    actions?: boolean;
-    dialogWidth?: string | number;
-    confirmButton?: string | boolean;
-    closeIcon?: boolean;
-    cancelButton?: string | boolean;
-    persistentOnConfirm?: boolean;
-    disabled?: boolean;
-    persistent?: boolean;
-    text?: string;
-    compact?: boolean;
-  }>(),
+  defineProps<
+    BaseDialogProps & {
+      modelValue?: boolean;
+    }
+  >(),
   {
     modelValue: false,
     confirmButton: undefined,

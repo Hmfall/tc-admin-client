@@ -200,9 +200,9 @@ const setupTooltipMutationObserver = () => {
     useMutationObserver(
       contentEditableContainer,
       () => {
-        isTooltipVisible.value = !!contentEditableContainer.value?.querySelectorAll(
+        isTooltipVisible.value = !!contentEditableContainer.value?.querySelector(
           '.ql-tooltip:not(.ql-hidden)',
-        ).length;
+        );
       },
       {
         subtree: true,

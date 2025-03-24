@@ -20,7 +20,7 @@
       >
         <v-icon
           size="22"
-          :icon="icons.get(message.type)"
+          :icon="widgetIcons.get(message.type)"
           :color="message?.type === 'info' ? '#000000' : ''"
         />
       </template>
@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import type { MessageOptions } from '@/shared/components/messageAlert/model/types';
-import { MessageType } from '@/shared/components/messageAlert/model/types';
+import { widgetIcons } from '@/shared/constants/widgetIcons';
 
 const isSnackbar = ref(false);
 
@@ -44,13 +44,6 @@ const pushMessage = (messageOptions: MessageOptions) => {
 };
 
 provide('message', pushMessage);
-
-const icons = new Map([
-  [MessageType.success, '$mdiCheckCircleOutline'],
-  [MessageType.warning, '$mdiAlertCircleOutline'],
-  [MessageType.error, '$mdiAlertCircleOutline'],
-  [MessageType.info, '$mdiAlertCircleOutline'],
-]);
 </script>
 
 <style scoped lang="scss">

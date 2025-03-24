@@ -10,7 +10,7 @@
       :store="moduleConfig.store"
       :template-slots="moduleConfig.templateSlots"
       :form-fields="moduleConfig.formFields"
-      :delete-all-confirm="['Удалить все?', 'Удалить']"
+      :delete-all-confirm="{ message: 'Удалить все?', confirmBtn: 'Удалить' }"
     />
   </ModuleLayout>
 </template>
@@ -27,7 +27,7 @@ const props = defineProps<{
   moduleConfig: BaseModuleConfig<T, A>;
 }>();
 
-const { getControllerSignal, setupController, isCanceledError } = abortController();
+const { getControllerSignal, setupController, isCancelError } = abortController();
 
 const message = useMessage();
 
@@ -39,7 +39,7 @@ watch(
       .store()
       .load({ signal: getControllerSignal() })
       .catch((e) => {
-        if (!isCanceledError(e)) {
+        if (!isCancelError(e)) {
           message.error();
         }
       });
