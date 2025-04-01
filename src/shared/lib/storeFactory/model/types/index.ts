@@ -16,7 +16,6 @@ export type FromJSONPlain<T> = Partial<
     | 'isSame'
     | 'create'
     | 'update'
-    | 'updateThis'
     | 'load'
     | 'delete'
     | 'fromJSON'

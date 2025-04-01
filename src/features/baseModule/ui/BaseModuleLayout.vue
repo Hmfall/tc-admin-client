@@ -10,12 +10,12 @@
       :store="moduleConfig.store"
       :template-slots="moduleConfig.templateSlots"
       :form-fields="moduleConfig.formFields"
-      :delete-all-confirm="{ message: 'Удалить все?', confirmBtn: 'Удалить' }"
     />
   </ModuleLayout>
 </template>
 
 <script setup lang="ts" generic="T extends Model, A extends BaseAPI<T>">
+import { isAxiosError } from 'axios';
 import ModuleLayout from '@/app/layouts/moduleLayout/ui/ModuleLayout.vue';
 import type { BaseModuleConfig } from '@/features/baseModule/model/types';
 import BaseModule from '@/features/baseModule/ui/BaseModule.vue';
@@ -39,7 +39,7 @@ watch(
       .store()
       .load({ signal: getControllerSignal() })
       .catch((e) => {
-        if (!isCancelError(e)) {
+        if (isAxiosError(e) && !isCancelError(e)) {
           message.error();
         }
       });

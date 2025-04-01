@@ -12,7 +12,7 @@ import { authMiddleware } from '@/features/auth/domain/middleware/authMiddleware
 export const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: AppRoutes.Main,
+    name: AppRoutes.Home,
     redirect: { name: AppRoutes.About },
     meta: {
       layout: DefaultLayout,

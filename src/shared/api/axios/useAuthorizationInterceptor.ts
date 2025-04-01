@@ -1,8 +1,8 @@
 import type { AxiosInstance } from 'axios';
 import { LSKeys } from '@/shared/constants/LSKeys';
 
-export const useAuthorizationInterceptor = (apiInstance: AxiosInstance) => {
-  apiInstance.interceptors.request.use((config) => {
+export const useAuthorizationInterceptor = (axiosInstance: AxiosInstance) => {
+  axiosInstance.interceptors.request.use((config) => {
     const accessToken = getAccessToken();
     config.headers.Authorization = accessToken ? `Bearer ${accessToken}` : '';
     return config;

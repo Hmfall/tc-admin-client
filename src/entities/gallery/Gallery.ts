@@ -4,7 +4,7 @@ import { BaseAPI, Entity, Id, Model, PrimaryField } from '@/shared/lib/storeFact
 
 @Entity()
 export class Gallery extends Model {
-  static $api = new BaseAPI<Gallery>('gallery');
+  static $api = new BaseAPI<Gallery>('album');
 
   @Id()
   id: ID;

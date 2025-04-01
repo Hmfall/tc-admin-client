@@ -43,8 +43,9 @@
         :store="accountsModuleConfig.store"
         :template-slots="accountsModuleConfig.templateSlots"
         :form-fields="accountsModuleConfig.formFields"
+        :delete-all-confirm="deleteAllConfirm"
         :loading-on="['delete']"
-        :delete-all-confirm="{ message: 'Удалить всех пользователей?', confirmBtn: 'Удалить' }"
+        @delete="onDeleteUser"
       >
       </BaseModule>
     </v-sheet>
@@ -54,9 +55,13 @@
 <script setup lang="ts">
 import ModuleLayout from '@/app/layouts/moduleLayout/ui/ModuleLayout.vue';
 import { accountsModuleConfig } from '@/pages/accounts/domain/config';
+import { useAuthStore } from '@/features/auth/store/useAuthStore';
 import BaseModule from '@/features/baseModule/ui/BaseModule.vue';
+import type { User } from '@/entities/user/User';
 import { useUserStore } from '@/entities/user/useUserStore';
+import type { ConfirmOptions } from '@/shared/components/confirmDialog/model/types';
 
+const authStore = useAuthStore();
 const userStore = useUserStore();
 
 userStore.load();
@@ -75,5 +80,17 @@ const onOpenDialogBtn = () => {
 
 const onDeleteAllBtn = () => {
   baseModuleRef.value?.deleteAll();
+};
+
+const onDeleteUser = async (user: User) => {
+  if (authStore.jwtPayload?.sub === user.login) {
+    await authStore.logout();
+  }
+};
+
+const deleteAllConfirm: ConfirmOptions = {
+  message: 'Удалить всех пользователей?',
+  confirmBtn: 'Удалить',
+  icon: 'info',
 };
 </script>

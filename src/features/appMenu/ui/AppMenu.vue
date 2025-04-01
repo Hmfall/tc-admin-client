@@ -90,7 +90,7 @@ const currentTab = ref(route.name);
 
 const logout = async () => {
   await router.replace({ name: AppRoutes.Auth });
-  authStore.logout();
+  authStore.logout({ replace: false });
 };
 
 const mappedNavItems = props.navItems.reduce<Record<string, NavItem>>((acc, curr) => {

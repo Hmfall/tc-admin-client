@@ -22,11 +22,11 @@
       </div>
 
       <v-card-text :class="closeIcon ? 'pt-2' : compact ? 'pa-5' : 'pa-6'">
-        <div :class="{ 'd-flex ga-1': icon }">
+        <div :class="{ 'd-flex align-center ga-1': icon }">
           <div v-if="icon">
             <v-icon
-              class="mr-2 opacity-90"
-              size="24"
+              class="mr-2 opacity-80"
+              size="26"
               :icon="widgetIcons.get(icon)"
             />
           </div>

@@ -1,5 +1,5 @@
 export enum AppRoutes {
-  Main = 'main',
+  Home = 'home',
   Auth = 'auth',
   SignIn = 'signIn',
   ResetPassword = 'resetPassword',

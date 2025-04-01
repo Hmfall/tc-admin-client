@@ -5,7 +5,7 @@ import { BaseAPI, Entity, Id, Model, PrimaryField } from '@/shared/lib/storeFact
 
 @Entity()
 export class Event extends Model {
-  static $api = new BaseAPI<Event>('events');
+  static $api = new BaseAPI<Event>('event');
 
   @Id()
   id: ID;

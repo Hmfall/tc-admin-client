@@ -65,10 +65,11 @@ import { requiredRule } from '@/shared/utils/validationRules';
 const router = useRouter();
 
 const message = useMessage();
-const { isLoading, withLoading } = useLoading();
+const { isLoading, withLoadingFn } = useLoading();
 const [showPassword, toggleShowPassword] = useToggle();
 
 const authStore = useAuthStore();
+const authFormState = useAuthFormState();
 
 const signInRequestBody = ref<SignInRequest>({
   credentials: '',
@@ -76,21 +77,24 @@ const signInRequestBody = ref<SignInRequest>({
 });
 
 const onSubmit = async () => {
-  await withLoading(authStore.authorize(signInRequestBody.value))
-    .then(() => router.replace('/'))
-    .catch((e) => {
-      if (isAxiosError(e)) {
-        message.error(
-          e.response?.status === 403
-            ? 'Произошла ошибка! Неверный логин или пароль.'
-            : 'Произошла ошибка!',
-        );
-      }
+  try {
+    await withLoadingFn(async () => {
+      await authStore.authorize(signInRequestBody.value);
+      await router.replace({ name: AppRoutes.Home });
     });
+  } catch (e) {
+    if (isAxiosError(e)) {
+      message.error(
+        e.response?.status === 403
+          ? 'Произошла ошибка! Неверный логин или пароль.'
+          : e.response?.data ?? 'Произошла ошибка!',
+      );
+    }
+  }
 };
 
 onMounted(() => {
-  signInRequestBody.value.credentials = useAuthFormState().credentials.value;
-  useAuthFormState().resetCredentials();
+  signInRequestBody.value.credentials = authFormState.credentials.value;
+  authFormState.resetCredentials();
 });
 </script>

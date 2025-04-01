@@ -1,5 +1,5 @@
 import { plainToInstance } from 'class-transformer';
-import { authAPI } from '@/features/auth/api/AuthAPI';
+import axios from '@/shared/api/axios';
 import { BaseAPI, Entity, Id, Model, PrimaryField } from '@/shared/lib/storeFactory';
 
 @Entity()
@@ -14,19 +14,27 @@ export class User extends Model {
 
   email: string;
 
-  password: string;
+  newPassword: string;
 
   get isNotDeletedUser() {
     return this.id === 1;
   }
 
+  async update() {
+    return this.updateWithPlain({
+      email: this.email,
+      login: this.login,
+      password: this.newPassword,
+    });
+  }
+
   async create() {
     return plainToInstance(
       this.classConstructor,
-      await authAPI.signUp({
+      await axios.post('auth/signup', {
         email: this.email,
         login: this.login,
-        password: this.password,
+        password: this.newPassword,
       }),
     );
   }
