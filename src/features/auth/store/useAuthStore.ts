@@ -1,7 +1,13 @@
 import type { JwtPayload } from 'jwt-decode';
 import { jwtDecode } from 'jwt-decode';
-import { authAPI } from '@/features/auth/api/AuthAPI';
-import type { LSAuth, RecoveryRequest, SignInRequest } from '@/features/auth/model/types';
+import { AppRoutes } from '@/app/providers/router/appRoutes';
+import type {
+  LSAuth,
+  RecoveryRequest,
+  SignInRequest,
+  SignInResponse,
+} from '@/features/auth/model/types';
+import axios from '@/shared/api/axios';
 import { LSKeys } from '@/shared/constants/LSKeys';
 
 interface State {
@@ -13,30 +19,37 @@ export const useAuthStore = defineStore('auth', {
     accessToken: null,
   }),
   actions: {
-    async authorize(payload: SignInRequest) {
-      const { token: accessToken } = await authAPI.signIn(payload);
-
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const jwtPayload: JwtPayload = jwtDecode(accessToken);
+    async authorize(signInRequest: SignInRequest) {
+      const response = await axios.post<SignInResponse>('auth/signin', signInRequest);
 
       const LSAuthValue: LSAuth = {
-        accessToken,
+        accessToken: response.data.token,
       };
 
-      this.accessToken = accessToken;
+      this.accessToken = response.data.token;
       localStorage.setItem(LSKeys.Auth, JSON.stringify(LSAuthValue));
     },
-    async recovery(request: RecoveryRequest) {
-      return await authAPI.recovery(request);
+    async recovery(recoveryRequest: RecoveryRequest) {
+      return await axios.post('auth/recovery', recoveryRequest);
     },
-    logout() {
-      this.accessToken = null;
+    async logout(options: { replace?: boolean } = { replace: true }) {
+      this.$reset();
       localStorage.removeItem(LSKeys.Auth);
+
+      if (options?.replace) {
+        await this.router.replace({ name: AppRoutes.Auth });
+      }
     },
   },
   getters: {
     isAuthorized() {
       return !!localStorage.getItem(LSKeys.Auth);
+    },
+    jwtPayload(state): Required<Pick<JwtPayload, 'sub' | 'iat' | 'exp'>> | null {
+      return state.accessToken ? jwtDecode(state.accessToken) : null;
+    },
+    isAccessTokenExpired(): boolean {
+      return this.jwtPayload ? this.jwtPayload.exp * 1e3 < Date.now() : false;
     },
   },
 });

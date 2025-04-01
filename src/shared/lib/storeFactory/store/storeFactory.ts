@@ -20,8 +20,12 @@ export const storeFactory = <T extends Model, A extends BaseAPI<T>>(model: Model
           setError: this.setError,
         }).execute();
       },
-      setItems(unwrapItems: T[]) {
-        this.unwrapItems = unwrapItems as UnwrapRefSimple<T[]>;
+      setItems(value: T[] | T) {
+        if (this.config.singleton) {
+          this.unwrapItems = [value] as UnwrapRefSimple<T[]>;
+        } else {
+          this.unwrapItems = value as UnwrapRefSimple<T[]>;
+        }
       },
       setIsLoading(isLoading: boolean) {
         this.isLoading = isLoading;

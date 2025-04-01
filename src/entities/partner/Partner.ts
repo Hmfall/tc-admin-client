@@ -4,7 +4,7 @@ import { BaseAPI, Entity, Id, Model, PrimaryField } from '@/shared/lib/storeFact
 
 @Entity()
 export class Partner extends Model {
-  static $api = new BaseAPI<Partner>('partners');
+  static $api = new BaseAPI<Partner>('partner');
 
   @Id()
   id: ID;

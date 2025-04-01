@@ -153,6 +153,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   (e: 'update:dialog', value: boolean): void;
+  (e: 'delete', value: T): void;
 }>();
 
 const message = useMessage();
@@ -248,7 +249,7 @@ const onUpdateItem = async (item: T, promises: UpdateAutoFormFieldPromise<T>[]) 
   if (updatingItem.value && item.hasDiff) {
     updatingItem.value.merge(item);
 
-    if (item.ID) {
+    if (item.ID || item.$config.singleton) {
       toUpdateItems.value.set(updatingItem.value.UUID, {
         item: updatingItem.value,
         promises,
@@ -263,7 +264,10 @@ const onDeleteItem = async (item: T) => {
   await confirm({
     message: `Удалить ${item.getPrimaryFieldValue()}?`,
     confirmBtn: 'Удалить',
+    icon: 'info',
   });
+
+  emit('delete', item);
 
   if (props.immediateSubmit) {
     if (props.deleteItemConfirm) {
@@ -288,6 +292,7 @@ const onResetBtn = async (item: T) => {
   await confirm({
     message: 'Сбросить изменения?',
     confirmBtn: 'Сбросить',
+    icon: 'info',
   });
 
   toUpdateItems.value.delete(item.UUID);
@@ -307,9 +312,13 @@ const onUpdateBtn = (item: T) => {
 };
 
 const onDeleteAllBtn = async () => {
-  if (props.deleteAllConfirm) {
-    await confirm(props.deleteAllConfirm);
-  }
+  const confirmOptions: ConfirmOptions = props.deleteAllConfirm ?? {
+    message: 'Удалить всё?',
+    confirmBtn: 'Удалить',
+    icon: 'info',
+  };
+
+  await confirm(confirmOptions);
 
   store.value.setIsLoading(true);
 

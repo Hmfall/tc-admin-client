@@ -1,3 +1,4 @@
+import plural from 'plural-ru';
 import type { ObjectUrl } from '@/entities/objectURL/ObjectUrl';
 
 export const requiredRule = (v: unknown) =>
@@ -5,6 +6,21 @@ export const requiredRule = (v: unknown) =>
 
 export const minLengthRule = (v: string) =>
   v?.length >= 3 || 'Поле должно содержать минимум 3 символа';
+
+export const minLengthValueRule = (length: number) => (v: string) =>
+  v?.length >= length ||
+  `Поле должно содержать минимум ${length} ${plural(length, 'символ', 'символа', 'символов')}`;
+
+export const minLengthValueNotRequiredRule = (length: number) => (v?: string) => {
+  if (!v) {
+    return true;
+  }
+
+  return (
+    v.length >= length ||
+    `Поле должно содержать минимум ${length} ${plural(length, 'символ', 'символа', 'символов')}`
+  );
+};
 
 export const requiredFileRule = (v: File[] | undefined) =>
   (v && v.length > 0) || 'Обязательно для заполнения';

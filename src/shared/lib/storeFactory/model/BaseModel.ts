@@ -7,7 +7,7 @@ import { getOwnPropertyNames } from '@/shared/utils/getOwnPropertyNames';
 
 export abstract class BaseModel {
   @Exclude()
-  protected __snapshot: string;
+  protected __snapshot: string | null = null;
 
   @Exclude()
   protected __uuid: string;
@@ -44,21 +44,26 @@ export abstract class BaseModel {
   }
 
   public get hasDiff() {
-    return !!getOwnPropertyNames(
-      diff(
-        JSON.parse(JSON.stringify(this.toJSON({ excludePrefixes: ['__'] }))),
-        JSON.parse(this.__snapshot),
-      ),
-    ).length;
+    return this.__snapshot
+      ? !!getOwnPropertyNames(
+          diff(
+            JSON.parse(JSON.stringify(this.toJSON({ excludePrefixes: ['__'] }))),
+            JSON.parse(this.__snapshot),
+          ),
+        ).length
+      : false;
   }
 
   public makeSnapshot() {
-    this.__snapshot = JSON.stringify(this.toJSON({ excludePrefixes: ['__'] }));
+    this.__snapshot = JSON.stringify(instanceToPlain({ ...this }, { excludePrefixes: ['__'] }));
     return this;
   }
 
   public resetToSnapshot() {
-    this.merge(this.fromJSONPlain(JSON.parse(this.__snapshot)));
+    if (this.__snapshot) {
+      this.merge(this.fromJSONPlain(JSON.parse(this.__snapshot)));
+    }
+
     return this;
   }
 
@@ -74,11 +79,17 @@ export abstract class BaseModel {
     return instanceToPlain(this, options);
   }
 
+  public toRawJSON() {
+    return this.toJSON({ excludePrefixes: ['_'] });
+  }
+
   public clone(options?: ClassTransformOptions) {
-    return this.fromJSONPlain(this.toJSON({ ignoreDecorators: true }), {
-      ignoreDecorators: true,
-      ...options,
-    });
+    const snapshot = this.__snapshot;
+    const instance = this.fromJSONPlain(this.toJSON(), { ...options });
+
+    instance.__snapshot = snapshot;
+
+    return instance;
   }
 
   public merge(source?: typeof this | Record<string, unknown> | null) {
@@ -87,10 +98,9 @@ export abstract class BaseModel {
       const snapshot = this.__snapshot;
 
       if (source instanceof BaseModel) {
-        // TODO: source.clone ?
         Object.assign(this, source.clone());
       } else {
-        Object.assign(this, source);
+        Object.assign(this, structuredClone(source));
       }
 
       this.__uuid = uuid;

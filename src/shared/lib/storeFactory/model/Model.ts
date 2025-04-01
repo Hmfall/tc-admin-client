@@ -20,28 +20,32 @@ export abstract class Model extends BaseModel {
   }
 
   public async create(): Promise<this> {
-    const response = await this.$repository.create(this.toJSON());
+    const response = await this.$repository.create(this.toRawJSON());
     return plainToInstance(this.classConstructor, response);
   }
 
   public async update(): Promise<this> {
-    const response = await this.$repository.updateById(
-      this.ID,
-      this.toJSON({ excludePrefixes: ['_'] }),
-    );
+    const response = await (this.$config.singleton
+      ? this.$repository.updateThis(this.toRawJSON())
+      : this.$repository.updateById(this.ID, this.toRawJSON()));
+    return plainToInstance(this.classConstructor, response);
+  }
+
+  public async updateWithPlain<P = Record<string, unknown>>(plain: P): Promise<this> {
+    const response = this.$repository.updateById<P>(this.ID, plain);
     return plainToInstance(this.classConstructor, response);
   }
 
   public async load(): Promise<this> {
-    return this.merge(await this.$repository.getById(this.ID)).makeSnapshot();
-  }
-
-  public async updateThis(): Promise<this> {
-    const response = await this.$repository.updateThis(this.toJSON({ excludePrefixes: ['_'] }));
-    return plainToInstance(this.classConstructor, response);
+    const response = await (this.$config.singleton
+      ? this.$repository.getAll()
+      : this.$repository.getById(this.ID));
+    return this.merge(plainToInstance(this.classConstructor, response)).makeSnapshot();
   }
 
   public async delete(): Promise<void> {
-    await this.$repository.deleteById(this.ID);
+    await (this.$config.singleton
+      ? this.$repository.deleteThis()
+      : this.$repository.deleteById(this.ID));
   }
 }
