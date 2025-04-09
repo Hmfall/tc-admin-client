@@ -15,7 +15,7 @@ export const useUnauthorizedInterceptor = (axiosInstance: AxiosInstance) => {
     async (error) => {
       const authStore = useAuthStore();
 
-      if (error?.response?.status === 401) {
+      if (error?.response?.status === 401 || error?.response?.status === 403) {
         await authStore.logout();
       }
 
