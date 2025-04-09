@@ -87,7 +87,7 @@ const onSubmit = async () => {
       message.error(
         e.response?.status === 403
           ? 'Произошла ошибка! Неверный логин или пароль.'
-          : e.response?.data ?? 'Произошла ошибка!',
+          : 'Произошла ошибка!',
       );
     }
   }
