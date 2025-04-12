@@ -15,3 +15,15 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### Build docker container image
+
+```sh
+docker compose build
+```
+
+### Run docker container
+
+```sh
+docker compose up
+```
