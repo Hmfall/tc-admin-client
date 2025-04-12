@@ -29,16 +29,6 @@
           color="secondary"
           @click="emit('update')"
         />
-
-        <v-btn
-          v-if="value.ID || value.$config.singleton"
-          icon="$mdiArrowULeftBottom"
-          variant="text"
-          density="default"
-          color="secondary"
-          :disabled="!value.hasDiff"
-          @click="emit('reset')"
-        />
       </div>
     </div>
   </v-card>

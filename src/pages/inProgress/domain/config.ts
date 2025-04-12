@@ -12,4 +12,6 @@ export const inProgressModuleConfig: BaseModuleConfig<InProgress> = {
   store: useInProgressStore,
   formFields: inProgressFormFields,
   templateSlots: inProgressTemplateSlots,
+  immediateSubmit: true,
+  rawName: true,
 };

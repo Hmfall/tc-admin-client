@@ -241,6 +241,10 @@ const onCreateItem = async (item: T, promises: UpdateAutoFormFieldPromise<T>[]) 
 };
 
 const onUpdateItem = async (item: T, promises: UpdateAutoFormFieldPromise<T>[]) => {
+  if (!item.hasDiff) {
+    item.makeSnapshot();
+  }
+
   if (props.immediateSubmit) {
     await useImmediateSubmit('update', item);
     return;

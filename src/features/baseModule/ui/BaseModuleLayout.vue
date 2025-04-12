@@ -1,6 +1,8 @@
 <template>
   <ModuleLayout>
-    <template #header>Редактирование раздела "{{ moduleConfig.name }}"</template>
+    <template #header>
+      {{ moduleConfig.rawName ? moduleConfig.name : `Редактирование раздела "${moduleConfig.name}"` }}
+    </template>
 
     <BaseModule
       class="d-flex flex-column ga-10"
@@ -10,6 +12,7 @@
       :store="moduleConfig.store"
       :template-slots="moduleConfig.templateSlots"
       :form-fields="moduleConfig.formFields"
+      :immediate-submit="moduleConfig.immediateSubmit"
     />
   </ModuleLayout>
 </template>
