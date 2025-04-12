@@ -2,7 +2,7 @@
   <ModuleLayout>
     <template #header>{{ accountsModuleConfig.name }}</template>
 
-    <v-sheet min-width="540">
+    <v-sheet class="w-100">
       <v-list-item class="mb-2">
         <span class="font-weight-medium">Список текущих администраторов</span>
 
