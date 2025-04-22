@@ -59,7 +59,7 @@ export const eventFormFields: AutoFormFields<Event> = [
           },
         },
         {
-          key: 'description',
+          key: 'shortDescription',
           type: FieldType.editedTextField,
           render: () => EditedTextField,
           props: {
@@ -69,7 +69,7 @@ export const eventFormFields: AutoFormFields<Event> = [
           },
         },
         {
-          key: 'details',
+          key: 'longDescription',
           type: FieldType.editedTextField,
           render: () => EditedTextField,
           props: {

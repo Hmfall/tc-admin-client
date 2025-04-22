@@ -104,7 +104,7 @@
           />
 
           <v-btn
-            v-if="value.ID || value.$config.singleton"
+            v-if="value.ID"
             icon="$mdiArrowULeftBottom"
             variant="text"
             density="default"

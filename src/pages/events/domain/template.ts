@@ -17,11 +17,11 @@ export const eventTemplateSlots: AutoTemplateSlots<Event> = {
       slot: CardTemplateSlot.Title,
     },
     {
-      key: 'description',
+      key: 'shortDescription',
       slot: CardTemplateSlot.Subtitle,
     },
     {
-      key: 'details',
+      key: 'longDescription',
       slot: CardTemplateSlot.Text,
     },
     {

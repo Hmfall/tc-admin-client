@@ -1,4 +1,4 @@
-import { Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 import type { EventPosition } from '@/entities/event/model/types';
 import { ObjectUrl } from '@/entities/objectURL/ObjectUrl';
 import { BaseAPI, Entity, Id, Model, PrimaryField } from '@/shared/lib/storeFactory';
@@ -13,11 +13,9 @@ export class Event extends Model {
   @PrimaryField()
   name: string;
 
-  @Expose({ name: 'shortDescription' })
-  description: string;
+  shortDescription: string;
 
-  @Expose({ name: 'longDescription' })
-  details: string;
+  longDescription: string;
 
   position: EventPosition;
 

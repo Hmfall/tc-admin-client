@@ -1,7 +1,7 @@
 <template>
   <div class="w-100 d-flex flex-column flex-1-1-100 ga-8">
     <div
-      v-if="!hideActions && !(store.config.singleton && items.length >= 1)"
+      v-if="!hideActions && !(store.config.singleton && (items.length >= 1 || store.isLoading))"
       class="d-flex justify-end ga-4"
     >
       <ActionButtons
