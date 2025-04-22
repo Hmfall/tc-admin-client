@@ -22,7 +22,9 @@ export const storeFactory = <T extends Model, A extends BaseAPI<T>>(model: Model
       },
       setItems(value: T[] | T) {
         if (this.config.singleton) {
-          this.unwrapItems = [value] as UnwrapRefSimple<T[]>;
+          if (value) {
+            this.unwrapItems = [value] as UnwrapRefSimple<T[]>;
+          }
         } else {
           this.unwrapItems = value as UnwrapRefSimple<T[]>;
         }

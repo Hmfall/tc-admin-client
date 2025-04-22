@@ -1,14 +1,15 @@
 <template>
   <div class="w-100 d-flex flex-column flex-1-1-100 ga-8">
     <div
-      v-if="!hideActions && !store.config.singleton"
+      v-if="!hideActions && !(store.config.singleton && items.length >= 1)"
       class="d-flex justify-end ga-4"
     >
       <ActionButtons
-        secondary-button="Удалить все"
+        :secondary-button="!store.config.singleton ? 'Удалить все' : undefined"
         primary-button="Добавить"
         :loading-secondary-button="isLoadingDeleteAll"
         :locked-secondary-button="!items.length"
+        :primary="store.config.singleton"
         @on-primary-click="thisDialog.open"
         @on-secondary-click="onDeleteAllBtn"
       />
