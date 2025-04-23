@@ -201,6 +201,11 @@ const layoutCfg = {
   }
 }
 
+:deep(.render-slot a) {
+  color: #1f75cb;
+  text-decoration: underline;
+}
+
 .title,
 .subtitle,
 .text {
