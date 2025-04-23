@@ -29,6 +29,14 @@ export const userFormFields: AutoFormFields<User> = [
     },
   },
   {
+    key: 'telegramId',
+    type: FieldType.textField,
+    render: () => TextField,
+    props: {
+      label: 'Telegram ID',
+    },
+  },
+  {
     key: 'newPassword',
     type: FieldType.textField,
     render: () => TextField,

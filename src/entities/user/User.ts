@@ -16,6 +16,8 @@ export class User extends Model {
 
   newPassword: string;
 
+  telegramId: string;
+
   get isNotDeletedUser() {
     return this.id === 1;
   }
@@ -25,6 +27,7 @@ export class User extends Model {
       email: this.email,
       login: this.login,
       password: this.newPassword,
+      telegramId: this.telegramId,
     });
   }
 
@@ -35,6 +38,7 @@ export class User extends Model {
         email: this.email,
         login: this.login,
         password: this.newPassword,
+        telegramId: this.telegramId,
       }),
     );
   }
